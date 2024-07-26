@@ -1,8 +1,9 @@
 import Image from "next/image";
+import BaseTile from "@components/BaseTile";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <main className="flex min-h-screen flex-col items-center justify-start gap-10 p-24">
       <Image
         src="/icons/BicycleIconGreen.svg"
         alt="Vercel Logo"
@@ -10,6 +11,11 @@ export default function Home() {
         height={24}
         priority
       />
+      <div className="flex flex-container flex-wrap justify-end">
+        <BaseTile className="h-96">1</BaseTile>
+        <BaseTile>2</BaseTile>
+        <BaseTile>3</BaseTile>
+      </div>
     </main>
   );
 }
