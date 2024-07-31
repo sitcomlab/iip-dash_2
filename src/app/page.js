@@ -12,15 +12,15 @@ export default function Home() {
         height={24}
         priority
       />
-      <div className="flex flex-container flex-wrap w-5/6">
+      <div className="flex flex-container flex-wrap flex-row-reverse w-5/6">
+      <MapTile height="h-[49rem]">
+
+      </MapTile>
         <div className="flex flex-container flex-wrap justify-end w-2/6">
           <BaseTile className="h-96">1</BaseTile>
           <BaseTile>2</BaseTile>
           <BaseTile>3</BaseTile>
         </div>
-        <MapTile height="">
-
-        </MapTile>
       </div>
     </main>
   );
