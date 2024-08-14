@@ -32,3 +32,18 @@ body {
     text-wrap: balance;
   }
 }
+
+@import "leaflet/dist/leaflet.css";
+
+.leaflet-popup-content {
+  width: 350px !important; /* Set width to auto */
+  max-width: 100%; /* Ensure the content does not exceed the available width */
+}
+
+/* Add theme to map */
+.leaflet-layer,
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out,
+.leaflet-control-attribution {
+  filter: brightness(95%) contrast(120%) saturate(20%);
+}
