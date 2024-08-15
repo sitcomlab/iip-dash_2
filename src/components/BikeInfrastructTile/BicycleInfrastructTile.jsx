@@ -1,10 +1,11 @@
-//'use client'
+"use client"
 import { MapContainer, TileLayer, Marker, Popup, Pane } from "react-leaflet";
 import { atom, useRecoilState } from 'recoil';
 
 //TODO: move the cityView-config to an atom, and the definitions to each page
-import { cityViewConfigState } from "../RecoilContextProvider";
-import ViewButton from "../Elements/ViewButton";
+import { cityViewConfigState } from "@components/RecoilContextProvider";
+import ViewButton from "@components/Elements/ViewButton";
+import BicycleInfrastructureData from "@components/BikeInfrastructTile/BicycleinfrastructureData";
 
 //TODO: implement viewmodes and start with one to make sure it works.
 
@@ -58,9 +59,9 @@ export default function BikeInfrastructTile({height="h-96", width="w-7/12", chil
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          
-          <Pane name="popup" style={{ zIndex: 660 }}></Pane>
-          <Pane name="tooltip" style={{ zIndex: 670 }}></Pane>
+            <BicycleInfrastructureData/>
+            <Pane name="popup" style={{ zIndex: 660 }}></Pane>
+            <Pane name="tooltip" style={{ zIndex: 670 }}></Pane>
 
 
         </MapContainer>

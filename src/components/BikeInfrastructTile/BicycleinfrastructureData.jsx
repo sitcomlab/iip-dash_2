@@ -4,6 +4,7 @@ import { useRecoilState } from "recoil"
 import useBikeInfrastructData from "@/app/hooks/useBikeInfrastructure"
 import { cityViewConfigState } from "@components/RecoilContextProvider"
 import { mapViewModeState } from "./BicycleInfrastructTile"
+import AdministrativeAreas from "./mapContent/AdministrativeAreas"
 
 function BicycleInfrastructureData(){
     //regularly fetch bike infrastructure data
@@ -17,7 +18,9 @@ function BicycleInfrastructureData(){
         
         {mapViewState == 'AdministrativeAreas' &&
             //TODO: LayerControl, AndiminstrativeAreas component
-            <></>
+            <AdministrativeAreas
+                contentGeometry={BicycleInfrastructureData}
+            />
         }
 
         {mapViewState == 'BicycleNetwork' &&
