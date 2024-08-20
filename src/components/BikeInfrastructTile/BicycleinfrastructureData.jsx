@@ -1,10 +1,11 @@
 "use client"
 import { useRecoilState } from "recoil"
 
-import useBikeInfrastructData from "@/app/hooks/useBikeInfrastructure"
+import useBikeInfrastructData from "@/hooks/useBikeInfrastructure"
 import { cityViewConfigState } from "@components/RecoilContextProvider"
 import { mapViewModeState } from "./BicycleInfrastructTile"
 import AdministrativeAreas from "./mapContent/AdministrativeAreas"
+import LayerControl from "./LayerControl/LayerControl"
 
 function BicycleInfrastructureData(){
     //regularly fetch bike infrastructure data
@@ -18,9 +19,11 @@ function BicycleInfrastructureData(){
         
         {mapViewState == 'AdministrativeAreas' &&
             //TODO: LayerControl, AndiminstrativeAreas component
+            <LayerControl position="bottomright">
             <AdministrativeAreas
                 contentGeometry={BicycleInfrastructureData}
             />
+            </LayerControl>
         }
 
         {mapViewState == 'BicycleNetwork' &&

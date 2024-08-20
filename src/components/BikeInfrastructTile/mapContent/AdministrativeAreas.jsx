@@ -1,6 +1,19 @@
+"use client"
 import { FeatureGroup, GeoJSON, Pane, Popup, Tooltip } from 'react-leaflet';
+import styled from 'styled-components';
+
+import { GroupedLayer } from '../LayerControl/LayerControl';
+
+import { selectedAAState, selectedAAFeatureState, displayedPointDataState } from '@/components/RecoilContextProvider';
 
 //TODO: managing the tiles for AA-info
+
+const StyledPopup = styled(Popup)`
+  min-width: 400px;
+  padding: 0rem;
+  margin: 0rem;
+  border: 0rem;
+`;
 
 
 function AdministrativeAreas(props){
@@ -226,10 +239,15 @@ function AdministrativeAreas(props){
 */}
     return(
         <>
-        
+        <GroupedLayer
+                checked
+                group="Stadtteile"
+                name="Stadtteile"
+            >
             <Pane name="administrativeAreas" style={{ zIndex: 500}}>
             <FeatureGroup>
             {administrativeAreas.map((feature, index) => {
+                //TODO: implement isAdminAreaSelected
                 //if(isAdminAreaSelected(feature.properties.name)){
                     return(
                         <GeoJSON
@@ -260,6 +278,7 @@ function AdministrativeAreas(props){
 
             </FeatureGroup>
             </Pane>
+        </GroupedLayer>
         </>
     )
 }
