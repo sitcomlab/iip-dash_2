@@ -1,8 +1,19 @@
 "use client"
 import { FeatureGroup, GeoJSON, Pane, Popup, Tooltip } from 'react-leaflet';
 import styled from 'styled-components';
+import { renderToStaticMarkup } from 'react-dom/server';
+import { useRecoilState } from 'recoil';
 
 import { GroupedLayer } from '../LayerControl/LayerControl';
+import BiMarkerIcon from './BiMarkerIcon';
+import { addInfo } from '../popupInfos/PopupAddInfo';
+import { SvgTrainstationIcon as TrainstationIcon } from '@/components/Icons/TrainstationIcon';
+import { SvgBusStopIcon as BusStopIcon } from '@/components/Icons/BusStopIcon';
+import { SvgParkingIcon as ParkingIcon } from '@/components/Icons/ParkingIcon';
+import {SvgShopIcon as ShopIcon} from '@/components/Icons/ShopIcon';
+import {SvgRepairIcon as RepairIcon} from '@/components/Icons/RepairIcon';
+import {SvgRentalIcon as RentalIcon} from '@/components/Icons/RentalIcon';
+import {SvgTubeIcon as TubeIcon} from '@/components/Icons/TubeIcon';
 
 import { selectedAAState, selectedAAFeatureState, displayedPointDataState } from '@/components/RecoilContextProvider';
 
@@ -15,23 +26,60 @@ const StyledPopup = styled(Popup)`
   border: 0rem;
 `;
 
+const PointDataType = {
+    none : 'keine',
+
+    öffis : 'Öffis',
+
+    service : 'Service',
+
+    fahrradLaden : 'Fahrrad-Laden',
+    diyStation : 'DIY-Station',
+    radVerleih : 'Rad-Verleih',
+    schlauchAutomat : 'Schlauch-Automat',
+
+    parken : 'Parken',
+    ladeStation : 'Ladestation',
+
+    fahrradAmpel : 'Fahrrad-Ampel'
+}
+
 
 function AdministrativeAreas(props){
-    //TODO: atoms
+    const [selectedAA, setSelectedAA] = useRecoilState(selectedAAState)
+    const [selectedAAFeature, setSelectedAAFeature] = useRecoilState(selectedAAFeatureState)
+    const [displayedPointData, setDisplayedPointData] = useRecoilState(displayedPointDataState)
 
     //guard clause to ensure no crashes when data not loaded yet
     if (props.contentGeometry === undefined || props.contentGeometry.features === undefined) {
         return (<></>)
     }
-    console.log("hey")
+
     //TODO: selection methods
-        // ## ADMINISTRATIVE AREAS
+    
+    function isAdminAreaSelected(adminArea){
+        console.log(selectedAA)
+        if((selectedAAFeature === undefined || selectedAAFeature.properties === undefined)){
+            return false
+        }
+        return(selectedAAFeature.properties.name == adminArea)
+    }
+
+    function arePointDataDisplayed(adminArea, typeDisplay){
+        if((selectedAAFeature === undefined || selectedAAFeature.properties === undefined)){
+            return false
+        }
+        return((selectedAAFeature.properties.name == adminArea && displayedPointData == typeDisplay))
+    }
+
+
+    
+    // ## ADMINISTRATIVE AREAS
     //filter and style administrative areas
     const administrativeAreas = props.contentGeometry.features.filter(
         (feature) =>
         feature.properties.bike_infrastructure_type === 'admin_area'
     );
-    console.log(administrativeAreas)
     const adminAreaOptions = {
         color: '#000000',
         weight: 2,
@@ -79,7 +127,7 @@ function AdministrativeAreas(props){
         e.target.closeTooltip();
         }
     }
-    {/*
+
     //filter Bus and train stations of selected admin area
     const trainStations = props.contentGeometry.features.filter(
         (feature) =>
@@ -107,8 +155,7 @@ function AdministrativeAreas(props){
     const busStops = props.contentGeometry.features.filter(
         (feature) => 
         feature.properties.bike_infrastructure_type === 'bus_stop' &&
-        feature.properties.aa === selectedAA &&
-        displayedPointData == PointDataType.öffis
+        feature.properties.aa === selectedAA
     );
     function pointBusStop(geojsonPoint, latlng) {
         //TODO: add bus icon
@@ -236,9 +283,36 @@ function AdministrativeAreas(props){
         });
         return L.marker(latlng, { icon: rentalIcon });
     }
-*/}
+
     return(
         <>
+        
+        <GroupedLayer
+                checked
+                group="Stadtteile"
+                name="Öffentliche Verkehrsmittel"
+            >
+            <Pane name="busStops" style={{ zIndex: 600 }}>
+                <>
+                {/* naively display the bus stop GeoJSON, the filtering is done based on a state, which is set by the options */}
+                <FeatureGroup>
+                    <GeoJSON
+                        data={busStops}
+                        key={'busStops_'+selectedAA}
+                        onEachFeature={addInfo}
+                        pointToLayer={pointBusStop}
+                    />
+                    <GeoJSON
+                        data={trainStations}
+                        key={'trainStations_'+selectedAA}
+                        onEachFeature={addInfo}
+                        pointToLayer={pointTrain}
+                    />
+                </FeatureGroup>
+                </>
+            </Pane>
+        </GroupedLayer>
+
         <GroupedLayer
                 checked
                 group="Stadtteile"
@@ -247,8 +321,7 @@ function AdministrativeAreas(props){
             <Pane name="administrativeAreas" style={{ zIndex: 500}}>
             <FeatureGroup>
             {administrativeAreas.map((feature, index) => {
-                //TODO: implement isAdminAreaSelected
-                //if(isAdminAreaSelected(feature.properties.name)){
+                if(isAdminAreaSelected(feature.properties.name)){
                     return(
                         <GeoJSON
                             data={feature}
@@ -257,7 +330,7 @@ function AdministrativeAreas(props){
                         >
                         </GeoJSON>
                     )    
-                //}
+                }
                 
                 return(
                     <GeoJSON
