@@ -4,8 +4,11 @@ import { useRecoilState } from "recoil"
 import useBikeInfrastructData from "@/hooks/useBikeInfrastructure"
 import { cityViewConfigState } from "@components/RecoilContextProvider"
 import { mapViewModeState } from "./BicycleInfrastructTile"
-import AdministrativeAreas from "./mapContent/AdministrativeAreas"
 import LayerControl from "./LayerControl/LayerControl"
+import Legend from "./LayerControl/Legend"
+
+import AdministrativeAreas from "./mapContent/AdministrativeAreas"
+import BicycleInfrastructureFeatures from "./mapContent/BicycleInfrastructureFeatures"
 
 function BicycleInfrastructureData(){
     //regularly fetch bike infrastructure data
@@ -26,10 +29,18 @@ function BicycleInfrastructureData(){
             </LayerControl>
         }
 
-        {mapViewState == 'BicycleNetwork' &&
-            //TODO: LayerControl, Legend, BicycleinfrastructureFeatures component
-            <></>
-        }
+
+        {mapViewState == "BicycleNetwork" &&
+            <LayerControl position="bottomright">
+                <Legend position='bottomleft'>
+                    <BicycleInfrastructureFeatures
+                        contentGeometry={BicycleInfrastructureData}
+                    />
+                    <></>
+                </Legend>
+                <></>
+            </LayerControl>
+                }
         </>
     )
 }
