@@ -3,6 +3,7 @@ import { FeatureGroup, GeoJSON, Pane, Popup, Tooltip } from 'react-leaflet';
 import styled from 'styled-components';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { useRecoilState } from 'recoil';
+import { MarkerClusterGroup } from 'leaflet';
 
 import { GroupedLayer } from '../LayerControl/LayerControl';
 import BiMarkerIcon from './BiMarkerIcon';
@@ -18,6 +19,7 @@ import {SvgTubeIcon as TubeIcon} from '@/components/Icons/TubeIcon';
 import { selectedAAState, selectedAAFeatureState, displayedPointDataState } from '@/components/RecoilContextProvider';
 
 //TODO: managing the tiles for AA-info
+//TODO: LayerControl doesn't yet properly update the layers as displayed on map
 
 const StyledPopup = styled(Popup)`
   min-width: 400px;
@@ -58,7 +60,6 @@ function AdministrativeAreas(props){
     //TODO: selection methods
     
     function isAdminAreaSelected(adminArea){
-        console.log(selectedAA)
         if((selectedAAFeature === undefined || selectedAAFeature.properties === undefined)){
             return false
         }
@@ -96,6 +97,7 @@ function AdministrativeAreas(props){
     };
     //event functions for Adnimistrative areas
     function clickAdminArea(e, feature) {
+        setSelectedAA(feature.properties.name)
         setSelectedAAFeature(feature);
         e.target.setStyle({
         color: '#000000',
@@ -287,6 +289,156 @@ function AdministrativeAreas(props){
     return(
         <>
         
+        { displayedPointData == PointDataType.öffis &&
+        <GroupedLayer
+                checked
+                group="Stadtteile"
+                name="Öffentliche Verkehrsmittel"
+            >
+            <Pane name="busStops" style={{ zIndex: 600 }}>
+                <>
+                {/* naively display the bus stop GeoJSON, the filtering is done based on a state, which is set by the options */}
+                <FeatureGroup>
+                    <GeoJSON
+                        data={busStops}
+                        key={'busStops_'+selectedAA}
+                        onEachFeature={addInfo}
+                        pointToLayer={pointBusStop}
+                    />
+                    <GeoJSON
+                        data={trainStations}
+                        key={'trainStations_'+selectedAA}
+                        onEachFeature={addInfo}
+                        pointToLayer={pointTrain}
+                    />
+                </FeatureGroup>
+                </>
+            </Pane>
+        </GroupedLayer>
+        }
+        { displayedPointData == PointDataType.parken &&
+        <GroupedLayer
+            checked
+            group="Parken + Laden"
+            icon={<ParkingIcon />}
+            name="Parken"
+        >
+            <Pane name="parking" style={{ zIndex: 610 }}>
+                <MarkerClusterGroup
+                clusterPane={'parking'}
+                eventHandlers={{
+                    //TODO: look up how this works
+                    //TODO: what does this even do?
+                    //TODO: implement in a way that works
+                    add: (e) => {
+                    //dispatch(updateParkingOverlay(true));
+                    },
+                    remove: (e) => {
+                    //dispatch(updateParkingOverlay(false));
+                    },
+                }}
+                iconCreateFunction={createClusterCustomIconBlue}
+                polygonOptions={{
+                    color: '#1c2b46',
+                    weight: 2,
+                    opacity: 0.8,
+                    fillOpacity: 0.3,
+                }}
+                spiderfyDistanceMultiplier={3}
+                >
+                    <GeoJSON
+                        data={parking}
+                        key={'parking_'+selectedAA}
+                        onEachFeature={addInfo}
+                        pointToLayer={pointParking}
+                    />
+                </MarkerClusterGroup>
+            </Pane>
+        </GroupedLayer>
+        }
+        { displayedPointData == PointDataType.service &&
+        <>
+        <GroupedLayer
+        checked
+        group="Rad-Service"
+        icon={<ShopIcon />}
+        name="Fahrrad-Laden"
+            >
+            <Pane name="bicycleShops" style={{ zIndex: 514 }}>
+                <MarkerClusterGroup
+                clusterPane={'bicycleShops'}
+                iconCreateFunction={createClusterCustomIconGreen}
+                polygonOptions={{
+                    color: '#253a18',
+                    weight: 2,
+                    opacity: 0.8,
+                    fillOpacity: 0.3,
+                }}
+                spiderfyDistanceMultiplier={3}
+                >
+                <GeoJSON
+                    data={bicycleShops}
+                    key={'bicycleShops'+selectedAA}
+                    onEachFeature={addInfo}
+                    pointToLayer={pointShop}
+                ></GeoJSON>
+                </MarkerClusterGroup>
+            </Pane>
+            </GroupedLayer>
+    
+            <GroupedLayer
+                checked
+                group="Rad-Service"
+                icon={<RepairIcon fill="#000000" />}
+                name="DIY-Station"
+            >
+            <Pane name="repairStations" style={{ zIndex: 513 }}>
+            <FeatureGroup>
+                <GeoJSON
+                    data={repairStations}
+                    key={'repairStations'+selectedAA}
+                    onEachFeature={addInfo}
+                    pointToLayer={pointRepair}
+                />
+            </FeatureGroup>
+            </Pane>
+            </GroupedLayer>
+    
+            <GroupedLayer 
+                checked
+                group="Rad-Service" 
+                name="Rad-Verleih">
+            <Pane name="rentals" style={{ zIndex: 512 }}>
+            <FeatureGroup>
+                <GeoJSON
+                    data={rentals}
+                    key={'rentals'+selectedAA}
+                    onEachFeature={addInfo}
+                    pointToLayer={pointRental}
+                />
+            </FeatureGroup>
+            </Pane>
+            </GroupedLayer>
+            
+            <GroupedLayer 
+                checked
+                group="Rad-Service" 
+                name="Schlauch-Automat"
+            >
+            <Pane name="tubeVendings" style={{ zIndex: 511 }}>
+                <FeatureGroup>
+                <GeoJSON
+                    data={tubeVendings}
+                    key={'tubeVendings'+selectedAA}
+                    onEachFeature={addInfo}
+                    pointToLayer={pointTube}
+                />
+                </FeatureGroup>
+            </Pane>
+        </GroupedLayer>
+        </>
+        }
+
         <GroupedLayer
                 checked
                 group="Stadtteile"

@@ -3,6 +3,7 @@ import { cityViewConfigState } from "@/components/RecoilContextProvider"
 import { useRecoilState } from "recoil"
 import Image from "next/image"
 
+import AdminAreaInfoTile from "@/components/AdminAreaInfoTile"
 import BaseTile from "@/components/BaseTile"
 import BikeInfrastructTile from "@/components/BikeInfrastructTile/BicycleInfrastructTile"
 
@@ -35,9 +36,8 @@ export default function Münster(){
             </BikeInfrastructTile>
 
                 <div className="flex flex-container flex-wrap justify-end w-2/6">
-                <BaseTile className="h-96">1</BaseTile>
-                <BaseTile>2</BaseTile>
-                <BaseTile>3</BaseTile>
+                <AdminAreaInfoTile></AdminAreaInfoTile>
+                <AdminAreaInfoTile></AdminAreaInfoTile>
                 </div>
             </div>
             </main>
