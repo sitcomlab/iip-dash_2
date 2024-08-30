@@ -54,7 +54,7 @@ export default function BikeInfrastructTile({height="h-96", width="w-7/12", chil
             />
         </div>
 
-        <MapContainer center={cityConfig.mapSettings.center} zoom={cityConfig.mapSettings.zoom} scrollWheelZoom={false} className="h-full rounded-2xl">
+        <MapContainer center={cityConfig.mapSettings.center} zoom={cityConfig.mapSettings.zoom} scrollWheelZoom={true} className="h-full rounded-2xl">
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
