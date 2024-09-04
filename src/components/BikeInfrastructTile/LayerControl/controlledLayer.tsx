@@ -10,21 +10,33 @@ import React, {
   useState,
 } from 'react';
 import { ReactNode } from 'react';
-import { useLayerControlContext } from './layerControlContext.js';
+import { useLayerControlContext } from './layerControlContext';
 import { useMap } from 'react-leaflet';
 
+interface IProps {
+  checked?: boolean;
+  name: string;
+  group: string;
+  children: ReactNode[] | ReactNode;
+  icon?: JSX.Element;
+}
+
 const createControlledLayer = (
-  addLayerToControl
+  addLayerToControl: (
+    layerContext: any,
+    layer: Layer,
+    name: string,
+    group: string,
+    icon?: JSX.Element
+  ) => any
 ) => {
-  function ControlledLayer(props) {
+  function ControlledLayer(props: IProps) {
     var context = useLeafletContext();
     const layerContext = useLayerControlContext();
     const propsRef = useRef(props);
-    //console.log('propsRef.Icon', propsRef.current.icon)
     const parentMap = useMap();
 
-    const [layer, setLayer] = useState(null);
-    //console.log('layer', layer)
+    const [layer, setLayer] = useState<Layer | null>(null);
 
     const addLayer = useCallback(
       (layerToAdd) => {
@@ -41,7 +53,7 @@ const createControlledLayer = (
         );
         setLayer(layerToAdd);
       },
-      [layerContext, parentMap]
+      [context]
     );
 
     const removeLayer = useCallback(
