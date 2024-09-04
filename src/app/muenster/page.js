@@ -2,10 +2,14 @@
 import { cityViewConfigState } from "@/components/RecoilContextProvider"
 import { useRecoilState } from "recoil"
 import Image from "next/image"
+import dynamic from 'next/dynamic';
 
 import AdminAreaInfoTile from "@/components/AdminAreaInfoTile"
 import BaseTile from "@/components/BaseTile"
-import BikeInfrastructTile from "@/components/BikeInfrastructTile/BicycleInfrastructTile"
+
+// this dynamic loading causes a longer startup time but removes the "window not defined error"
+// TODO: move the dynamic import to inside the tile and implement a loading graphic
+const BikeInfrastructTile = dynamic(() => import('@/components/BikeInfrastructTile/BicycleInfrastructTile'), { ssr: false })
 
 const cityConfig = 
     {
