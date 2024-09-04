@@ -10,7 +10,7 @@ import Legend from "./LayerControl/Legend"
 import AdministrativeAreas from "./mapContent/AdministrativeAreas"
 import BicycleInfrastructureFeatures from "./mapContent/BicycleInfrastructureFeatures"
 
-function BicycleInfrastructureData(){
+function BicycleInfrastructureData(map){
     //regularly fetch bike infrastructure data
     //  get the city which we are looking at, and pass that to the bike infrastructure hook
     const [CityViewConfig] = useRecoilState(cityViewConfigState) 
@@ -23,9 +23,9 @@ function BicycleInfrastructureData(){
         {mapViewState == 'AdministrativeAreas' &&
             //TODO: LayerControl, AndiminstrativeAreas component
             <LayerControl position="bottomright">
-            <AdministrativeAreas
-                contentGeometry={BicycleInfrastructureData}
-            />
+                <AdministrativeAreas
+                    contentGeometry={BicycleInfrastructureData}
+                />
             </LayerControl>
         }
 
