@@ -4,8 +4,8 @@ import { useRecoilState } from "recoil"
 import Image from "next/image"
 import dynamic from 'next/dynamic';
 
-import AdminAreaInfoTile from "@/components/AdminAreaInfoTile"
-import BaseTile from "@/components/BaseTile"
+import Navbar from "@/components/Elements/Navbar";
+import AdminAreaInfoTile from "@/components/AdminAreaInfoTile";
 import BikeInfrastructTile from "@/components/BikeInfrastructTile/BicycleInfrastructTile";
 
 const cityConfig = 
@@ -32,6 +32,7 @@ export default function Münster(){
                 height={24}
                 priority
             />
+            <Navbar className='w-5/6'/>
             <div className="flex flex-container flex-wrap flex-row-reverse w-5/6">
             <BikeInfrastructTile height="h-[49rem]">
             </BikeInfrastructTile>
