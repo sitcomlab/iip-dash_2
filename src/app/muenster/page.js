@@ -6,6 +6,7 @@ import dynamic from 'next/dynamic';
 
 import AdminAreaInfoTile from "@/components/AdminAreaInfoTile"
 import BaseTile from "@/components/BaseTile"
+import Navbar from "@/components/Elements/Navbar";
 
 // this dynamic loading causes a longer startup time but removes the "window not defined error"
 // TODO: move the dynamic import to inside the tile and implement a loading graphic
@@ -35,6 +36,7 @@ export default function Münster(){
                 height={24}
                 priority
             />
+            <Navbar className='w-5/6'/>
             <div className="flex flex-container flex-wrap flex-row-reverse w-5/6">
             <BikeInfrastructTile height="h-[49rem]">
             </BikeInfrastructTile>

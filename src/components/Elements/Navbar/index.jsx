@@ -3,6 +3,8 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
+//TODO: add city symbols
+
 function NavButton(props){
     const path = usePathname();
     const content = props.children;
@@ -12,17 +14,17 @@ function NavButton(props){
         return(        
         <button
             className='
-            py-2 px-5 rounded-full border border-theme-green
+            py-4 px-8 rounded-full border border-theme-green
              bg-theme-green text-theme-green-light'
         >
-        {content}
+            {content}
         </button>           )
     }
 
     return (
         <button
             className='
-            py-2 px-5 rounded-full border border-theme-green
+            py-4 px-8 rounded-full border border-theme-green
             bg-theme-green-light text-theme-green 
             hover:bg-theme-green hover:text-theme-green-light'
             onClick={()=>{location.href = link}}
@@ -32,15 +34,14 @@ function NavButton(props){
     )
 }
 
-export default function Navbar(){
+export default function Navbar(props){
+    const classes = props.className
     return(
-        <div>
-            <li>
+        <div className={classes}>
+            <div className='flex gap-5'>
                 <NavButton href="/muenster">Münster</NavButton>
-            </li>
-            <li>
                 <NavButton href="/osnabrueck">Osnabrück</NavButton>
-            </li>
+            </div>
         </div>
     )
 }
