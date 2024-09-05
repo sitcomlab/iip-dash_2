@@ -1,13 +1,12 @@
 import { MapContainer, TileLayer, Marker, Popup, Pane } from "react-leaflet";
 import { atom, useRecoilState } from 'recoil';
-import { useState } from "react";
+import { useState, Suspense } from "react";
+import dynamic from 'next/dynamic';
 
-//TODO: move the cityView-config to an atom, and the definitions to each page
 import { cityViewConfigState } from "@components/RecoilContextProvider";
 import ViewButton from "@components/Elements/ViewButton";
 import BicycleInfrastructureData from "@components/BikeInfrastructTile/BicycleinfrastructureData";
-
-//TODO: implement viewmodes and start with one to make sure it works.
+const MapComponent = dynamic(() => import('@/components/BikeInfrastructTile/MapComponent'), { ssr: false })
 
 /*
 possible states:
@@ -54,7 +53,9 @@ export default function BikeInfrastructTile({height="h-96", width="w-7/12", chil
             />
         </div>
 
-        <MapContainer 
+        {/*TODO: add spinner until MapComponent is loaded*/}
+        <Suspense fallback={<p>loading...</p>}>
+        <MapComponent
             center={cityConfig.mapSettings.center} 
             zoom={cityConfig.mapSettings.zoom} 
             scrollWheelZoom={true} 
@@ -68,9 +69,8 @@ export default function BikeInfrastructTile({height="h-96", width="w-7/12", chil
             <BicycleInfrastructureData map={map}/>
             <Pane name="popup" style={{ zIndex: 660 }}></Pane>
             <Pane name="tooltip" style={{ zIndex: 670 }}></Pane>
-
-
-        </MapContainer>
+        </MapComponent>
+        </Suspense>
         </div>
     )
 }

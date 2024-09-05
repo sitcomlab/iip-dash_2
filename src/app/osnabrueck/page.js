@@ -6,10 +6,7 @@ import dynamic from 'next/dynamic';
 
 import AdminAreaInfoTile from "@/components/AdminAreaInfoTile"
 import BaseTile from "@/components/BaseTile"
-
-// this dynamic loading causes a longer startup time but removes the "window not defined error"
-// TODO: move the dynamic import to inside the tile and implement a loading graphic
-const BikeInfrastructTile = dynamic(() => import('@/components/BikeInfrastructTile/BicycleInfrastructTile'), { ssr: false })
+import BikeInfrastructTile from "@/components/BikeInfrastructTile/BicycleInfrastructTile";
 
 const cityConfig = 
     {
