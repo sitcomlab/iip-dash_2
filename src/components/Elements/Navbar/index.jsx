@@ -39,7 +39,7 @@ export default function Navbar(){
                 <NavButton href="/muenster">Münster</NavButton>
             </li>
             <li>
-                <NavButton href="/">Test</NavButton>
+                <NavButton href="/osnabrueck">Osnabrück</NavButton>
             </li>
         </div>
     )
