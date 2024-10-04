@@ -6,7 +6,7 @@ import dynamic from 'next/dynamic';
 
 import Navbar from "@/components/Elements/Navbar";
 import AdminAreaInfoTile from "@/components/AdminAreaInfoTile";
-import BikeInfrastructTile from "@/components/BikeInfrastructTile/BicycleInfrastructTile";
+const BikeInfrastructTile = dynamic(() => import('@/components/BikeInfrastructTile/BicycleInfrastructTile'), { ssr: false })
 
 const cityConfig = 
     {
