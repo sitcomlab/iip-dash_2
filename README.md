@@ -27,11 +27,6 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 [http://localhost:3000/muenster](http://localhost:3000/muenster) and [http://localhost:3000/osnabrueck](http://localhost:3000/osnabrueck) will show the dashboards for each city.
 
-## Learn More
+## Project Structure
+pages are defined under `/src/app/{pagename}/page.js`. there, for instance the pages for münster and osnabrück can be found respectively.
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
