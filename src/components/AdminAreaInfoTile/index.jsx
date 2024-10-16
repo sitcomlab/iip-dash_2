@@ -209,6 +209,27 @@ function AdminAreaInfoContent(props) {
           </Suspense>
         </>
       }
+      contentPublicTransport={
+        <TilesWrapper>
+          <Suspense fallback={<Skeleton height="100%" width="100%" />}>
+            <DataBox
+              decimals={0}
+              header="Bus- haltestellen"
+              unit=""
+              value={props.feature.properties.service.busStopsWithin}
+            ></DataBox>
+          </Suspense>
+          <br />
+          <Suspense fallback={<Skeleton height="100%" width="100%" />}>
+            <DataBox
+              decimals={0}
+              header="Bahnhöfe"
+              unit=""
+              value={props.feature.properties.service.trainStationsWithin}
+            ></DataBox>
+          </Suspense>
+        </TilesWrapper>
+      }
     ></AAInfoPages>
   );
 }
