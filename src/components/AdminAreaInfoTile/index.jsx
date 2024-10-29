@@ -10,6 +10,7 @@ import AAInfoPages from "./AAInfoPages";
 import { DataBoxBig, DataBox } from "./DataBox";
 import SliderCarousel from "./ParkingSlideCarousel";
 import DonutChart from "./DonutChart";
+import PlusTile from "../PlusTileMockup";
 
 import {
   selectedAAState,
@@ -261,6 +262,10 @@ function AdminAreaInfoTile() {
 
   //TODO: figure out how to implement a remove-button for this component
   function remove() {}
+  console.log(selectedAA);
+  if (selectedAA == "") {
+    return <></>;
+  }
 
   return (
     <BaseTile>
