@@ -10,6 +10,7 @@ const BikeInfrastructTile = dynamic(
   () => import("@/components/BikeInfrastructTile/BicycleInfrastructTile"),
   { ssr: false },
 );
+import PlusTile from "@/components/PlusTileMockup";
 
 const cityConfig = {
   name: "Osnabrück",
@@ -40,6 +41,7 @@ export default function Münster() {
 
         <div className="flex flex-container flex-wrap justify-end w-2/6">
           <AdminAreaInfoTile></AdminAreaInfoTile>
+          <PlusTile></PlusTile>
         </div>
       </div>
     </main>
