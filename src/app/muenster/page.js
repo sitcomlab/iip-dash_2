@@ -35,7 +35,7 @@ export default function Münster() {
         height={24}
         priority
       />
-      <Navbar className="w-5/6" />
+      <Navbar className="w-5/6 flex justify-center" />
       <div className="flex flex-container flex-wrap flex-row-reverse w-5/6">
         <BikeInfrastructTile height="h-[49rem]"></BikeInfrastructTile>
 
