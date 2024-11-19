@@ -1,5 +1,5 @@
 import { useRecoilState } from "recoil";
-import { useState, useEffect, Suspense } from "react";
+import { useState, useContext, Suspense } from "react";
 import styled from "styled-components";
 import Skeleton from "react-loading-skeleton";
 
@@ -10,7 +10,7 @@ import AAInfoPages from "./AAInfoPages";
 import { DataBoxBig, DataBox } from "./DataBox";
 import SliderCarousel from "./ParkingSlideCarousel";
 import DonutChart from "./DonutChart";
-import PlusTile from "../PlusTileMockup";
+import { MapContext } from "@/app/muenster/page";
 
 import {
   selectedAAState,
@@ -236,6 +236,7 @@ function AdminAreaInfoContent(props) {
 }
 
 function AdminAreaInfoTile() {
+  const { mapRef, setMapRef } = useContext(MapContext);
   const [pinned, setPinned] = useState(false);
 
   const [selectedAA, setSelectedAA] = useRecoilState(selectedAAState);
