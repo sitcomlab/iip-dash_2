@@ -12,6 +12,7 @@ const BikeInfrastructTile = dynamic(
   () => import("@/components/BikeInfrastructTile/BicycleInfrastructTile"),
   { ssr: false },
 );
+import MapFeatureProvider from "@/components/MapFeatureProvider";
 
 export const MapContext = createContext({
   mapRef: {},
@@ -46,14 +47,16 @@ export default function Münster() {
       />
       <Navbar className="w-5/6 flex justify-center" />
       <MapContext.Provider value={mapValue}>
-        <div className="flex flex-container flex-wrap flex-row-reverse w-5/6">
-          <BikeInfrastructTile height="h-[49rem]"></BikeInfrastructTile>
+        <MapFeatureProvider city={cityViewConfig}>
+          <div className="flex flex-container flex-wrap flex-row-reverse w-5/6">
+            <BikeInfrastructTile height="h-[49rem]"></BikeInfrastructTile>
 
-          <div className="flex flex-container flex-wrap justify-end w-2/6">
-            <AdminAreaInfoTile></AdminAreaInfoTile>
-            <PlusTile></PlusTile>
+            <div className="flex flex-container flex-wrap justify-end w-2/6">
+              <AdminAreaInfoTile></AdminAreaInfoTile>
+              <PlusTile></PlusTile>
+            </div>
           </div>
-        </div>
+        </MapFeatureProvider>
       </MapContext.Provider>
     </main>
   );
