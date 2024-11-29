@@ -8,12 +8,10 @@
 
 //ok what is this? a hook? a component?
 // I think this should be a wrapper component offering these things as contexts..
-// does an updated context update the map?
 
 import { createContext, useState, useEffect } from "react";
 
-//placeholder for the bikeinfrastructure-hook
-import { ms_json } from "./ms_json";
+import useBikeInfrastructData from "@/hooks/useBikeInfrastructure";
 
 export const MapFeatureContext = createContext({
   BikeInfrastructFeatures: null,
@@ -28,6 +26,10 @@ export const MapContentContext = createContext({
 export default function MapFeatureProvider(props) {
   const children = props.children;
 
+  const bicycleInfrastructureData = useBikeInfrastructData(
+    props.city.infrastructureSource,
+  );
+
   const [bikeInfrastructFeatures, setBikeInfrastructFeatures] = useState(null);
   const bikeInfrastructFeaturesValue = {
     bikeInfrastructFeatures,
@@ -39,17 +41,14 @@ export default function MapFeatureProvider(props) {
     setMapContent,
   };
 
-  //this will later use the useBicycleInfrastructure hook:
+  //this uses useBicycleInfrastructure hook:
+  // upon update of this hook, the data will be updated.
   // in the bikeinfrastruct tile, this is accessed in BicycleInfrastructureData
   // and passed along to the BicycleInfrastructureFeatures component
   // where mapContent and setMapContent should maybe best be called(?)
   useEffect(() => {
-    //this is not called as you originally intended.
-    // at thispoint this won't make an issue but when the hook is implemented
-    // you will have to think long and hard about it.
-    // EDit: it seems to properly run after a few re-renders. not sure why it waits.
-    setBikeInfrastructFeatures(ms_json);
-  }, []);
+    setBikeInfrastructFeatures(bicycleInfrastructureData);
+  }, [bicycleInfrastructureData]);
 
   return (
     <>
