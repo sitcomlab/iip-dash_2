@@ -38,7 +38,6 @@ export default function MapFeatureProvider(props) {
     mapContent,
     setMapContent,
   };
-  console.log(bikeInfrastructFeaturesValue);
 
   //this will later use the useBicycleInfrastructure hook:
   // in the bikeinfrastruct tile, this is accessed in BicycleInfrastructureData
@@ -50,7 +49,6 @@ export default function MapFeatureProvider(props) {
     // you will have to think long and hard about it.
     // EDit: it seems to properly run after a few re-renders. not sure why it waits.
     setBikeInfrastructFeatures(ms_json);
-    console.log("useEffect is running");
   }, []);
 
   return (
