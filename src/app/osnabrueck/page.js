@@ -3,6 +3,7 @@ import { cityViewConfigState } from "@/components/RecoilContextProvider";
 import { useRecoilState } from "recoil";
 import Image from "next/image";
 import dynamic from "next/dynamic";
+import { createContext, useState } from "react";
 
 import Navbar from "@/components/Elements/Navbar";
 import AdminAreaInfoTile from "@/components/AdminAreaInfoTile";
@@ -11,6 +12,12 @@ const BikeInfrastructTile = dynamic(
   { ssr: false },
 );
 import PlusTile from "@/components/PlusTileMockup";
+import MapFeatureProvider from "@/components/MapFeatureProvider";
+
+export const MapContext = createContext({
+  mapRef: {},
+  setMapRef: () => {},
+});
 
 const cityConfig = {
   name: "Osnabrück",
@@ -22,6 +29,9 @@ const cityConfig = {
 };
 
 export default function Münster() {
+  const [mapRef, setMapRef] = useState(null);
+  const mapValue = { mapRef, setMapRef };
+
   const [cityViewConfig, setCityViewConfig] =
     useRecoilState(cityViewConfigState);
   setCityViewConfig(cityConfig);
@@ -36,14 +46,18 @@ export default function Münster() {
         priority
       />
       <Navbar className="w-5/6" />
-      <div className="flex flex-container flex-wrap flex-row-reverse w-5/6">
-        <BikeInfrastructTile height="h-[49rem]"></BikeInfrastructTile>
+      <MapContext.Provider value={mapValue}>
+        <MapFeatureProvider city={cityViewConfig}>
+          <div className="flex flex-container flex-wrap flex-row-reverse w-5/6">
+            <BikeInfrastructTile height="h-[49rem]"></BikeInfrastructTile>
 
-        <div className="flex flex-container flex-wrap justify-end w-2/6">
-          <AdminAreaInfoTile></AdminAreaInfoTile>
-          <PlusTile></PlusTile>
-        </div>
-      </div>
+            <div className="flex flex-container flex-wrap justify-end w-2/6">
+              <AdminAreaInfoTile></AdminAreaInfoTile>
+              <PlusTile></PlusTile>
+            </div>
+          </div>
+        </MapFeatureProvider>
+      </MapContext.Provider>
     </main>
   );
 }
