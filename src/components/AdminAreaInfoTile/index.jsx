@@ -12,11 +12,23 @@ import SliderCarousel from "./ParkingSlideCarousel";
 import DonutChart from "./DonutChart";
 import { MapContext } from "@/app/muenster/page";
 
+//leaflet related components
+import { renderToStaticMarkup } from "react-dom/server";
+import { FeatureGroup, GeoJSON, Pane, Popup, Tooltip } from "react-leaflet";
+import { GroupedLayer } from "../BikeInfrastructTile/LayerControl/LayerControl";
+import BiMarkerIcon from "../BikeInfrastructTile/mapContent/BiMarkerIcon";
+import { SvgTrainstationIcon as TrainstationIcon } from "@/components/Icons/TrainstationIcon";
+import { SvgBusStopIcon as BusStopIcon } from "../Icons/BusStopIcon";
+
+import { MapFeatureContext } from "../MapFeatureProvider";
+import { MapContentContext } from "../MapFeatureProvider";
+
 import {
   selectedAAState,
   selectedAAFeatureState,
   displayedPointDataState,
 } from "@/components/RecoilContextProvider";
+import { TrainSharp } from "@mui/icons-material";
 
 export const TilesWrapper = styled.div`
   display: flex;
@@ -27,6 +39,10 @@ export const TilesWrapper = styled.div`
 `;
 
 function AdminAreaInfoContent(props) {
+  let { bikeInfrastructFeatures, setBikeInfrastructFeatures } =
+    useContext(MapFeatureContext);
+  let { mapContent, setMapContent } = useContext(MapContentContext);
+
   if (props.feature.properties?.name === undefined) {
     return <></>;
   }
@@ -229,10 +245,111 @@ function AdminAreaInfoContent(props) {
               value={props.feature.properties.service.trainStationsWithin}
             ></DataBox>
           </Suspense>
+          <button
+            onClick={() => {
+              addFeaturesTest(
+                props.feature.properties,
+                bikeInfrastructFeatures,
+                mapContent,
+                setMapContent,
+              );
+            }}
+          >
+            show
+          </button>
         </TilesWrapper>
       }
     ></AAInfoPages>
   );
+}
+
+function addFeaturesTest(
+  props,
+  mapFeatureCollection,
+  mapContent,
+  setMapContent,
+) {
+  //find the admin-area to query
+  let adminName = props.name;
+
+  //TODO: check if features already exist so you can hide them
+
+  //search map features for features to add
+  let featureCollection = mapFeatureCollection;
+
+  const trainStations = featureCollection.features.filter(
+    (feature) =>
+      feature.properties.bike_infrastructure_type === "train_station" &&
+      feature.properties.aa === adminName,
+  );
+  const busStops = featureCollection.features.filter(
+    (feature) =>
+      feature.properties.bike_infrastructure_type === "bus_stop" &&
+      feature.properties.aa === adminName,
+  );
+
+  //add them to the map in a feature group that contains info on admin area as well
+  // (this might require passing some info to the AdministrativeAreas feature and build the featuregroup there)
+  //
+  // we need info on: GroupedLayer, Pane (with z-index even maybe), Featuregroup and several tag properties
+  // Try using the plain jsx first
+  let objectsADded = mapContent;
+  let objectsToAdd = (
+    <GroupedLayer checked group="Stadtteile" name="Öffentliche Verkehrsmittel">
+      <Pane name="busStops" style={{ zIndex: 600 }}>
+        <>
+          <FeatureGroup>
+            <GeoJSON
+              data={busStops}
+              key={"busStops_" + adminName}
+              //onEachFeature={addInfo}
+              pointToLayer={pointBusStop}
+            />
+            <GeoJSON
+              data={trainStations}
+              key={"trainStations_" + adminName}
+              //onEachFeature={addInfo}
+              pointToLayer={pointTrain}
+            />
+          </FeatureGroup>
+        </>
+      </Pane>
+    </GroupedLayer>
+  );
+
+  debugger;
+  setMapContent(objectsToAdd);
+
+  return;
+}
+
+function pointTrain(geojsonPoint, latlng) {
+  const trainIcon = L.divIcon({
+    className: "",
+    html: renderToStaticMarkup(
+      <BiMarkerIcon
+        color="#FF0000"
+        icon={<TrainstationIcon fill="#FFF3F3" />}
+      ></BiMarkerIcon>,
+    ),
+    iconSize: [32, 32],
+    iconAnchor: [16, 16],
+    popupAnchor: [-3, -11],
+  });
+  return L.marker(latlng, { icon: trainIcon });
+}
+
+function pointBusStop(geojsonPoint, latlng) {
+  //TODO: add bus icon
+  //TODO: implement popup for departures
+  const trainIcon = L.divIcon({
+    className: "",
+    html: renderToStaticMarkup(<BusStopIcon height="70%" width="70%" />),
+    iconSize: [32, 32],
+    iconAnchor: [16, 16],
+    popupAnchor: [-3, -11],
+  });
+  return L.marker(latlng, { icon: trainIcon });
 }
 
 function AdminAreaInfoTile() {

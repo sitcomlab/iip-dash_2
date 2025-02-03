@@ -13,13 +13,16 @@ import { createContext, useState, useEffect } from "react";
 
 import useBikeInfrastructData from "@/hooks/useBikeInfrastructure";
 
+//mapfeaturecontext contains all the features that could be added to the map
+// this means the bicycle infrastructure features, as well as any additional ones
+// other processes can make use of that context to access and make use of these features.
 export const MapFeatureContext = createContext({
   BikeInfrastructFeatures: null,
   setBikeInfrastructFeatures: () => {},
 });
 
 export const MapContentContext = createContext({
-  MapContent: {},
+  MapContent: <></>,
   setMapContent: () => {},
 });
 
@@ -35,7 +38,7 @@ export default function MapFeatureProvider(props) {
     bikeInfrastructFeatures,
     setBikeInfrastructFeatures,
   };
-  const [mapContent, setMapContent] = useState({});
+  const [mapContent, setMapContent] = useState(<></>);
   const mapContentValue = {
     mapContent,
     setMapContent,

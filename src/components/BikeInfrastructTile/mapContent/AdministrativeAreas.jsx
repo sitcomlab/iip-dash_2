@@ -1,5 +1,6 @@
 "use client";
 import { FeatureGroup, GeoJSON, Pane, Popup, Tooltip } from "react-leaflet";
+import { useContext } from "react";
 import styled from "styled-components";
 import { renderToStaticMarkup } from "react-dom/server";
 import { useRecoilState } from "recoil";
@@ -21,6 +22,7 @@ import {
   selectedAAFeatureState,
   displayedPointDataState,
 } from "@/components/RecoilContextProvider";
+import { MapContentContext } from "@/components/MapFeatureProvider";
 
 //TODO: managing the tiles for AA-info
 //TODO: LayerControl doesn't yet properly update the layers as displayed on map
@@ -51,6 +53,7 @@ const PointDataType = {
 };
 
 function AdministrativeAreas(props) {
+  const { mapContent, setMapContent } = useContext(MapContentContext);
   const [selectedAA, setSelectedAA] = useRecoilState(selectedAAState);
   const [selectedAAFeature, setSelectedAAFeature] = useRecoilState(
     selectedAAFeatureState,
@@ -301,33 +304,6 @@ function AdministrativeAreas(props) {
 
   return (
     <>
-      {displayedPointData == PointDataType.öffis && (
-        <GroupedLayer
-          checked
-          group="Stadtteile"
-          name="Öffentliche Verkehrsmittel"
-        >
-          <Pane name="busStops" style={{ zIndex: 600 }}>
-            <>
-              {/* naively display the bus stop GeoJSON, the filtering is done based on a state, which is set by the options */}
-              <FeatureGroup>
-                <GeoJSON
-                  data={busStops}
-                  key={"busStops_" + selectedAA}
-                  onEachFeature={addInfo}
-                  pointToLayer={pointBusStop}
-                />
-                <GeoJSON
-                  data={trainStations}
-                  key={"trainStations_" + selectedAA}
-                  onEachFeature={addInfo}
-                  pointToLayer={pointTrain}
-                />
-              </FeatureGroup>
-            </>
-          </Pane>
-        </GroupedLayer>
-      )}
       {displayedPointData == PointDataType.parken && (
         <GroupedLayer
           checked
@@ -444,31 +420,7 @@ function AdministrativeAreas(props) {
         </>
       )}
 
-      <GroupedLayer
-        checked
-        group="Stadtteile"
-        name="Öffentliche Verkehrsmittel"
-      >
-        <Pane name="busStops" style={{ zIndex: 600 }}>
-          <>
-            {/* naively display the bus stop GeoJSON, the filtering is done based on a state, which is set by the options */}
-            <FeatureGroup>
-              <GeoJSON
-                data={busStops}
-                key={"busStops_" + selectedAA}
-                onEachFeature={addInfo}
-                pointToLayer={pointBusStop}
-              />
-              <GeoJSON
-                data={trainStations}
-                key={"trainStations_" + selectedAA}
-                onEachFeature={addInfo}
-                pointToLayer={pointTrain}
-              />
-            </FeatureGroup>
-          </>
-        </Pane>
-      </GroupedLayer>
+      {mapContent}
 
       <GroupedLayer checked group="Stadtteile" name="Stadtteile">
         <Pane name="administrativeAreas" style={{ zIndex: 500 }}>

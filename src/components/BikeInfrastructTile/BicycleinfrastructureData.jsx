@@ -19,10 +19,6 @@ function BicycleInfrastructureData(map) {
   var { bikeInfrastructFeatures, setBikeInfrastructFeatures } =
     useContext(MapFeatureContext);
 
-  //var bicycleInfrastructureData = useBikeInfrastructData(
-  //  CityViewConfig.infrastructureSource,
-  //);
-
   const [mapViewState] = useRecoilState(mapViewModeState);
 
   return (
