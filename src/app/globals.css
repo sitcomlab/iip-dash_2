@@ -3,9 +3,9 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 232, 237, 232;
-  --background-end-rgb: 255, 255, 255;
+    --foreground-rgb: 0, 0, 0;
+    --background-start-rgb: 232, 237, 232;
+    --background-end-rgb: 245, 250, 245;
 }
 
 /*
@@ -18,26 +18,26 @@
 }*/
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+    color: rgb(var(--foreground-rgb));
+    background: linear-gradient(
+            to bottom,
+            transparent,
+            rgb(var(--background-end-rgb))
+        )
+        rgb(var(--background-start-rgb));
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+    .text-balance {
+        text-wrap: balance;
+    }
 }
 
 @import "leaflet/dist/leaflet.css";
 
 .leaflet-popup-content {
-  width: 350px !important; /* Set width to auto */
-  max-width: 100%; /* Ensure the content does not exceed the available width */
+    width: 350px !important; /* Set width to auto */
+    max-width: 100%; /* Ensure the content does not exceed the available width */
 }
 
 /* Add theme to map */
@@ -45,5 +45,5 @@ body {
 .leaflet-control-zoom-in,
 .leaflet-control-zoom-out,
 .leaflet-control-attribution {
-  filter: brightness(95%) contrast(120%) saturate(20%);
+    filter: brightness(95%) contrast(120%) saturate(20%);
 }
