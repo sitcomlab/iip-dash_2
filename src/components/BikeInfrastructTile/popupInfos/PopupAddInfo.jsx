@@ -16,24 +16,37 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// Function add info automatically creates a table for the popoup with the entries from feature.properties.attributes
 function addInfo(feature, layer) {
+    let heading;
+    // Handle bikeability data
+    if (feature.properties?.factor_score !== undefined) {
+        heading = "<p style='text-align:center; font-size:150%; font-weight:bold;'> Bikeability </p>";
+        const score = Math.round(feature.properties.factor_score * 1000) / 1000;
+
+        const html = heading + 
+            "<table class='table is-striped is-narrow' style='font-size: 14px;'>" +
+            "<tbody>" +
+            `<tr><td style='font-size: 15px;'>Index Value : </td><td style='font-size: 15px;'> ${score}</td></tr>` +
+            "</tbody></table>";
+        layer.bindPopup(html);
+        return;
+    }
+    
     const bIType = feature.properties.bike_infrastructure_type;
-    const heading =
-      "<p style='text-align:center; font-size:150%; font-weight:bold;'> " +
-      bIType +
-      ' </p>';
+    heading = "<p style='text-align:center; font-size:150%; font-weight:bold;'> " +
+        bIType +
+        ' </p>';
     // Create table if attributes are filled
-    if (feature.properties?.attributes.length > 0) {
+    if (feature.properties?.attributes?.length > 0) {
       const attributes = feature.properties.attributes;
       let html_table =
         heading +
-        "<table class='table is-striped is-narrow'> <tbody> <tr> <th> Weitere Infos </th> <th> </th> <tr>";
+        "<table class='table is-striped is-narrow' style='font-size: 15px;'> <tbody> <tr> <th style='font-size: 15px;'> Weitere Infos </th> <th style='font-size: 15px;'> </th> <tr>";
       // loop through the dictionary to feed the table with rows
       attributes.forEach((attr) => {
         for (const key in attr) {
           const value = attr[key];
-          const tr = ' <tr> <td> ' + key + '</td> <td> ' + value + '</td> </tr>';
+          const tr = ' <tr> <td style="font-size: 14px;"> ' + key + '</td> <td style="font-size: 14px;"> ' + value + '</td> </tr>';
           html_table = html_table + tr;
         }
       });
@@ -43,6 +56,6 @@ function addInfo(feature, layer) {
     } else if (feature.properties?.attributes.length === 0) {
       layer.bindPopup(heading);
     }
-  }
+}
   
-  export {addInfo}
+export {addInfo}

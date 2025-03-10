@@ -53,3 +53,20 @@ export default function useBikeInfrastructData(urlString) {
 
     return data
 }
+
+
+// export default function useBikeabilityData (urlString) {
+//     const [data, setData] = useState();
+
+//     useEffect(() => {
+//         const fetchData = async () => {
+//             const response = await fetch(urlString);
+//             const result = await response.json();
+//             setData(result);
+//         };
+
+//         fetchData();
+//     }, [urlString]);
+
+//     return data;
+// };

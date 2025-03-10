@@ -56,6 +56,12 @@ export default function BikeInfrastructTile({
           }}
           type={"BicycleNetwork"}
         />
+        <ViewButton
+          onClick={function () {
+            throw new Error("Function not implemented.");
+          }}
+          type={"Bikeability"}
+        />
       </div>
 
       {/*TODO: add spinner until MapComponent is loaded*/}

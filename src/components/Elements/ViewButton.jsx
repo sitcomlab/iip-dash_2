@@ -69,7 +69,34 @@ function ViewButton({ type }) {
             )
         }
     }
-
+    
+    //  Adding the Bikeability Button
+    if (type === "Bikeability") {
+        if (mapViewState === "Bikeability") {
+            return (
+                <button
+                    className="py-2 px-5 rounded-full border border-theme-green bg-theme-green text-theme-green-light"
+                    buttonText='Bikeability'Mode
+                    onClick={() => { return }}
+                    type={type}
+                >
+                    Bikeability
+                </button>
+            );
+        } else {
+            return (
+                <button
+                    className="py-2 px-5 rounded-full border border-theme-green bg-theme-green-light text-theme-green 
+                    hover:bg-theme-green hover:text-theme-green-light"
+                    buttonText='Bikeability'
+                    onClick={() => setMapViewState(type)}
+                    type={type}
+                >
+                    Bikeability
+                </button>
+            );
+        }
+    }
     //this shall not be reached
     return <></>
 }

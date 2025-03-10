@@ -26,9 +26,10 @@ const cityConfig = {
     zoom: 12,
   },
   infrastructureSource: process.env.NEXT_PUBLIC_BICYCLE_INFRASTRUCTURE_URL_OS,
+  bikeabilitySource: process.env.NEXT_PUBLIC_BIKEABILITY_API_URL_OS,
 };
 
-export default function Münster() {
+export default function Osnabrück() {
   const [mapRef, setMapRef] = useState(null);
   const mapValue = { mapRef, setMapRef };
 
@@ -45,7 +46,7 @@ export default function Münster() {
         height={24}
         priority
       />
-      <Navbar className="w-5/6" />
+      <Navbar className="w-5/6  flex justify-center" />
       <MapContext.Provider value={mapValue}>
         <MapFeatureProvider city={cityViewConfig}>
           <div className="flex flex-container flex-wrap flex-row-reverse w-5/6">
