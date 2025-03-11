@@ -5,6 +5,7 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 import { createContext, useState } from "react";
 
+import { mapViewModeState } from "@components/RecoilContextProvider";
 import AdminAreaInfoTile from "@/components/AdminAreaInfoTile";
 import Navbar from "@/components/Elements/Navbar";
 import PlusTile from "@/components/PlusTileMockup";
@@ -35,6 +36,7 @@ export default function Münster() {
 
   const [cityViewConfig, setCityViewConfig] =
     useRecoilState(cityViewConfigState);
+  const [mapViewState] = useRecoilState(mapViewModeState); // Get the current map view state
   setCityViewConfig(cityConfig);
 
   return (
@@ -53,7 +55,9 @@ export default function Münster() {
             <BikeInfrastructTile height="h-[49rem]"></BikeInfrastructTile>
 
             <div className="flex flex-container flex-wrap justify-end w-2/6">
-              <AdminAreaInfoTile></AdminAreaInfoTile>
+              {mapViewState === "AdministrativeAreas" && (
+                <AdminAreaInfoTile></AdminAreaInfoTile>
+              )}
               <PlusTile></PlusTile>
             </div>
           </div>
