@@ -263,6 +263,8 @@ function AdminAreaInfoContent(props) {
   );
 }
 
+//provisional function to add and remove point features from the mapview
+// will be renamed later
 function addFeaturesTest(
   props,
   mapFeatureCollection,
@@ -270,12 +272,12 @@ function addFeaturesTest(
   setMapContent,
 ) {
   //find the admin-area to query
-  let adminName = props.name;
+  const adminName = props.name;
 
   //TODO: check if features already exist so you can hide them
 
   //search map features for features to add
-  let featureCollection = mapFeatureCollection;
+  const featureCollection = mapFeatureCollection;
 
   const trainStations = featureCollection.features.filter(
     (feature) =>
@@ -293,7 +295,7 @@ function addFeaturesTest(
   //
   // we need info on: GroupedLayer, Pane (with z-index even maybe), Featuregroup and several tag properties
   // Try using the plain jsx first
-  let objectsADded = mapContent;
+  let objectsAdded = mapContent;
   let objectsToAdd = (
     <GroupedLayer checked group="Stadtteile" name="Öffentliche Verkehrsmittel">
       <Pane name="busStops" style={{ zIndex: 600 }}>
