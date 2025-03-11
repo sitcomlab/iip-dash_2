@@ -2,9 +2,9 @@
 import { useRecoilValue, useRecoilState } from "recoil"; // Import useRecoilState
 import { useContext } from "react";
 
-import useBikeInfrastructData from '@/hooks/useBikeInfrastructure'; // Correct import path
+import useBikeInfrastructData from "@/hooks/useBikeInfrastructure"; // Correct import path
 import { cityViewConfigState } from "@components/RecoilContextProvider";
-import { mapViewModeState } from "./BicycleInfrastructTile";
+import { mapViewModeState } from "@components/RecoilContextProvider";
 import LayerControl from "./LayerControl/LayerControl";
 import Legend from "./LayerControl/Legend";
 

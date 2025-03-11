@@ -2,6 +2,7 @@ import { TileLayer, Marker, Popup, Pane } from "react-leaflet";
 import { atom, useRecoilState } from "recoil";
 import { useState, Suspense, useContext } from "react";
 
+import { mapViewModeState } from "@components/RecoilContextProvider";
 import { cityViewConfigState } from "@components/RecoilContextProvider";
 import ViewButton from "@components/Elements/ViewButton";
 import BicycleInfrastructureData from "@components/BikeInfrastructTile/BicycleinfrastructureData";
@@ -13,10 +14,6 @@ BicycleNetwork,
 AdministrativeAreas,
 PublicTransport
 */
-const mapViewModeState = atom({
-  key: "mapViewMode",
-  default: "BicycleNetwork",
-});
 
 export default function BikeInfrastructTile({
   height = "h-96",
@@ -84,5 +81,3 @@ export default function BikeInfrastructTile({
     </div>
   );
 }
-
-export { mapViewModeState };
