@@ -5,6 +5,8 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 import { createContext, useState } from "react";
 
+import { mapViewModeState } from "@components/RecoilContextProvider";
+import BikeabilityInfoTile from "@/components/BikeabilityInfoTile";
 import Navbar from "@/components/Elements/Navbar";
 import AdminAreaInfoTile from "@/components/AdminAreaInfoTile";
 const BikeInfrastructTile = dynamic(
@@ -35,6 +37,7 @@ export default function Osnabrück() {
 
   const [cityViewConfig, setCityViewConfig] =
     useRecoilState(cityViewConfigState);
+  const [mapViewState] = useRecoilState(mapViewModeState); // Get the current map view state
   setCityViewConfig(cityConfig);
 
   return (
@@ -53,7 +56,12 @@ export default function Osnabrück() {
             <BikeInfrastructTile height="h-[49rem]"></BikeInfrastructTile>
 
             <div className="flex flex-container flex-wrap justify-end w-2/6">
-              <AdminAreaInfoTile></AdminAreaInfoTile>
+              {mapViewState === "AdministrativeAreas" && (
+                <AdminAreaInfoTile></AdminAreaInfoTile>
+              )}
+              {mapViewState === "Bikeability" && (
+                <BikeabilityInfoTile></BikeabilityInfoTile>
+              )}
               <PlusTile></PlusTile>
             </div>
           </div>

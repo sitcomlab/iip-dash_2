@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import { createContext, useState } from "react";
 
 import { mapViewModeState } from "@components/RecoilContextProvider";
+import BikeabilityInfoTile from "@/components/BikeabilityInfoTile";
 import AdminAreaInfoTile from "@/components/AdminAreaInfoTile";
 import Navbar from "@/components/Elements/Navbar";
 import PlusTile from "@/components/PlusTileMockup";
@@ -57,6 +58,9 @@ export default function Münster() {
             <div className="flex flex-container flex-wrap justify-end w-2/6">
               {mapViewState === "AdministrativeAreas" && (
                 <AdminAreaInfoTile></AdminAreaInfoTile>
+              )}
+              {mapViewState === "Bikeability" && (
+                <BikeabilityInfoTile></BikeabilityInfoTile>
               )}
               <PlusTile></PlusTile>
             </div>
