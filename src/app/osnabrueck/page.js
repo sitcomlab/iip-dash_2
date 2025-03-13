@@ -29,6 +29,7 @@ const cityConfig = {
   },
   infrastructureSource: process.env.NEXT_PUBLIC_BICYCLE_INFRASTRUCTURE_URL_OS,
   bikeabilitySource: process.env.NEXT_PUBLIC_BIKEABILITY_API_URL_OS,
+  anonymizationSource: process.env.NEXT_PUBLIC_ANONYMIZATION_API_URL_OS,
 };
 
 export default function Osnabrück() {
