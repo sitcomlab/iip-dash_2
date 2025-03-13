@@ -128,6 +128,15 @@ const BIKEABILITY_COLORS = [
     { range: [0.9, 1], color: 'rgb(255, 0, 0)' } // Full red
 ];
 
+const ANONYMIZED_COLORS = [
+    { range: [0, 0.25], color: 'rgb(230, 230, 255)' }, // Light blue
+    { range: [0.25, 0.55], color: 'rgb(200, 200, 255)' }, // Medium light blue
+    { range: [0.55, 0.75], color: 'rgb(150, 150, 255)' }, // Medium blue
+    { range: [0.75, 0.9], color: 'rgb(100, 100, 255)' }, // Dark blue
+    { range: [0.9, 1], color: 'rgb(0, 0, 255)' } // Full blue
+];
+
+
 function Symbology(layer, text){
     let icon = <></>;
     switch(layer.name){
@@ -252,10 +261,36 @@ function Symbology(layer, text){
                     text={text}
                 ></LegendRow>;
             break;
+        // case 'Bikeability':
+        //     icon = (
+        //         <div>
+        //             {BIKEABILITY_COLORS.map((cls, index) => (
+        //                 <LegendRow
+        //                     key={index}
+        //                     icon={<LineIcon stroke={cls.color} />}
+        //                     text={`${cls.range[0]} - ${cls.range[1]}`}
+        //                 ></LegendRow>
+        //             ))}
+        //         </div>
+        //     );
+        //     break;
         case 'Bikeability':
             icon = (
                 <div>
                     {BIKEABILITY_COLORS.map((cls, index) => (
+                        <LegendRow
+                            key={index}
+                            icon={<LineIcon stroke={cls.color} />}
+                            text={`${cls.range[0]} - ${cls.range[1]}`}
+                        ></LegendRow>
+                    ))}
+                </div>
+            );
+            break;
+        case 'Anonymized-Bikeability':
+            icon = (
+                <div>
+                    {ANONYMIZED_COLORS.map((cls, index) => (
                         <LegendRow
                             key={index}
                             icon={<LineIcon stroke={cls.color} />}

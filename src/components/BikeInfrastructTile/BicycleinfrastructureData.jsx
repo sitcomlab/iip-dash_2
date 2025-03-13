@@ -16,7 +16,7 @@ import Bikeability from './mapContent/Bikeability';
 
 const BicycleinfrastructureData = () => {
   const cityConfig = useRecoilValue(cityViewConfigState); // Get the current city config
-  const { bikeInfrastructFeatures, bikeabilityFeatures } = useContext(MapFeatureContext); // Access features from context
+  const { bikeInfrastructFeatures, bikeabilityFeatures, anonymizedFeatures } = useContext(MapFeatureContext); // Access features from context
   const [mapViewState] = useRecoilState(mapViewModeState); // Get the current map view state
 
   return (
@@ -42,11 +42,16 @@ const BicycleinfrastructureData = () => {
           <Legend position="bottomleft">
             <Bikeability 
               contentGeometry={bikeabilityFeatures}
-              name="Bikeability" // Add name prop for legend
+              name="Bikeability"
+            />
+            <anonymizedBikeability
+              contentGeometry={anonymizedFeatures}
+              name="Anonymized-Bikeability"
             />
           </Legend>
         </LayerControl>
       )}
+
 
 
     </>
