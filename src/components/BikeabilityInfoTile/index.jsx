@@ -1,6 +1,8 @@
 import { useContext } from "react";
-import BaseTile from "@components/BaseTile";
 import { length } from "@turf/length";
+
+import BaseTile from "@components/BaseTile";
+import { DynamicDataBox } from "./DynamicDataBox";
 import { MapFeatureContext } from "@components/MapFeatureProvider";
 
 function BikeabilityInfoTile() {
@@ -34,11 +36,33 @@ function BikeabilityInfoTile() {
     }, 0) / totalLength;
 
   //count amount of trajectories
+  const trajectoryAmount = bikeabilityFeatures.features.length;
 
   return (
     <BaseTile height="h-[49rem]">
-      <div>distance cycled: {totalLength.toFixed(2)} km</div>
-      <div>average bikeability: {meanBikeability.toFixed(2)}</div>
+      <div className="flex flex-wrap flex-row justify-center w-full gap-2">
+        <DynamicDataBox
+          value={totalLength}
+          decimals={2}
+          unit="km"
+          header="Distanz geradelt"
+          size="big"
+        ></DynamicDataBox>
+        <DynamicDataBox
+          value={meanBikeability}
+          decimals={2}
+          unit=""
+          header="Bikeability durchschnitt"
+          size="big"
+        ></DynamicDataBox>
+        <DynamicDataBox
+          value={trajectoryAmount}
+          decimals={0}
+          unit=""
+          header="Strecken gefahren"
+          size="big"
+        ></DynamicDataBox>
+      </div>
     </BaseTile>
   );
 }
