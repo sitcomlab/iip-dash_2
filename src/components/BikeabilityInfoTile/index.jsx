@@ -126,10 +126,18 @@ function BikeabilityInfoTile() {
       </p>
       <div className="flex flex-wrap flex-row justify-center w-full gap-2">
         <DynamicDataBox
+          value={trajectoryAmount}
+          decimals={0}
+          unit=""
+          header="Strecken im Datensatz"
+          size="big"
+          color={isAnon ? "bg-sky-500" : "bg-rose-500"}
+        ></DynamicDataBox>
+        <DynamicDataBox
           value={totalLength}
           decimals={2}
           unit="km"
-          header="Distanz geradelt"
+          header="Distanz aller Strecken"
           size="big"
           color={isAnon ? "bg-sky-500" : "bg-rose-500"}
         ></DynamicDataBox>
@@ -137,15 +145,7 @@ function BikeabilityInfoTile() {
           value={meanBikeability}
           decimals={2}
           unit=""
-          header="Bikeability durchschnitt"
-          size="big"
-          color={isAnon ? "bg-sky-500" : "bg-rose-500"}
-        ></DynamicDataBox>
-        <DynamicDataBox
-          value={trajectoryAmount}
-          decimals={0}
-          unit=""
-          header="Strecken gefahren"
+          header="Bikeability Durchschnitt"
           size="big"
           color={isAnon ? "bg-sky-500" : "bg-rose-500"}
         ></DynamicDataBox>
