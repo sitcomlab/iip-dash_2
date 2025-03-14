@@ -4,13 +4,71 @@ import { length } from "@turf/length";
 import BaseTile from "@components/BaseTile";
 import { DynamicDataBox } from "./DynamicDataBox";
 import { MapFeatureContext } from "@components/MapFeatureProvider";
+import { ReactECharts } from "../AdminAreaInfoTile/ReactECharts";
+
+function BarChartMonths({ data }) {
+  let months = [
+    "Januar",
+    "Februar",
+    "März",
+    "April",
+    "Mai",
+    "Juni",
+    "Juli",
+    "August",
+    "September",
+    "Oktober",
+    "November",
+    "Dezember",
+  ];
+  let trajectoryMonths = data.features.map((currentFeature) => {
+    return currentFeature.properties.month;
+  });
+  let monthDistribution = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  for (const month of trajectoryMonths) {
+    let i = month - 1;
+    monthDistribution[i] += 1;
+  }
+
+  let shortMonthDistr = [];
+  let shortMonths = [];
+  for (const i in monthDistribution) {
+    if (monthDistribution[i] != 0) {
+      shortMonthDistr.push(monthDistribution[i]);
+      shortMonths.push(months[i]);
+    }
+  }
+
+  return (
+    <div className="h-80 mt-10 w-full">
+      <p className="text-sm font-normal w-full">Verteilung der Messungen</p>
+      <ReactECharts
+        option={{
+          xAxis: {
+            data: shortMonths,
+          },
+          yAxis: {},
+          series: [
+            {
+              type: "bar",
+              data: shortMonthDistr,
+            },
+          ],
+        }}
+      />
+    </div>
+  );
+}
 
 function BikeabilityInfoTile() {
-  const { bikeabilityFeatures } = useContext(MapFeatureContext);
+  const { bikeabilityFeatures, anonymizedFeatures } =
+    useContext(MapFeatureContext);
 
   if (
     bikeabilityFeatures === undefined ||
-    bikeabilityFeatures.features === undefined
+    bikeabilityFeatures.features === undefined ||
+    anonymizedFeatures === undefined ||
+    anonymizedFeatures.features === undefined
   ) {
     return <BaseTile height="h-[49rem]"></BaseTile>;
   }
@@ -40,6 +98,10 @@ function BikeabilityInfoTile() {
 
   return (
     <BaseTile height="h-[49rem]">
+      <p className="text-md font-semibold w-full mb-4">
+        Bikeability <br />
+        <span className="font-normal">nicht-anonymisierte Sensordaten</span>
+      </p>
       <div className="flex flex-wrap flex-row justify-center w-full gap-2">
         <DynamicDataBox
           value={totalLength}
@@ -62,6 +124,7 @@ function BikeabilityInfoTile() {
           header="Strecken gefahren"
           size="big"
         ></DynamicDataBox>
+        <BarChartMonths data={bikeabilityFeatures} />
       </div>
     </BaseTile>
   );
