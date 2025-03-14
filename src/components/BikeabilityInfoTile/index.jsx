@@ -149,6 +149,14 @@ function BikeabilityInfoTile() {
           size="big"
           color={isAnon ? "bg-sky-500" : "bg-rose-500"}
         ></DynamicDataBox>
+        <DynamicDataBox
+          value={isAnon ? 7 : 1}
+          decimals={0}
+          unit=""
+          header="k-Anonymität"
+          size="big"
+          color={isAnon ? "bg-sky-500" : "bg-rose-500"}
+        ></DynamicDataBox>
         <BarChartMonths
           data={inputFeatures}
           chartColor={isAnon ? "blue" : "red"}
