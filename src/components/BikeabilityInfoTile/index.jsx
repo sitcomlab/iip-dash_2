@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { length } from "@turf/length";
+import { useState } from "react";
 
 import BaseTile from "@components/BaseTile";
 import { DynamicDataBox } from "./DynamicDataBox";
@@ -63,6 +64,10 @@ function BarChartMonths({ data }) {
 function BikeabilityInfoTile() {
   const { bikeabilityFeatures, anonymizedFeatures } =
     useContext(MapFeatureContext);
+  const [isAnon, setIsAnon] = useState(false);
+  const anonSwitchHandler = () => {
+    setIsAnon(!isAnon);
+  };
 
   if (
     bikeabilityFeatures === undefined ||
@@ -73,8 +78,10 @@ function BikeabilityInfoTile() {
     return <BaseTile height="h-[49rem]"></BaseTile>;
   }
 
+  const inputFeatures = isAnon ? anonymizedFeatures : bikeabilityFeatures;
+
   //calculate total distance cycled
-  const totalLength = bikeabilityFeatures.features.reduce(
+  const totalLength = inputFeatures.features.reduce(
     (accumulator, currentFeature) => {
       return accumulator + length(currentFeature, { units: "kilometers" });
     },
@@ -85,7 +92,7 @@ function BikeabilityInfoTile() {
   // TODO: adjust based on how bikeability for each route is calculated
   // if trajectory length is not considered in the bikeability of one, lose the distance factor
   const meanBikeability =
-    bikeabilityFeatures.features.reduce((accumulator, currentFeature) => {
+    inputFeatures.features.reduce((accumulator, currentFeature) => {
       return (
         accumulator +
         currentFeature.properties.factor_score *
@@ -94,13 +101,25 @@ function BikeabilityInfoTile() {
     }, 0) / totalLength;
 
   //count amount of trajectories
-  const trajectoryAmount = bikeabilityFeatures.features.length;
+  const trajectoryAmount = inputFeatures.features.length;
 
   return (
     <BaseTile height="h-[49rem]">
       <p className="text-md font-semibold w-full mb-4">
-        Bikeability <br />
-        <span className="font-normal">nicht-anonymisierte Sensordaten</span>
+        Bikeability-Statistik <br />
+        <label class="inline-flex items-center mb-2 mt-2 cursor-pointer">
+          <input
+            type="checkbox"
+            value=""
+            class="sr-only peer"
+            checked={isAnon}
+            onChange={anonSwitchHandler}
+          />
+          <div class="relative w-9 h-5 mr-2 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600 dark:peer-checked:bg-blue-600"></div>
+          <span className="font-normal">
+            {isAnon ? "" : "nicht-"}anonymisierte Sensordaten
+          </span>
+        </label>
       </p>
       <div className="flex flex-wrap flex-row justify-center w-full gap-2">
         <DynamicDataBox
@@ -124,7 +143,7 @@ function BikeabilityInfoTile() {
           header="Strecken gefahren"
           size="big"
         ></DynamicDataBox>
-        <BarChartMonths data={bikeabilityFeatures} />
+        <BarChartMonths data={inputFeatures} />
       </div>
     </BaseTile>
   );
