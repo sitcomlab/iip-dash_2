@@ -120,21 +120,21 @@ function AreaIcon(props: SVGProps<SVGSVGElement>){
     )
 }
 
-const BIKEABILITY_COLORS = [
-    { range: [0, 0.25], color: 'rgb(255, 255, 255)' }, // White
-    { range: [0.25, 0.55], color: 'rgb(255, 200, 200)' }, // Light red
-    { range: [0.55, 0.75], color: 'rgb(255, 150, 150)' }, // Medium red
-    { range: [0.75, 0.9], color: 'rgb(255, 100, 100)' }, // Dark red
-    { range: [0.9, 1], color: 'rgb(255, 0, 0)' } // Full red
-];
+// const BIKEABILITY_COLORS = [
+//     { range: [0, 0.20], color: 'rgb(255, 255, 255)' }, // White
+//     { range: [0.21, 0.55], color: 'rgb(255, 200, 200)' }, // Light red
+//     { range: [0.55, 0.75], color: 'rgb(255, 150, 150)' }, // Medium red
+//     { range: [0.75, 0.9], color: 'rgb(255, 100, 100)' }, // Dark red
+//     { range: [0.9, 1], color: 'rgb(255, 0, 0)' } // Full red
+// ];
 
-const ANONYMIZED_COLORS = [
-    { range: [0, 0.25], color: 'rgb(230, 230, 255)' }, // Light blue
-    { range: [0.25, 0.55], color: 'rgb(200, 200, 255)' }, // Medium light blue
-    { range: [0.55, 0.75], color: 'rgb(150, 150, 255)' }, // Medium blue
-    { range: [0.75, 0.9], color: 'rgb(100, 100, 255)' }, // Dark blue
-    { range: [0.9, 1], color: 'rgb(0, 0, 255)' } // Full blue
-];
+// const ANONYMIZED_COLORS = [
+//     { range: [0, 0.25], color: 'rgb(230, 230, 255)' }, // Light blue
+//     { range: [0.25, 0.55], color: 'rgb(200, 200, 255)' }, // Medium light blue
+//     { range: [0.55, 0.75], color: 'rgb(150, 150, 255)' }, // Medium blue
+//     { range: [0.75, 0.9], color: 'rgb(100, 100, 255)' }, // Dark blue
+//     { range: [0.9, 1], color: 'rgb(0, 0, 255)' } // Full blue
+// ];
 
 
 function Symbology(layer, text){
@@ -261,43 +261,61 @@ function Symbology(layer, text){
                     text={text}
                 ></LegendRow>;
             break;
+
         // case 'Bikeability':
         //     icon = (
         //         <div>
+        //             <span className='text-center'>Bikeability Index (BI)</span>
         //             {BIKEABILITY_COLORS.map((cls, index) => (
         //                 <LegendRow
         //                     key={index}
-        //                     icon={<LineIcon stroke={cls.color} />}
-        //                     text={`${cls.range[0]} - ${cls.range[1]}`}
-        //                 ></LegendRow>
+        //                     icon={<LineIcon stroke={cls.color} />} // Display as a line
+        //                     text={`${cls.range[0]} - ${cls.range[1]} (${index === 0 ? 'Very Low' : index === 1 ? 'Low' : index === 2 ? 'Medium' : index === 3 ? 'High' : 'Very High'})`}
+        //                 />
         //             ))}
         //         </div>
         //     );
+
         //     break;
+
         case 'Bikeability':
             icon = (
                 <div>
-                    {BIKEABILITY_COLORS.map((cls, index) => (
-                        <LegendRow
-                            key={index}
-                            icon={<LineIcon stroke={cls.color} />}
-                            text={`${cls.range[0]} - ${cls.range[1]}`}
-                        ></LegendRow>
-                    ))}
+                    <span className='text-center'>Bikeability Index (BI)</span>
+                    <LegendRow icon={<LineIcon stroke="rgb(255, 255, 255)" />} text="0 to 0.2 (very low)" />
+                    <LegendRow icon={<LineIcon stroke="rgb(255, 200, 200)" />} text=">0.2 to 0.4 (low)" />
+                    <LegendRow icon={<LineIcon stroke="rgb(255, 150, 150)" />} text=">0.4 to 0.6 (medium)" />
+                    <LegendRow icon={<LineIcon stroke="rgb(255, 100, 100)" />} text=">0.6 to 0.8 (high)" />
+                    <LegendRow icon={<LineIcon stroke="rgb(255, 0, 0)" />} text=">0.8 to 1 (very high)" />
                 </div>
             );
             break;
+
         case 'Anonymized-Bikeability':
             icon = (
-                <div>
-                    {ANONYMIZED_COLORS.map((cls, index) => (
-                        <LegendRow
-                            key={index}
-                            icon={<LineIcon stroke={cls.color} />}
-                            text={`${cls.range[0]} - ${cls.range[1]}`}
-                        ></LegendRow>
-                    ))}
-                </div>
+                // <div>
+                //     {ANONYMIZED_COLORS.map((cls, index) => (
+                //         <LegendRow
+                //             key={index}
+                //             icon={<LineIcon stroke={cls.color} />}
+                //             text={`${cls.range[0]} - ${cls.range[1]} (${index === 0 ? 'Very Low' : index === 1 ? 'Low' : index === 2 ? 'Medium' : index === 3 ? 'High' : 'Very High'})`}
+                //         ></LegendRow>
+                //     ))}
+                //     <p className='text-left' style={{ margin: '0.5rem 0' }}>
+                //        BI Source: Arellana, Julián, et al (2020).
+                //     </p>
+                // </div>
+            <div>
+                <span className='text-center'>Anonymized BI</span>
+                <LegendRow icon={<LineIcon stroke="rgb(230, 230, 255)" />} text="0 to 0.2 (very low)" />
+                <LegendRow icon={<LineIcon stroke="rgb(200, 200, 255)" />} text=">0.2 to 0.4 (low)" />
+                <LegendRow icon={<LineIcon stroke="rgb(150, 150, 255)" />} text=">0.4 to 0.6 (medium)" />
+                <LegendRow icon={<LineIcon stroke="rgb(100, 100, 255)" />} text=">0.6 to 0.8 (high)" />
+                <LegendRow icon={<LineIcon stroke="rgb(0, 0, 255)" />} text=">0.8 to 1 (very high)" />
+                <p className='text-left' style={{ margin: '0.5rem 0' }}>
+                        BI Source: Arellana, Julián, et al (2020).
+                </p>
+            </div>
             );
             break;
 

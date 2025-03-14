@@ -7,20 +7,21 @@ import { MapFeatureContext } from "../../MapFeatureProvider";
 
 // Color scales for bikeability classes
 const BIKEABILITY_COLORS = [
-    { range: [0, 0.25], color: 'rgb(255, 255, 255)' }, // White
-    { range: [0.25, 0.55], color: 'rgb(255, 200, 200)' }, // Light red
-    { range: [0.55, 0.75], color: 'rgb(255, 150, 150)' }, // Medium red
-    { range: [0.75, 0.9], color: 'rgb(255, 100, 100)' }, // Dark red
-    { range: [0.9, 1], color: 'rgb(255, 0, 0)' } // Full red
+    { range: [0, 0.20], color: 'rgb(255, 255, 255)' }, // White
+    { range: [0.21, 0.40], color: 'rgb(255, 200, 200)' }, // Light red
+    { range: [0.41, 0.60], color: 'rgb(255, 150, 150)' }, // Medium red
+    { range: [0.61, 0.80], color: 'rgb(255, 100, 100)' }, // Dark red
+    { range: [0.81, 1], color: 'rgb(255, 0, 0)' } // Full red
 ];
 
 const ANONYMIZED_COLORS = [
-    { range: [0, 0.25], color: 'rgb(230, 230, 255)' }, // Light blue
-    { range: [0.25, 0.55], color: 'rgb(200, 200, 255)' }, // Medium light blue
-    { range: [0.55, 0.75], color: 'rgb(150, 150, 255)' }, // Medium blue
-    { range: [0.75, 0.9], color: 'rgb(100, 100, 255)' }, // Dark blue
-    { range: [0.9, 1], color: 'rgb(0, 0, 255)' } // Full blue
+    { range: [0, 0.20], color: 'rgb(230, 230, 255)' }, // Light blue
+    { range: [0.21, 0.40], color: 'rgb(200, 200, 255)' }, // Medium light blue
+    { range: [0.41, 0.60], color: 'rgb(150, 150, 255)' }, // Medium blue
+    { range: [0.61, 0.80], color: 'rgb(100, 100, 255)' }, // Dark blue
+    { range: [0.81, 1], color: 'rgb(0, 0, 255)' } // Full blue
 ];
+
 
 const Bikeability = (props) => {
     const { bikeabilityFeatures, anonymizedFeatures } = useContext(MapFeatureContext);
