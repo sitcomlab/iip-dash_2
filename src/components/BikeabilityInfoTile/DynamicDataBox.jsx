@@ -7,6 +7,7 @@ function DynamicDataBox({
   decimals = 1,
   size = "normal",
   range = null,
+  color = "bg-sky-500",
 }) {
   const valueRound = Math.round(value * 10 ** decimals) / 10 ** decimals;
 
@@ -23,7 +24,8 @@ function DynamicDataBox({
 
   const classes = `
     ${boxSize}
-    bg-sky-500
+    ${color}
+
     mt-0 pt-0 m-0.5 p-0.5
     rounded-2xl
     shadow-lg

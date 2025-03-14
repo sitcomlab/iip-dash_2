@@ -7,7 +7,7 @@ import { DynamicDataBox } from "./DynamicDataBox";
 import { MapFeatureContext } from "@components/MapFeatureProvider";
 import { ReactECharts } from "../AdminAreaInfoTile/ReactECharts";
 
-function BarChartMonths({ data }) {
+function BarChartMonths({ data, chartColor }) {
   let months = [
     "Januar",
     "Februar",
@@ -53,6 +53,9 @@ function BarChartMonths({ data }) {
             {
               type: "bar",
               data: shortMonthDistr,
+              itemStyle: {
+                color: chartColor,
+              },
             },
           ],
         }}
@@ -128,6 +131,7 @@ function BikeabilityInfoTile() {
           unit="km"
           header="Distanz geradelt"
           size="big"
+          color={isAnon ? "bg-sky-500" : "bg-rose-500"}
         ></DynamicDataBox>
         <DynamicDataBox
           value={meanBikeability}
@@ -135,6 +139,7 @@ function BikeabilityInfoTile() {
           unit=""
           header="Bikeability durchschnitt"
           size="big"
+          color={isAnon ? "bg-sky-500" : "bg-rose-500"}
         ></DynamicDataBox>
         <DynamicDataBox
           value={trajectoryAmount}
@@ -142,8 +147,12 @@ function BikeabilityInfoTile() {
           unit=""
           header="Strecken gefahren"
           size="big"
+          color={isAnon ? "bg-sky-500" : "bg-rose-500"}
         ></DynamicDataBox>
-        <BarChartMonths data={inputFeatures} />
+        <BarChartMonths
+          data={inputFeatures}
+          chartColor={isAnon ? "blue" : "red"}
+        />
       </div>
     </BaseTile>
   );
