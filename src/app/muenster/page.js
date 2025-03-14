@@ -63,7 +63,7 @@ export default function Münster() {
               {mapViewState === "Bikeability" && (
                 <BikeabilityInfoTile></BikeabilityInfoTile>
               )}
-              <PlusTile></PlusTile>
+              {mapViewState === "AdministrativeAreas" && <PlusTile></PlusTile>}
             </div>
           </div>
         </MapFeatureProvider>
