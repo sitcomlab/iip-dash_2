@@ -120,6 +120,31 @@ function LayerControl({ position, children }) {
         }
     };
 
+  //   const onGroupAdd = (
+  //     layer, //: Layer,
+  //     name, //: string,
+  //     group, //: string,
+  //     icon, //: JSX.Element
+  //   ) => {
+  //     const cLayers = layers;
+      
+  //     //ensure not to add duplicate layers when component rerenders
+  //     const existing = cLayers.find((member) => {
+  //       return member.layer == layer || member.name == name
+  //     }) || false
+      
+  //     if (!existing){
+  //       cLayers.push({
+  //         layer,
+  //         group,
+  //         name,
+  //         icon,
+  //         checked: map?.hasLayer(layer),
+  //         id: Util.stamp(layer),
+  //       });  
+  //     }
+  //     setLayers(cLayers);
+  // };
 
     const onGroupAdd = (
         layer, //: Layer,
@@ -127,27 +152,29 @@ function LayerControl({ position, children }) {
         group, //: string,
         icon, //: JSX.Element
       ) => {
-        const cLayers = layers;
-        
-        //ensure not to add duplicate layers when component rerenders
-        const existing = cLayers.find((member) => {
-          return member.layer == layer || member.name == name
-        }) || false
-        
-        if (!existing){
-          cLayers.push({
-            layer,
-            group,
-            name,
-            icon,
-            checked: map?.hasLayer(layer),
-            id: Util.stamp(layer),
-          });  
-        }
-        setLayers(cLayers);
+        setLayers(prevLayers => {
+          // Check if layer already exists
+          const exists = prevLayers.some(l => 
+            l.layer === layer || l.name === name
+          );
+          
+          if (!exists) {
+            return [...prevLayers, {
+              layer,
+              name,
+              group,
+              icon,
+              checked: map?.hasLayer(layer),
+              id: Date.now()
+            }];
+          }
+          return prevLayers;
+        });
     };
-      
-    const groupedLayers = lodashGroupBy(layers, 'group');
+
+
+const groupedLayers = lodashGroupBy(layers, 'group');
+
     let hovering = false;
 
     return (
@@ -237,4 +264,3 @@ const GroupedLayer = createControlledLayer(
   
 export default LayerControl;
 export { GroupedLayer };
-  

@@ -5,6 +5,8 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 import { createContext, useState } from "react";
 
+import { mapViewModeState } from "@components/RecoilContextProvider";
+import BikeabilityInfoTile from "@/components/BikeabilityInfoTile";
 import AdminAreaInfoTile from "@/components/AdminAreaInfoTile";
 import Navbar from "@/components/Elements/Navbar";
 import PlusTile from "@/components/PlusTileMockup";
@@ -26,6 +28,8 @@ const cityConfig = {
     zoom: 12,
   },
   infrastructureSource: process.env.NEXT_PUBLIC_BICYCLE_INFRASTRUCTURE_URL_MS,
+  bikeabilitySource: process.env.NEXT_PUBLIC_BIKEABILITY_API_URL_MS,
+  anonymizationSource: process.env.NEXT_PUBLIC_ANONYMIZATION_API_URL_MS,
 };
 
 export default function Münster() {
@@ -34,6 +38,7 @@ export default function Münster() {
 
   const [cityViewConfig, setCityViewConfig] =
     useRecoilState(cityViewConfigState);
+  const [mapViewState] = useRecoilState(mapViewModeState); // Get the current map view state
   setCityViewConfig(cityConfig);
 
   return (
@@ -52,7 +57,12 @@ export default function Münster() {
             <BikeInfrastructTile height="h-[49rem]"></BikeInfrastructTile>
 
             <div className="flex flex-container flex-wrap justify-end w-2/6">
-              <AdminAreaInfoTile></AdminAreaInfoTile>
+              {mapViewState === "AdministrativeAreas" && (
+                <AdminAreaInfoTile></AdminAreaInfoTile>
+              )}
+              {mapViewState === "Bikeability" && (
+                <BikeabilityInfoTile></BikeabilityInfoTile>
+              )}
               <PlusTile></PlusTile>
             </div>
           </div>

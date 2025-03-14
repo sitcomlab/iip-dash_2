@@ -1,48 +1,61 @@
 "use client";
-import { useRecoilState } from "recoil";
+import { useRecoilValue, useRecoilState } from "recoil"; // Import useRecoilState
 import { useContext } from "react";
 
-import useBikeInfrastructData from "@/hooks/useBikeInfrastructure";
+import useBikeInfrastructData from "@/hooks/useBikeInfrastructure"; // Correct import path
 import { cityViewConfigState } from "@components/RecoilContextProvider";
-import { mapViewModeState } from "./BicycleInfrastructTile";
+import { mapViewModeState } from "@components/RecoilContextProvider";
 import LayerControl from "./LayerControl/LayerControl";
 import Legend from "./LayerControl/Legend";
 
 import AdministrativeAreas from "./mapContent/AdministrativeAreas";
 import BicycleInfrastructureFeatures from "./mapContent/BicycleInfrastructureFeatures";
-import { MapFeatureContext } from "../MapFeatureProvider";
+import { MapFeatureContext, LayersControlContext } from "../MapFeatureProvider";
 
-function BicycleInfrastructureData(map) {
-  //regularly fetch bike infrastructure data
-  //  get the city which we are looking at, and pass that to the bike infrastructure hook
-  const [CityViewConfig] = useRecoilState(cityViewConfigState);
-  var { bikeInfrastructFeatures, setBikeInfrastructFeatures } =
-    useContext(MapFeatureContext);
+import Bikeability from './mapContent/Bikeability';
 
-  const [mapViewState] = useRecoilState(mapViewModeState);
+const BicycleinfrastructureData = () => {
+  const cityConfig = useRecoilValue(cityViewConfigState); // Get the current city config
+  const { bikeInfrastructFeatures, bikeabilityFeatures, anonymizedFeatures } = useContext(MapFeatureContext); // Access features from context
+  const [mapViewState] = useRecoilState(mapViewModeState); // Get the current map view state
 
   return (
     <>
-      {mapViewState == "AdministrativeAreas" && (
-        //TODO: LayerControl, AndiminstrativeAreas component
+      {mapViewState === "AdministrativeAreas" && (
         <LayerControl position="bottomright">
           <AdministrativeAreas contentGeometry={bikeInfrastructFeatures} />
         </LayerControl>
       )}
 
-      {mapViewState == "BicycleNetwork" && (
+      {mapViewState === "BicycleNetwork" && (
         <LayerControl position="bottomright">
           <Legend position="bottomleft">
             <BicycleInfrastructureFeatures
               contentGeometry={bikeInfrastructFeatures}
             />
-            <></>
           </Legend>
-          <></>
         </LayerControl>
       )}
+
+      {mapViewState === "Bikeability" && (
+        <LayerControl position="bottomright">
+          <Legend position="bottomleft">
+            <Bikeability 
+              contentGeometry={bikeabilityFeatures}
+              name="Bikeability"
+            />
+            <anonymizedBikeability
+              contentGeometry={anonymizedFeatures}
+              name="Anonymized-Bikeability"
+            />
+          </Legend>
+        </LayerControl>
+      )}
+
+
+
     </>
   );
 }
 
-export default BicycleInfrastructureData;
+export default BicycleinfrastructureData;
