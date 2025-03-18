@@ -150,7 +150,7 @@ function BikeabilityInfoTile() {
           color={isAnon ? "bg-sky-500" : "bg-rose-500"}
         ></DynamicDataBox>
         <DynamicDataBox
-          value={isAnon ? 7 : 1}
+          value={isAnon ? 7 : "keine"}
           decimals={0}
           unit=""
           header="k-Anonymität"
