@@ -118,7 +118,7 @@ function BikeabilityInfoTile() {
             checked={isAnon}
             onChange={anonSwitchHandler}
           />
-          <div class="relative w-9 h-5 mr-2 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600 dark:peer-checked:bg-blue-600"></div>
+          <div class="relative w-9 h-5 mr-2 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600 dark:peer-checked:bg-sky-500"></div>
           <span className="font-normal">
             {isAnon ? "" : "nicht-"}anonymisierte Sensordaten
           </span>
@@ -126,10 +126,18 @@ function BikeabilityInfoTile() {
       </p>
       <div className="flex flex-wrap flex-row justify-center w-full gap-2">
         <DynamicDataBox
+          value={trajectoryAmount}
+          decimals={0}
+          unit=""
+          header="Strecken im Datensatz"
+          size="big"
+          color={isAnon ? "bg-sky-500" : "bg-rose-500"}
+        ></DynamicDataBox>
+        <DynamicDataBox
           value={totalLength}
           decimals={2}
           unit="km"
-          header="Distanz geradelt"
+          header="Distanz aller Strecken"
           size="big"
           color={isAnon ? "bg-sky-500" : "bg-rose-500"}
         ></DynamicDataBox>
@@ -137,15 +145,15 @@ function BikeabilityInfoTile() {
           value={meanBikeability}
           decimals={2}
           unit=""
-          header="Bikeability durchschnitt"
+          header="Bikeability Durchschnitt"
           size="big"
           color={isAnon ? "bg-sky-500" : "bg-rose-500"}
         ></DynamicDataBox>
         <DynamicDataBox
-          value={trajectoryAmount}
+          value={isAnon ? 7 : "keine"}
           decimals={0}
           unit=""
-          header="Strecken gefahren"
+          header="k-Anonymität"
           size="big"
           color={isAnon ? "bg-sky-500" : "bg-rose-500"}
         ></DynamicDataBox>

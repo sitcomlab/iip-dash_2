@@ -9,7 +9,10 @@ function DynamicDataBox({
   range = null,
   color = "bg-sky-500",
 }) {
-  const valueRound = Math.round(value * 10 ** decimals) / 10 ** decimals;
+  let valueRound = value;
+  if (typeof value == "number") {
+    valueRound = Math.round(value * 10 ** decimals) / 10 ** decimals;
+  }
 
   let boxSize = "w-[7rem] h-[7rem]";
   switch (size) {
