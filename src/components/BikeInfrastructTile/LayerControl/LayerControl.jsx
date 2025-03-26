@@ -165,7 +165,7 @@ function LayerControl({ position, children }) {
               group,
               icon,
               checked: map?.hasLayer(layer),
-              id: Date.now()
+              id: Util.stamp(layer),
             }];
           }
           return prevLayers;

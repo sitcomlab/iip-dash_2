@@ -21,7 +21,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import styled from 'styled-components';
 
 // Create DeafultMapMarker
-const DefaultMapMarker = styled.div^`
+const DefaultMapMarker = styled.div`
   background-color: ${(props) => props.colorbg};
   font-size: ${(props) => props.font}rem;
   border-radius: 50%;
