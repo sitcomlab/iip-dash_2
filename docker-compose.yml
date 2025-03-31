@@ -1,0 +1,5 @@
+services:
+    bikeInfra: 
+        image: bikeinfra:latest
+        ports: 
+            - 127.0.0.1:3001:8000

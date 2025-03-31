@@ -1,0 +1,3 @@
+[submodule "OSMBicycleInfrastructure"]
+	path = OSMBicycleInfrastructure
+	url = git@github.com:niebl/OSMBicycleInfrastructure.git

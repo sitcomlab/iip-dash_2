@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "prep": "docker compose down && docker build -t bikeinfra ./OSMBicycleInfrastructure",
+    "dev": "docker compose down && docker compose up -d && next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
