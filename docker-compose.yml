@@ -1,5 +1,11 @@
 services:
-    bikeInfra: 
-        image: bikeinfra:latest
-        ports: 
-            - 127.0.0.1:3001:8000
+  bikeinfra:
+    image: bikeinfra:latest
+  nginx_dev:
+    image: nginx
+    ports:
+      - 127.0.0.1:3333:3000
+    volumes:
+      - ./nginx/dev.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - bikeinfra
