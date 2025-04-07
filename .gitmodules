@@ -1,3 +1,7 @@
 [submodule "OSMBicycleInfrastructure"]
 	path = OSMBicycleInfrastructure
 	url = git@github.com:niebl/OSMBicycleInfrastructure.git
+[submodule "IP-OSeM-Backend"]
+	path = IP-OSeM-Backend
+	url = git@github.com:Rajasirpi/IP-OSeM-Backend.git
+	branch = caro
