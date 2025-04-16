@@ -1,6 +1,21 @@
 services:
   bikeinfra:
     image: bikeinfra:latest
+  osem-data-fetcher:
+    image: osem-data-fetcher
+    command:  bash -c "service cron start && python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000 && python manage.py createsuperuser --noinput"
+    ports:
+      - 127.0.0.1:3332:8000
+    volumes:
+      - ./IP-OSeM-Backend/:/app
+    environment:
+      - DJANGO_SETTINGS_MODULE=opensensemap_backend.settings
+      - DJANGO_SUPERUSER_PASSWORD=admin
+      - DJANGO_SUPERUSER_USERNAME=admin
+      - DJANGO_SUPERUSER_EMAIL=admin@admin.com
+    restart: always
+    stdin_open: true
+    tty: true
   nginx_dev:
     image: nginx
     ports:
@@ -9,3 +24,4 @@ services:
       - ./nginx/dev.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - bikeinfra
+      - osem-data-fetcher

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "prep": "docker compose down && docker build -t bikeinfra ./OSMBicycleInfrastructure",
+    "prep": "docker compose down && docker build -t bikeinfra ./OSMBicycleInfrastructure && docker build -t osem_data_fetcher ./IP-OSeM-Backend",
     "dev": "docker compose down && docker compose up -d && next dev",
     "build": "next build",
     "start": "next start",
