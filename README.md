@@ -8,19 +8,33 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-ensure the backend is running.
-create a `.env.local` as a copy of `env.example`. Ensure the URIs match up with the resources provided by the backend (by default these match the paths given in the example .env)
+### initialize submodules
+To ensure proper functionality, pull the submodules after cloning the repository
+```bash
+git submodule update --init --recursive
+```
 
-Run the development server:
+If you wish to pull new changes that have been made on the remote repository of the submodules, run the following:
+```bash
+git submodule update --recursive --remote
+```
+
+For more info on submodules, consult [git-scm.com/book/en/v2/Git-Tools-Submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules)
+
+### create docker images
+as the backend components of this application have been containerized, run the following command to create the needed docker images
+
+```bash
+npm run prep
+```
+
+This will need to be executed with every new change to the backend submodules
+
+### run development server
+to run the development server, the following command starts the backend docker containers, as well as the react development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
@@ -30,3 +44,5 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ## Project Structure
 pages are defined under `/src/app/{pagename}/page.js`. there, for instance the pages for münster and osnabrück can be found respectively.
 
+## Deployment
+TO DO
