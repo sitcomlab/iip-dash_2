@@ -24,18 +24,21 @@ const ANONYMIZED_COLORS = [
 
 
 const Bikeability = (props) => {
-    const { bikeabilityFeatures, anonymizedFeatures } = useContext(MapFeatureContext);
+    const { bikeabilityFeatures, biSegmentFeatures, anonymizedFeatures } = useContext(MapFeatureContext);
 
     // Check if features are defined
-    if ((bikeabilityFeatures === undefined || bikeabilityFeatures.features === undefined) &&
-        (anonymizedFeatures === undefined || anonymizedFeatures.features === undefined)) {
+    // TODO: this guard clause was previously broken because of using AND instead of OR
+    if ((bikeabilityFeatures === undefined || bikeabilityFeatures.features === undefined)
+        //(biSegmentFeatures === undefined || biSegmentFeatures.features === undefined) &&
+        //(anonymizedFeatures === undefined || anonymizedFeatures.features === undefined)
+        ){
         return <></>;
     }
 
     // Function to determine color based on factor score
     const getColor = (factorScore, isAnonymized = false) => {
         const colorScale = isAnonymized ? ANONYMIZED_COLORS : BIKEABILITY_COLORS;
-        const classInfo = colorScale.find(cls => 
+        const classInfo = colorScale.find(cls =>
             factorScore >= cls.range[0] && factorScore <= cls.range[1]
         );
         return classInfo ? classInfo.color : 'rgb(255, 255, 255)'; // Default to white
@@ -52,8 +55,8 @@ const Bikeability = (props) => {
 
     return (
         <>
-            <GroupedLayer checked group="Bikeability" name="Bikeability">
-                <Pane name="bikeability" style={{ zIndex: 500 }}>
+            <GroupedLayer checked group="Strecken-Bikeability" name="Strecken-Bikeability">
+                <Pane name="trackwiseBikeability" style={{ zIndex: 500 }}>
                    <FeatureGroup>
                         <GeoJSON
                             data={bikeabilityFeatures}
@@ -61,6 +64,19 @@ const Bikeability = (props) => {
                             onEachFeature={addInfo}
                         />
                     </FeatureGroup>
+                </Pane>
+            </GroupedLayer>
+            <GroupedLayer checked group="Bikeability" name="Bikeability">
+                <Pane name="bikeability" style={{ zIndex: 500 }}>
+                  {/*
+                  <FeatureGroup>
+                        <GeoJSON
+                            data={biSegmentFeatures}
+                            style={(feature) => styleLines(feature, false)}
+                            onEachFeature={addInfo}
+                        />
+                    </FeatureGroup>
+                  */}
                 </Pane>
             </GroupedLayer>
             <GroupedLayer checked={false} group="AnonymizedBikeability" name="Anonymized-Bikeability">

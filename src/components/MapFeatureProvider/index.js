@@ -15,6 +15,8 @@ export const MapFeatureContext = createContext({
   setBikeInfrastructFeatures: () => {},
   bikeabilityFeatures: null,
   setBikeabilityFeatures: () => {},
+  biSegmentFeatures: null,
+  setBISegmentFeatures: () => {},
   anonymizedFeatures: null,
   setAnonymizedFeatures: () => {},
 });
@@ -29,10 +31,12 @@ export default function MapFeatureProvider(props) {
 
   const bicycleInfrastructureData = useBikeInfrastructData(props.city.infrastructureSource);
   const bikeabilityData = useBikeabilityData(props.city.bikeabilitySource); // Fetch bikeability data
-  const anonymizedData = useBikeabilityData(props.city.anonymizationSource); 
+  const biSegmentData = useBikeabilityData(props.city.biSegmentSource)
+  const anonymizedData = useBikeabilityData(props.city.anonymizationSource);
 
   const [bikeInfrastructFeatures, setBikeInfrastructFeatures] = useState(null);
   const [bikeabilityFeatures, setBikeabilityFeatures] = useState(null); // New state for bikeability features
+  const [biSegmentFeatures, setBISegmentFeatures] = useState(null)
   const [anonymizedFeatures, setAnonymizedFeatures] = useState(null);
 
   const bikeInfrastructFeaturesValue = {
@@ -40,6 +44,8 @@ export default function MapFeatureProvider(props) {
     setBikeInfrastructFeatures,
     bikeabilityFeatures,
     setBikeabilityFeatures,
+    biSegmentFeatures,
+    setBISegmentFeatures,
     anonymizedFeatures,
     setAnonymizedFeatures, // Add to context value
   };
@@ -47,8 +53,9 @@ export default function MapFeatureProvider(props) {
   useEffect(() => {
     setBikeInfrastructFeatures(bicycleInfrastructureData);
     setBikeabilityFeatures(bikeabilityData); // Set bikeability features
+    setBISegmentFeatures(biSegmentData);
     setAnonymizedFeatures(anonymizedData);
-  }, [bicycleInfrastructureData, bikeabilityData, anonymizedData]); // Update state when data changes
+  }, [bicycleInfrastructureData, bikeabilityData, biSegmentData, anonymizedData]); // Update state when data changes
 
   return (
     <>
