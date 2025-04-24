@@ -73,10 +73,10 @@ function BikeabilityInfoTile() {
   };
 
   if (
-    bikeabilityFeatures === undefined ||
-    bikeabilityFeatures.features === undefined ||
-    anonymizedFeatures === undefined ||
-    anonymizedFeatures.features === undefined
+    bikeabilityFeatures == null ||
+    bikeabilityFeatures.features == null ||
+    anonymizedFeatures == null ||
+    anonymizedFeatures.features == null
   ) {
     return <BaseTile height="h-[49rem]"></BaseTile>;
   }
