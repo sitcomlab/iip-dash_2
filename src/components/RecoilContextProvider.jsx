@@ -51,8 +51,18 @@ export const displayedPointDataState = atom({
 
 export const mapViewModeState = atom({
   key: "mapViewMode",
-  default: "BicycleNetwork",
+  //default: "BicycleNetwork",
+  default: "Bikeability",
 });
+
+export const biWeightsState = atom({
+  key: "biWeights",
+  default: {
+    safety: 1,
+    infrastructure_quality: 1,
+    environment_quality: 1
+  }
+})
 
 export default function RecoilContextProvider({ children }) {
   return <RecoilRoot>{children}</RecoilRoot>;
