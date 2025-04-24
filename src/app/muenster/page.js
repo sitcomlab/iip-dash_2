@@ -7,6 +7,7 @@ import { createContext, useState } from "react";
 
 import { mapViewModeState } from "@components/RecoilContextProvider";
 import BikeabilityInfoTile from "@/components/BikeabilityInfoTile";
+import BIWeightsControlTile from "@/components/BIWeightsControlTile";
 import AdminAreaInfoTile from "@/components/AdminAreaInfoTile";
 import Navbar from "@/components/Elements/Navbar";
 import PlusTile from "@/components/PlusTileMockup";
@@ -61,7 +62,8 @@ export default function Münster() {
                 <AdminAreaInfoTile></AdminAreaInfoTile>
               )}
               {mapViewState === "Bikeability" && (
-                <BikeabilityInfoTile></BikeabilityInfoTile>
+                //<BikeabilityInfoTile></BikeabilityInfoTile>
+                <BIWeightsControlTile></BIWeightsControlTile>
               )}
               {mapViewState === "AdministrativeAreas" && <PlusTile></PlusTile>}
             </div>
