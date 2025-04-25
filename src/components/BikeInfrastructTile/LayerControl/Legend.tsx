@@ -52,7 +52,7 @@ interface LegendRowProps {
     icon: JSX.Element;
     text: String;
 }
-  
+
 const BaseMapMarker = styled.span`
     background-color: ${(props) => props.color};
     border-bottom-left-radius: 0.25rem;
@@ -252,7 +252,7 @@ function Symbology(layer, text){
             break;
         case 'Mix-Fläche':
             icon = <LegendRow
-                    icon={<AreaIcon 
+                    icon={<AreaIcon
                         fill="#b22f2f"
                         fill-opacity="0.5"
                         stroke="#b22f2f"
@@ -277,8 +277,8 @@ function Symbology(layer, text){
         //     );
 
         //     break;
-
-        case 'Bikeability':
+        //
+        case 'Strecken-Bikeability':
             icon = (
                 <div>
                     <span className='text-center'>Bikeability Index (BI)</span>
@@ -306,14 +306,14 @@ function Symbology(layer, text){
                 //     </p>
                 // </div>
             <div>
-                <span className='text-center'>Anonymized BI</span>
+                <span className='text-center'>Anonymisierter BI</span>
                 <LegendRow icon={<LineIcon stroke="rgb(230, 230, 255)" />} text="0 to 0.2 (very low)" />
                 <LegendRow icon={<LineIcon stroke="rgb(200, 200, 255)" />} text=">0.2 to 0.4 (low)" />
                 <LegendRow icon={<LineIcon stroke="rgb(150, 150, 255)" />} text=">0.4 to 0.6 (medium)" />
                 <LegendRow icon={<LineIcon stroke="rgb(100, 100, 255)" />} text=">0.6 to 0.8 (high)" />
                 <LegendRow icon={<LineIcon stroke="rgb(0, 0, 255)" />} text=">0.8 to 1 (very high)" />
                 <p className='text-left' style={{ margin: '0.5rem 0' }}>
-                        BI Source: Arellana, Julián, et al (2020).
+                        BI Quelle: Arellana, Julián, et al (2020).
                 </p>
             </div>
             );
@@ -343,7 +343,7 @@ function Legend({children, position}: LegendProps) {
                         <span><h1 className='text-lg text-center bold'>Legende</h1></span>
                         {
                             categories.map((category, index) => (
-                                category.checked && 
+                                category.checked &&
                                 <div key={index}>{Symbology(category, category.name)}</div>
                             ))
                         }
