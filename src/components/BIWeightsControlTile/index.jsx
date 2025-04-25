@@ -45,6 +45,27 @@ function BIWeightsControlTile(){
     }));
   }
 
+  function pushNormalizedWeights(inputWeights){
+    //TODO: guard against division by 0
+
+    //normalize input weights
+    const sumValues = obj => Object.values(obj).reduce((a, b) => a + b, 0);
+    const inputWeightsSum = sumValues(inputWeights)
+    for (const key in inputWeights) {
+      if (inputWeights.hasOwnProperty(key)) {
+        inputWeights[key] /= inputWeightsSum; //normalize the weights
+      }
+    }
+
+    //set the weights
+    setWeightsGlobal((prevWeights) => ({
+      ...prevWeights,
+      safety: inputWeights.safety,
+      infrastructure_quality: inputWeights.infrastructure_quality,
+      environment_quality: inputWeights.environment_quality
+    }))
+  }
+
   return(
     <BaseTile>
       <p className="text-lg font-semibold w-full mt-2 mb-8">
@@ -102,12 +123,7 @@ function BIWeightsControlTile(){
         <button
           className="bg-blue-500 absolute right-0 hover:bg-blue-700 text-white font-normal py-2 px-4 rounded-full"
           onClick={()=>{
-            setWeightsGlobal((prevWeights) => ({
-              ...prevWeights,
-              safety: weights.safety,
-              infrastructure_quality: weights.infrastructure_quality,
-              environment_quality: weights.environment_quality
-            }))
+            pushNormalizedWeights(weights)
           }}
         >
           Anwenden
@@ -115,7 +131,7 @@ function BIWeightsControlTile(){
       </div>
 
       {/*
-        <p>safety: {weights.safety}, infrastructure quality: {weights.infrastructure_quality}, environment_quality: {weights.environment_quality}</p>
+        <p>safety: {weightsGlobal.safety}, infrastructure quality: {weightsGlobal.infrastructure_quality}, environment_quality: {weightsGlobal.environment_quality}</p>
         */}
     </BaseTile>
   )

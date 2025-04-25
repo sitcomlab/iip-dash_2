@@ -58,9 +58,9 @@ export const mapViewModeState = atom({
 export const biWeightsState = atom({
   key: "biWeights",
   default: {
-    safety: 1,
-    infrastructure_quality: 1,
-    environment_quality: 1
+    safety: 1/3,
+    infrastructure_quality: 1/3,
+    environment_quality: 1/3
   }
 })
 
