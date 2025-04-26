@@ -4,4 +4,3 @@
 [submodule "IP-OSeM-Backend"]
 	path = IP-OSeM-Backend
 	url = git@github.com:Rajasirpi/IP-OSeM-Backend.git
-	branch = caro
