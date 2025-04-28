@@ -78,7 +78,7 @@ function BikeabilityInfoTile() {
     anonymizedFeatures == null ||
     anonymizedFeatures.features == null
   ) {
-    return <BaseTile height="h-[49rem]"></BaseTile>;
+    return <BaseTile height="h-[49rem]">loading...</BaseTile>;
   }
 
   const inputFeatures = isAnon ? anonymizedFeatures : bikeabilityFeatures;
@@ -164,6 +164,10 @@ function BikeabilityInfoTile() {
       </div>
     </BaseTile>
   );
+}
+
+//TODO: rename this later
+export function BikeabilityInfoTileSmall() {
 }
 
 export default BikeabilityInfoTile;
