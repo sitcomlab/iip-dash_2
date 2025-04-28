@@ -31,13 +31,26 @@ function addInfo(feature, layer) {
         layer.bindPopup(html);
         return;
     }
+    // Handle biSegmentFeatures bikeability_index
+    if (feature.properties?.bikeability_index !== undefined) {
+        heading = "<p style='text-align:center; font-size:150%; font-weight:bold;'> Bikeability Index </p>";
+        const score = Math.round(feature.properties.bikeability_index * 1000) / 1000;
+
+        const html = heading + 
+            "<table class='table is-striped is-narrow' style='font-size: 14px;'>" +
+            "<tbody>" +
+            `<tr><td style='font-size: 15px;'>Index Value : </td><td style='font-size: 15px;'> ${score}</td></tr>` +
+            "</tbody></table>";
+        layer.bindPopup(html);
+        return;
+    }
     
     const bIType = feature.properties.bike_infrastructure_type;
     heading = "<p style='text-align:center; font-size:150%; font-weight:bold;'> " +
         bIType +
         ' </p>';
     // Create table if attributes are filled
-    if (feature.properties?.attributes?.length > 0) {
+    if (Array.isArray(feature.properties?.attributes) && feature.properties.attributes.length > 0) {
       const attributes = feature.properties.attributes;
       let html_table =
         heading +
@@ -53,7 +66,7 @@ function addInfo(feature, layer) {
       // close the table
       html_table = html_table + ' </tbody> </table>';
       layer.bindPopup(html_table);
-    } else if (feature.properties?.attributes.length === 0) {
+    } else {
       layer.bindPopup(heading);
     }
 }

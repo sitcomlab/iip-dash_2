@@ -31,6 +31,7 @@ const cityConfig = {
   infrastructureSource: process.env.NEXT_PUBLIC_BICYCLE_INFRASTRUCTURE_URL_MS,
   bikeabilitySource: process.env.NEXT_PUBLIC_BIKEABILITY_API_URL_MS,
   anonymizationSource: process.env.NEXT_PUBLIC_ANONYMIZATION_API_URL_MS,
+  biSegmentSource: process.env.NEXT_PUBLIC_OSM_BIKEABILITY_API_URL_MS,
 };
 
 export default function Münster() {

@@ -31,12 +31,13 @@ export default function MapFeatureProvider(props) {
 
   const bicycleInfrastructureData = useBikeInfrastructData(props.city.infrastructureSource);
   const bikeabilityData = useBikeabilityData(props.city.bikeabilitySource); // Fetch bikeability data
-  const biSegmentData = useBikeabilityData(props.city.biSegmentSource)
+  const biSegmentData = useBikeabilityData(props.city.biSegmentSource);
+  // console.log(biSegmentData)
   const anonymizedData = useBikeabilityData(props.city.anonymizationSource);
 
   const [bikeInfrastructFeatures, setBikeInfrastructFeatures] = useState(null);
   const [bikeabilityFeatures, setBikeabilityFeatures] = useState(null); // New state for bikeability features
-  const [biSegmentFeatures, setBISegmentFeatures] = useState(null)
+  const [biSegmentFeatures, setBISegmentFeatures] = useState(null);
   const [anonymizedFeatures, setAnonymizedFeatures] = useState(null);
 
   const bikeInfrastructFeaturesValue = {

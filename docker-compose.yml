@@ -23,5 +23,5 @@ services:
     volumes:
       - ./nginx/dev.conf:/etc/nginx/conf.d/default.conf
     depends_on:
-      - bikeinfra
+      # - bikeinfra
       - osem-data-fetcher
