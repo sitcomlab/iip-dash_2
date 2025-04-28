@@ -91,11 +91,13 @@ const Bikeability = (props) => {
             <GroupedLayer checked group="Bikeability" name="Strecken-Bikeability">
                 <Pane name="trackwiseBikeability" style={{ zIndex: 500 }}>
                     <FeatureGroup>
-                        <GeoJSON
-                            data={bikeabilityFeatures}
-                            style={(feature) => styleLines(feature, false)}
-                            onEachFeature={addInfo}
-                        />
+                        {bikeabilityFeatures && (
+                            <GeoJSON
+                                data={bikeabilityFeatures}
+                                style={(feature) => styleLines(feature, false)}
+                                onEachFeature={addInfo}
+                            />
+                        )}
                     </FeatureGroup>
                 </Pane>
             </GroupedLayer>
@@ -121,11 +123,13 @@ const Bikeability = (props) => {
             <GroupedLayer checked={false} group="Anonymisierte Bikeability" name="Anonymized-Bikeability">
                 <Pane name="anonymizedBikeability" style={{ zIndex: 502 }}>
                     <FeatureGroup>
-                        <GeoJSON
-                            data={anonymizedFeatures}
-                            style={(feature) => styleLines(feature, true)}
-                            onEachFeature={addInfo}
-                        />
+                        {anonymizedFeatures && (
+                            <GeoJSON
+                                data={anonymizedFeatures}
+                                style={(feature) => styleLines(feature, true)}
+                                onEachFeature={addInfo}
+                            />
+                        )}
                     </FeatureGroup>
                 </Pane>
             </GroupedLayer>
