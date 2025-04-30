@@ -43,12 +43,8 @@ const Bikeability = (props) => {
         return <></>;
     }
     // console.log('biSegmentFeatures:', bikeabilityFeatures);
-    console.log('biSegmentFeatures:', biSegmentFeatures);
-    // if (biSegmentFeatures && biSegmentFeatures.features) {
-    //     biSegmentFeatures.features.forEach(feature => {
-    //         console.log('bikeability_index:', feature.properties.bikeability_index);
-    //     });
-    // }
+    // console.log('biSegmentFeatures:', biSegmentFeatures);
+  
     // Function to determine color based on factor score
     const getColor = (factorScore, isAnonymized = false) => {
         const colorScale = isAnonymized ? ANONYMIZED_COLORS : BIKEABILITY_COLORS;
@@ -109,12 +105,6 @@ const Bikeability = (props) => {
                                 data={biSegmentFeatures}
                                 style={(feature) => styleLines(feature, false)}
                                 onEachFeature={addInfo}
-                                // ref={(geojsonLayer) => {
-                                //     if (geojsonLayer && geojsonLayer.leafletElement) {
-                                //         const bounds = geojsonLayer.leafletElement.getBounds();
-                                //         console.log('biSegmentFeatures bounds:', bounds);
-                                //     }
-                                // }}
                             />
                         )}
                     </FeatureGroup>

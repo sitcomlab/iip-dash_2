@@ -54,6 +54,7 @@ function BIWeightsControlTile(){
     for (const key in inputWeights) {
       if (inputWeights.hasOwnProperty(key)) {
         inputWeights[key] /= inputWeightsSum; //normalize the weights
+        inputWeights[key] = Number(inputWeights[key].toFixed(3));
       }
     }
 
@@ -64,6 +65,8 @@ function BIWeightsControlTile(){
       infrastructure_quality: inputWeights.infrastructure_quality,
       environment_quality: inputWeights.environment_quality
     }))
+
+    console.log("Normalized weights applied:", inputWeights);
   }
 
   return(

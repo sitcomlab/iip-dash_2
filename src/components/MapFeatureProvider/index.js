@@ -9,6 +9,9 @@
 import { createContext, useState, useEffect } from "react";
 import useBikeInfrastructData from '@/hooks/useBikeInfrastructure'; // Correct import path
 import useBikeabilityData from '@/hooks/useBikeabilityData'; // Import the bikeability data hook
+import useBiSegmentData from "@/hooks/useBiSegmentData";
+import { biWeightsState } from "@/components/RecoilContextProvider";
+import { useRecoilValue } from 'recoil';
 
 export const MapFeatureContext = createContext({
   bikeInfrastructFeatures: null,
@@ -28,15 +31,15 @@ export const MapContentContext = createContext({
 
 export default function MapFeatureProvider(props) {
   const children = props.children;
+  const weights = useRecoilValue(biWeightsState);
 
   const bicycleInfrastructureData = useBikeInfrastructData(props.city.infrastructureSource);
-  const bikeabilityData = useBikeabilityData(props.city.bikeabilitySource); // Fetch bikeability data
-  const biSegmentData = useBikeabilityData(props.city.biSegmentSource);
-  // console.log(biSegmentData)
+  const bikeabilityData = useBikeabilityData(props.city.bikeabilitySource);
+  const biSegmentData = useBiSegmentData(props.city.biSegmentSource, weights);
   const anonymizedData = useBikeabilityData(props.city.anonymizationSource);
 
   const [bikeInfrastructFeatures, setBikeInfrastructFeatures] = useState(null);
-  const [bikeabilityFeatures, setBikeabilityFeatures] = useState(null); // New state for bikeability features
+  const [bikeabilityFeatures, setBikeabilityFeatures] = useState(null);
   const [biSegmentFeatures, setBISegmentFeatures] = useState(null);
   const [anonymizedFeatures, setAnonymizedFeatures] = useState(null);
 
@@ -48,15 +51,15 @@ export default function MapFeatureProvider(props) {
     biSegmentFeatures,
     setBISegmentFeatures,
     anonymizedFeatures,
-    setAnonymizedFeatures, // Add to context value
+    setAnonymizedFeatures,
   };
 
   useEffect(() => {
     setBikeInfrastructFeatures(bicycleInfrastructureData);
-    setBikeabilityFeatures(bikeabilityData); // Set bikeability features
+    setBikeabilityFeatures(bikeabilityData);
     setBISegmentFeatures(biSegmentData);
     setAnonymizedFeatures(anonymizedData);
-  }, [bicycleInfrastructureData, bikeabilityData, biSegmentData, anonymizedData]); // Update state when data changes
+  }, [bicycleInfrastructureData, bikeabilityData, biSegmentData, anonymizedData]);
 
   return (
     <>
@@ -66,5 +69,5 @@ export default function MapFeatureProvider(props) {
         </MapContentContext.Provider>
       </MapFeatureContext.Provider>
     </>
-    );
-  }
+  );
+}
