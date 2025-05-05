@@ -5,6 +5,8 @@ import { GroupedLayer } from "../LayerControl/LayerControl";
 import { addInfo } from "../popupInfos/PopupAddInfo";
 import { MapFeatureContext } from "../../MapFeatureProvider";
 
+import md5 from "md5";
+
 // Color scales for bikeability classes
 const BIKEABILITY_COLORS = [
     { range: [0, 0.20], color: 'rgb(255, 255, 255)' }, // White
@@ -92,6 +94,7 @@ const Bikeability = (props) => {
                                 data={bikeabilityFeatures}
                                 style={(feature) => styleLines(feature, false)}
                                 onEachFeature={addInfo}
+                                key={"BITracks_" + md5(JSON.stringify(bikeabilityFeatures))}
                             />
                         )}
                     </FeatureGroup>
@@ -105,6 +108,7 @@ const Bikeability = (props) => {
                                 data={biSegmentFeatures}
                                 style={(feature) => styleLines(feature, false)}
                                 onEachFeature={addInfo}
+                                key={"BISegments_" + md5(JSON.stringify(biSegmentFeatures))}
                             />
                         )}
                     </FeatureGroup>
@@ -118,6 +122,7 @@ const Bikeability = (props) => {
                                 data={anonymizedFeatures}
                                 style={(feature) => styleLines(feature, true)}
                                 onEachFeature={addInfo}
+                                key={"BIAnon_" + md5(JSON.stringify(anonymizedFeatures))}
                             />
                         )}
                     </FeatureGroup>
