@@ -89,8 +89,8 @@ function LegendRow(props: LegendRowProps) {
 function LineIcon(props: SVGProps<SVGSVGElement>){
     return (
         <svg
-        stroke-linecap="round"
-        stroke-width='4'
+        strokeLinecap="round"
+        strokeWidth='4'
 
         viewBox="0 0 25 10"
         xmlns="http://www.w3.org/2000/svg"
@@ -106,8 +106,8 @@ function LineIcon(props: SVGProps<SVGSVGElement>){
 function AreaIcon(props: SVGProps<SVGSVGElement>){
     return (
         <svg
-        stroke-linecap="round"
-        stroke-width='4'
+        strokeLinecap="round"
+        strokeWidth='4'
 
         viewBox="0 0 20 20"
         xmlns="http://www.w3.org/2000/svg"
@@ -155,7 +155,7 @@ function Symbology(layer, text){
             break;
         case 'Radspur':
             icon = <LegendRow
-                    icon={<LineIcon stroke='#cc0000' stroke-dasharray='4,8'/>}
+                    icon={<LineIcon stroke='#cc0000' strokeDasharray='4,8'/>}
                     text={text}
                 ></LegendRow>;
             break;
@@ -167,7 +167,7 @@ function Symbology(layer, text){
             break;
         case 'Radwege-Netz':
             icon = <LegendRow
-                    icon={<LineIcon stroke='#f6ef3c' stroke-width='20'/>}
+                    icon={<LineIcon stroke='#f6ef3c' strokeWidth='20'/>}
                     text={text}
                 ></LegendRow>;
             break;
@@ -254,9 +254,9 @@ function Symbology(layer, text){
             icon = <LegendRow
                     icon={<AreaIcon
                         fill="#b22f2f"
-                        fill-opacity="0.5"
+                        fillOpacity="0.5"
                         stroke="#b22f2f"
-                        stroke-dasharray='4,4'
+                        strokeDasharray='4,4'
                     />}
                     text={text}
                 ></LegendRow>;
