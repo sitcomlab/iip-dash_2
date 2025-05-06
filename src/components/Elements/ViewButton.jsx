@@ -13,8 +13,7 @@ function ViewButton({ type }) {
           className="
                     py-2 px-5 rounded-full border border-theme-green
                      bg-theme-green text-theme-green-light"
-          buttonText="Stadtteile"
-          Mode
+          buttontext="Stadtteile"
           onClick={() => {
             return;
           }}
@@ -30,7 +29,7 @@ function ViewButton({ type }) {
                     py-2 px-5 rounded-full border border-theme-green
                      bg-theme-green-light text-theme-green
                     hover:bg-theme-green hover:text-theme-green-light"
-          buttonText="Stadtteile"
+          buttontext="Stadtteile"
           //mapViewContext={mapViewState}
           onClick={() => {
             return setMapViewState(type);
@@ -50,8 +49,7 @@ function ViewButton({ type }) {
           className="
                     py-2 px-5 rounded-full border border-theme-green
                      bg-theme-green text-theme-green-light"
-          buttonText="Stadtteile"
-          Mode
+          buttontext="Stadtteile"
           onClick={() => {
             return;
           }}
@@ -67,7 +65,7 @@ function ViewButton({ type }) {
                     py-2 px-5 rounded-full border border-theme-green
                     bg-theme-green-light text-theme-green
                     hover:bg-theme-green hover:text-theme-green-light"
-          buttonText="Stadtteile"
+          buttontext="Stadtteile"
           //mapViewContext={mapViewState}
           onClick={() => {
             return setMapViewState(type);
@@ -86,8 +84,7 @@ function ViewButton({ type }) {
       return (
         <button
           className="py-2 px-5 rounded-full border border-theme-green bg-theme-green text-theme-green-light"
-          buttonText="Bikeability"
-          Mode
+          buttontext="Bikeability"
           onClick={() => {
             return;
           }}
@@ -101,7 +98,7 @@ function ViewButton({ type }) {
         <button
           className="py-2 px-5 rounded-full border border-theme-green bg-theme-green-light text-theme-green
                     hover:bg-theme-green hover:text-theme-green-light"
-          buttonText="Bikeability"
+          buttontext="Bikeability"
           onClick={() => setMapViewState(type)}
           type={type}
         >
