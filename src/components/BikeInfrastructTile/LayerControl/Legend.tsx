@@ -79,7 +79,7 @@ const BaseMapMarker = styled.span`
 
 function LegendRow(props: LegendRowProps) {
   return <div
-          style={{'display': 'flex', 'align-items': 'center'}}
+          style={{'display': 'flex', 'alignItems': 'center'}}
           >
               <BaseMapMarker color={props.color}>{props.icon}</BaseMapMarker><span>{props.text}</span>
           </div>;
