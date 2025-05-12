@@ -7,18 +7,18 @@ const getBikeInfrastructData = async (urlString) => {
     try {
         //TODO: remove that and put into .env at a later time to prevent leakage
         //let urlString = process.env.NEXT_PUBLIC_BICYCLE_INFRASTRUCTURE_URL;
-        
+        setMapLoading(true);
         if (urlString == undefined){urlString =  ''}
 
         const res = await fetch(
             urlString,
         );
         const data = await res.json();
-
+        setMapLoading(false);
         return data;
     } catch (error) {
 
-        //TODO: error handling down the line
+        //TODO: add error state
         return error
     }
 
@@ -39,7 +39,7 @@ export default function useBikeInfrastructData(urlString) {
         //start another cycle of the loop
         setTimeout(() => {
             //increment count again, so the loop starts anew.
-            //this way the cycle breaks when the component isn't running anymore    
+            //this way the cycle breaks when the component isn't running anymore
             incrementLoop()
         }, INTERVAL * 1000)
     }, [loopIteration, urlString])

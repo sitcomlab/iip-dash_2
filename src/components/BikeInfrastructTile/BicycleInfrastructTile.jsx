@@ -2,11 +2,11 @@ import { TileLayer, Marker, Popup, Pane } from "react-leaflet";
 import { atom, useRecoilState } from "recoil";
 import { useState, Suspense, useContext } from "react";
 
-import { mapViewModeState } from "@components/RecoilContextProvider";
-import { cityViewConfigState } from "@components/RecoilContextProvider";
+import { mapLoadingState, mapViewModeState, cityViewConfigState } from "@components/RecoilContextProvider";
 import ViewButton from "@components/Elements/ViewButton";
 import BicycleInfrastructureData from "@components/BikeInfrastructTile/BicycleinfrastructureData";
 import MapComponent from "@/components/BikeInfrastructTile/MapComponent";
+import LoadingSpinner from "@components/Elements/LoadingSpinner";
 
 /*
 possible states:
@@ -21,11 +21,23 @@ export default function BikeInfrastructTile({
   children,
 }) {
   const [cityConfig] = useRecoilState(cityViewConfigState);
+  const [mapLoading] = useRecoilState(mapLoadingState)
 
   return (
     <div
       className={`relative ${height} min-h-96 ${width} bg-white rounded-2xl shadow-md m-2`}
     >
+      {/* loading indicator */}
+      { mapLoading &&
+      <div className="h-full w-full absolute z-[900] rounded-2xl">
+        <div className="h-full w-full absolute z-[1000]">
+          <div className="flex justify-center h-full relative">
+            <LoadingSpinner className="mt-auto mb-auto" size="9"/>
+          </div>
+        </div>
+        <div className="h-full w-full bg-white opacity-50" />
+      </div>
+      }
       {/* buttons here */}
       <div
         style={{
@@ -61,8 +73,6 @@ export default function BikeInfrastructTile({
         />
       </div>
 
-      {/*TODO: add spinner until MapComponent is loaded*/}
-      <Suspense fallback={<p>loading...</p>}>
         <MapComponent
           center={cityConfig.mapSettings.center}
           zoom={cityConfig.mapSettings.zoom}
@@ -77,7 +87,6 @@ export default function BikeInfrastructTile({
           <Pane name="popup" style={{ zIndex: 660 }}></Pane>
           <Pane name="tooltip" style={{ zIndex: 670 }}></Pane>
         </MapComponent>
-      </Suspense>
     </div>
   );
 }

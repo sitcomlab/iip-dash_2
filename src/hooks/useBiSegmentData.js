@@ -1,12 +1,16 @@
 import { useState, useEffect } from "react";
+import { mapLoadingState } from "@/components/RecoilContextProvider";
+import { useRecoilState } from "recoil";
 
 export default function useBiSegmentData(url, weights) {
   const [data, setData] = useState(null);
+  const [mapLoading, setMapLoading] = useRecoilState(mapLoadingState)
 
   useEffect(() => {
     if (!url) return;
 
     async function fetchData() {
+      setMapLoading(true);
       try {
         const response = await fetch(url, {
           method: "POST",
@@ -20,6 +24,7 @@ export default function useBiSegmentData(url, weights) {
         }
         const jsonData = await response.json();
         setData(jsonData);
+        setMapLoading(false);
       } catch (error) {
         console.error("Failed to fetch biSegment data:", error);
         setData(null);

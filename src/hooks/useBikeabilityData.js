@@ -7,12 +7,13 @@ const getBikeabilityData = async (urlString) => {
         if (urlString === undefined) {
             urlString = '';
         }
-
+        setMapLoading(true);
         const res = await fetch(urlString);
         if (!res.ok) {
             throw new Error(`HTTP error! status: ${res.status}`);
         }
         const data = await res.json();
+        setMapLoading(false);
         return data;
     } catch (error) {
         console.error("Error fetching bikeability data:", error); // Log the error
