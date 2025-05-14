@@ -7,6 +7,7 @@ import { createContext, useState } from "react";
 
 import { mapViewModeState } from "@components/RecoilContextProvider";
 import BikeabilityInfoTile from "@/components/BikeabilityInfoTile";
+import BIWeightsControlTile from "@/components/BIWeightsControlTile";
 import Navbar from "@/components/Elements/Navbar";
 import AdminAreaInfoTile from "@/components/AdminAreaInfoTile";
 const BikeInfrastructTile = dynamic(
@@ -62,7 +63,8 @@ export default function Osnabrück() {
                 <AdminAreaInfoTile></AdminAreaInfoTile>
               )}
               {mapViewState === "Bikeability" && (
-                <BikeabilityInfoTile></BikeabilityInfoTile>
+                //<BikeabilityInfoTile></BikeabilityInfoTile>
+                <BIWeightsControlTile></BIWeightsControlTile>
               )}
               <PlusTile></PlusTile>
             </div>
