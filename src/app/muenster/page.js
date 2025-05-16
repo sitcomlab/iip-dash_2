@@ -63,8 +63,10 @@ export default function Münster() {
                 <AdminAreaInfoTile></AdminAreaInfoTile>
               )}
               {mapViewState === "Bikeability" && (
-                //<BikeabilityInfoTile></BikeabilityInfoTile>
+                <>
                 <BIWeightsControlTile></BIWeightsControlTile>
+                <BikeabilityInfoTile></BikeabilityInfoTile>
+                </>
               )}
               {mapViewState === "AdministrativeAreas" && <PlusTile></PlusTile>}
             </div>
