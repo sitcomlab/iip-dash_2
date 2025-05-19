@@ -6,7 +6,7 @@
     "prep": "docker compose down && docker build -t bikeinfra ./OSMBicycleInfrastructure && docker build -t osem_data_fetcher ./IP-OSeM-Backend",
     "dev": "docker compose down && docker compose up -d && next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "docker compose down && docker compose up -d && next start",
     "lint": "next lint"
   },
   "dependencies": {
