@@ -10,7 +10,6 @@ export default function useBiSegmentData(url, weights) {
     if (!url) return;
 
     async function fetchData() {
-      setMapLoading(true);
       try {
         const response = await fetch(url, {
           method: "POST",

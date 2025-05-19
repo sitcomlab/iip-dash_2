@@ -2,6 +2,7 @@ import L from 'leaflet';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { FeatureGroup, GeoJSON, Pane } from 'react-leaflet';
 import MarkerClusterGroup from '@changey/react-leaflet-markercluster';
+import { useRecoilState } from 'recoil';
 
 import BiMarker from './BiMarker';
 import BiMarkerIcon from './BiMarkerIcon';
@@ -9,6 +10,7 @@ import { createClusterCustomIconBlue } from './ClusterMarkerIcons';
 import { createClusterCustomIconGreen } from './ClusterMarkerIcons';
 import { addInfo } from '../popupInfos/PopupAddInfo';
 import { GroupedLayer } from '../LayerControl/LayerControl';
+import { mapLoadingState } from '@/components/RecoilContextProvider';
 
 import {SvgChargingIcon as ChargingIcon} from '@/components/Icons/ChargingIcon';
 import {SvgShopIcon as ShopIcon} from '@/components/Icons/ShopIcon';
@@ -20,8 +22,9 @@ import {SvgSignalIcon as SignalIcon} from '@/components/Icons/SignalIcon';
 import {SvgWayfindingIcon as WayfindingIcon} from '@/components/Icons/WayfindingIcon';
 
 function BicycleInfrastructureFeatures(props) {
+    const [mapLoading, setMapLoading] = useRecoilState(mapLoadingState)
     if (props.contentGeometry === undefined || props.contentGeometry.features === undefined) {
-        return (<></>)
+      return (<></>)
     }
 
 
@@ -38,7 +41,7 @@ function BicycleInfrastructureFeatures(props) {
         dashArray: '10 10',
         opacity: 1,
     };
-        
+
     // Filter and style cycling network
     const networkLines = props.contentGeometry.features.filter(
         (feature) =>
@@ -49,7 +52,7 @@ function BicycleInfrastructureFeatures(props) {
         weight: 10,
         opacity: 0.5,
     };
-    
+
     // Filter and style traffic calming
     const trafficCalming = props.contentGeometry.features.filter(
         (feature) =>
@@ -61,7 +64,7 @@ function BicycleInfrastructureFeatures(props) {
         weight: 2.5,
         opacity: 0.4,
     };
-    
+
     // Filter and style oneway exceptions
     const oneWayExceptions = props.contentGeometry.features.filter(
         (feature) =>
@@ -73,7 +76,7 @@ function BicycleInfrastructureFeatures(props) {
         opacity: 0.5,
         dashArray: '6 8',
     };
-    
+
     // Filter and style mixed paths lines
     const mixedPathLines = props.contentGeometry.features.filter(
         (feature) =>
@@ -85,7 +88,7 @@ function BicycleInfrastructureFeatures(props) {
         weight: 1.5,
         opacity: 0.5,
     };
-    
+
     // Filter and style cycle lanes
     const cycleLanes = props.contentGeometry.features.filter(
         (feature) =>
@@ -97,7 +100,7 @@ function BicycleInfrastructureFeatures(props) {
         opacity: 0.8,
         dashArray: '6 8',
     };
-    
+
     // Filter and style separated cycle lanes
     const sepCycleLanes = props.contentGeometry.features.filter(
         (feature) =>
@@ -109,7 +112,7 @@ function BicycleInfrastructureFeatures(props) {
         weight: 2,
         opacity: 1,
     };
-    
+
     // Filter and style cycling streets
     const cyclingStreets = props.contentGeometry.features.filter(
         (feature) =>
@@ -191,7 +194,7 @@ function BicycleInfrastructureFeatures(props) {
         (feature) =>
             feature.properties.bike_infrastructure_type === 'bicycle_repair_station'
     );
-    function pointRepair(geojsonPoint, latlng) {  
+    function pointRepair(geojsonPoint, latlng) {
         const repairIcon = L.divIcon({
             className: '',
             html: renderToStaticMarkup(
@@ -285,7 +288,6 @@ function BicycleInfrastructureFeatures(props) {
         return L.marker(latlng, { icon: wayfindingIcon });
     }
 
-
     return (
         <>
         {/* Radverkehrs-Maßnahmen  */}
@@ -307,7 +309,7 @@ function BicycleInfrastructureFeatures(props) {
         </GroupedLayer>
 
         <GroupedLayer checked group="Radverkehrs-Maßnahmen" name="Radweg">
-        <Pane name="sepCycleLanes" style={{ zIndex: 506 }}>    
+        <Pane name="sepCycleLanes" style={{ zIndex: 506 }}>
             <FeatureGroup>
                 <GeoJSON
                     data={sepCycleLanes}
@@ -318,7 +320,7 @@ function BicycleInfrastructureFeatures(props) {
             </FeatureGroup>
         </Pane>
         </GroupedLayer>
-        
+
         <GroupedLayer checked group="Radverkehrs-Maßnahmen" name="Radspur">
         <Pane name="cycleLanes" style={{ zIndex: 507 }}>
             <FeatureGroup>
@@ -493,7 +495,7 @@ function BicycleInfrastructureFeatures(props) {
         </FeatureGroup>
         </Pane>
         </GroupedLayer>
-        
+
         <GroupedLayer group="Rad-Service" name="Schlauch-Automat">
         <Pane name="tubeVendings" style={{ zIndex: 511 }}>
             <FeatureGroup>
