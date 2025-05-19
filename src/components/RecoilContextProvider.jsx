@@ -22,6 +22,11 @@ export const cityViewConfigState = atom({
   }, //default at Münster
 });
 
+export const mapLoadingState = atom({
+  key: "mapLoading",
+  default: false
+})
+
 //The following 3 states states dictate selection and display in the AdministrativeArea mapview
 export const selectedAAState = atom({
   key: "selectedAA",

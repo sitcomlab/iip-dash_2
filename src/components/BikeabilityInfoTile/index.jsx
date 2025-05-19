@@ -6,6 +6,7 @@ import BaseTile from "@components/BaseTile";
 import { DynamicDataBox } from "./DynamicDataBox";
 import { MapFeatureContext } from "@components/MapFeatureProvider";
 import { ReactECharts } from "../AdminAreaInfoTile/ReactECharts";
+import LoadingSpinner from "@/components/Elements/LoadingSpinner";
 
 function BarChartMonths({ data, chartColor }) {
   let months = [
@@ -78,7 +79,11 @@ function BikeabilityInfoTile() {
     anonymizedFeatures == null ||
     anonymizedFeatures.features == null
   ) {
-    return <BaseTile height="h-[49rem]"></BaseTile>;
+    return <BaseTile height="h-[49rem]">
+      <div className="flex justify-center h-full relative">
+        <LoadingSpinner className="mt-auto mb-auto" size="9"/>
+      </div>
+    </BaseTile>;
   }
 
   const inputFeatures = isAnon ? anonymizedFeatures : bikeabilityFeatures;
@@ -164,6 +169,10 @@ function BikeabilityInfoTile() {
       </div>
     </BaseTile>
   );
+}
+
+//TODO: rename this later
+export function BikeabilityInfoTileSmall() {
 }
 
 export default BikeabilityInfoTile;

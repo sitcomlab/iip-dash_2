@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import { createContext, useState } from "react";
 
 import { mapViewModeState } from "@components/RecoilContextProvider";
+import { BikeabilityInfoTileSmall } from "@/components/BikeabilityInfoTile";
 import BikeabilityInfoTile from "@/components/BikeabilityInfoTile";
 import BIWeightsControlTile from "@/components/BIWeightsControlTile";
 import AdminAreaInfoTile from "@/components/AdminAreaInfoTile";
@@ -16,6 +17,7 @@ const BikeInfrastructTile = dynamic(
   { ssr: false },
 );
 import MapFeatureProvider from "@/components/MapFeatureProvider";
+
 
 export const MapContext = createContext({
   mapRef: {},

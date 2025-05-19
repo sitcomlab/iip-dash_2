@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Slider } from "@mui/material";
 import { atom, useRecoilState } from 'recoil';
 
+import { mapLoadingState } from '@/components/RecoilContextProvider';
 import BaseTile from "@components/BaseTile";
 import { MapFeatureContext } from "@components/MapFeatureProvider";
 import { biWeightsState } from "@/components/RecoilContextProvider";
@@ -31,6 +32,7 @@ function WeightSlider({label, key, defaultValue, onChange}){
 
 function BIWeightsControlTile(){
   //expand by more weights once subindicators are implemented
+  const [mapLoading, setMapLoading] = useRecoilState(mapLoadingState)
   const [weights, setWeights] = useState({
     safety: 1,
     infrastructure_quality: 1,
@@ -66,6 +68,7 @@ function BIWeightsControlTile(){
       environment_quality: inputWeights.environment_quality
     }))
 
+    setMapLoading(true);
     console.log("Normalized weights applied:", inputWeights);
   }
 
