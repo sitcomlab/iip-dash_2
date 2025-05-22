@@ -7,14 +7,14 @@ const getBikeInfrastructData = async (urlString) => {
     try {
         //TODO: remove that and put into .env at a later time to prevent leakage
         //let urlString = process.env.NEXT_PUBLIC_BICYCLE_INFRASTRUCTURE_URL;
-        setMapLoading(true);
+
         if (urlString == undefined){urlString =  ''}
 
         const res = await fetch(
             urlString,
         );
         const data = await res.json();
-        setMapLoading(false);
+
         return data;
     } catch (error) {
 
