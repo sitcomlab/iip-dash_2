@@ -25,7 +25,7 @@ export default function BikeInfrastructTile({
 
   return (
     <div
-      className={`relative ${height} min-h-96 ${width} bg-white rounded-2xl shadow-md m-2`}
+      className={`relative ${height} h-full min-w-96 ${width} bg-white rounded-2xl shadow-md`}
     >
       {/* loading indicator */}
       { mapLoading &&

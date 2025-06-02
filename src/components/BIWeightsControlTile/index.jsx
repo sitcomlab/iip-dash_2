@@ -73,7 +73,7 @@ function BIWeightsControlTile(){
   }
 
   return(
-    <BaseTile>
+    <BaseTile height="h-96" width="col-span-1">
       <p className="text-lg font-semibold w-full mt-2 mb-8">
         Bikeability-Wichtungen <br />
       </p>
