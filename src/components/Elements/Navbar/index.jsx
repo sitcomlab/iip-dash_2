@@ -15,8 +15,8 @@ function NavButton(props){
         return(
         <button
             className='
-            py-4 px-8 rounded-full border border-theme-green
-             bg-theme-green text-theme-green-light'
+            sm:py-4 px-6 sm:px-8 rounded-full border border-theme-green
+            bg-theme-green text-theme-green-light'
         >
             {content}
         </button>           )
@@ -25,7 +25,7 @@ function NavButton(props){
     return (
         <button
             className='
-            py-4 px-8 rounded-full border border-theme-green
+            sm:py-4 px-6 sm:px-8 rounded-full border border-theme-green
             bg-theme-green-light text-theme-green
             hover:bg-theme-green hover:text-theme-green-light'
             onClick={()=>{location.href = link}}
