@@ -75,9 +75,9 @@ function BikeabilityInfoTile() {
 
   if (
     bikeabilityFeatures == null ||
-    bikeabilityFeatures.features == null ||
-    anonymizedFeatures == null ||
-    anonymizedFeatures.features == null
+    bikeabilityFeatures.features == null //||
+    //anonymizedFeatures == null ||
+    //anonymizedFeatures.features == null
   ) {
     return <BaseTile height="h-[49rem]">
       <div className="flex justify-center h-full relative">
@@ -112,23 +112,27 @@ function BikeabilityInfoTile() {
   const trajectoryAmount = inputFeatures.features.length;
 
   return (
-    <BaseTile height="h-[49rem]">
-      <p className="text-md font-semibold w-full mb-4">
+    <BaseTile height="h-[49rem]" width="col-span-1">
+      <div className="text-md font-semibold w-full mb-4">
         Bikeability-Statistik <br />
-        <label class="inline-flex items-center mb-2 mt-2 cursor-pointer">
-          <input
-            type="checkbox"
-            value=""
-            class="sr-only peer"
-            checked={isAnon}
-            onChange={anonSwitchHandler}
-          />
-          <div class="relative w-9 h-5 mr-2 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600 dark:peer-checked:bg-sky-500"></div>
-          <span className="font-normal">
-            {isAnon ? "" : "nicht-"}anonymisierte Sensordaten
-          </span>
-        </label>
-      </p>
+        { anonymizedFeatures != null ? //this is a remainder from when anonymized data was displayed. remove once there is no need for it anymore
+          <label class="inline-flex items-center mb-2 mt-2 cursor-pointer">
+            <input
+              type="checkbox"
+              value=""
+              class="sr-only peer"
+              checked={isAnon}
+              onChange={anonSwitchHandler}
+            />
+            <div class="relative w-9 h-5 mr-2 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600 dark:peer-checked:bg-sky-500"></div>
+            <span className="font-normal">
+              {isAnon ? "" : "nicht-"}anonymisierte Sensordaten
+            </span>
+          </label>
+          :
+          <div className="h-5"/>
+        }
+      </div>
       <div className="flex flex-wrap flex-row justify-center w-full gap-2">
         <DynamicDataBox
           value={trajectoryAmount}
