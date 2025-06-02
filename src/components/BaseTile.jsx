@@ -1,5 +1,5 @@
 export default function BaseTile({
-  height = "h-96",
+  height = "col-span-1",
   width = "w-96",
   children,
 }) {

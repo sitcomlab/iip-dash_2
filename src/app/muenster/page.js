@@ -17,6 +17,7 @@ const BikeInfrastructTile = dynamic(
   { ssr: false },
 );
 import MapFeatureProvider from "@/components/MapFeatureProvider";
+import { width } from "@mui/system";
 
 
 export const MapContext = createContext({
@@ -46,21 +47,23 @@ export default function Münster() {
   setCityViewConfig(cityConfig);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-start gap-10 pt-24">
-      <Image
-        src="/icons/BicycleIconGreen.svg"
-        alt="Vercel Logo"
-        width={100}
-        height={24}
-        priority
-      />
-      <Navbar className="w-5/6 flex justify-center" />
+    <main className="flex min-h-screen flex-col items-center justify-start gap-4 pt-4 h-screen">
+      <Navbar className="w-full flex justify-left ml-10" />
       <MapContext.Provider value={mapValue}>
         <MapFeatureProvider city={cityViewConfig}>
-          <div className="flex flex-container flex-wrap flex-row-reverse w-5/6">
-            <BikeInfrastructTile height="h-[49rem]"></BikeInfrastructTile>
-
-            <div className="flex flex-container flex-wrap justify-end w-2/6">
+          <div
+            className="w-screen flex grow min-h-0"
+          >
+            {/* scroll wrapper */}
+            <div className="overflow-y-scroll min-w-0">
+              {/* scrollable container */}
+              <div
+              className="
+              grid
+              2xl:grid-cols-[min-content,min-content]
+              xl:grid-cols-[min-content]
+              lg:grid-cols-[min-content]
+              ">
               {mapViewState === "AdministrativeAreas" && (
                 <AdminAreaInfoTile></AdminAreaInfoTile>
               )}
@@ -68,10 +71,17 @@ export default function Münster() {
                 <>
                 <BIWeightsControlTile></BIWeightsControlTile>
                 <BikeabilityInfoTile></BikeabilityInfoTile>
+                <PlusTile></PlusTile>
                 </>
               )}
               {mapViewState === "AdministrativeAreas" && <PlusTile></PlusTile>}
-            </div>
+              </div>
+          </div>
+          {/* Fixed sidebar */}
+          <div class="flex-1 flex-grow-1 w-96 m-2">
+          <BikeInfrastructTile height="h-[49rem]" width="w-auto"></BikeInfrastructTile>
+          </div>
+
           </div>
         </MapFeatureProvider>
       </MapContext.Provider>
