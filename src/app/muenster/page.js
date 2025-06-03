@@ -47,8 +47,8 @@ export default function Münster() {
   setCityViewConfig(cityConfig);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-start gap-2 sm:gap-4 pt-4 h-screen">
-      <Navbar className="w-full flex justify-left ml-10" />
+    <main className="flex min-h-dvh w-dvw flex-col items-center justify-start gap-2 sm:gap-4 pt-4 h-screen">
+      <Navbar className="w-full flex justify-left pl-10" />
       <MapContext.Provider value={mapValue}>
         <MapFeatureProvider city={cityViewConfig}>
           <div
