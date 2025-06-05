@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { mapLoadingState } from "@/components/RecoilContextProvider";
 import { useRecoilState } from "recoil";
+import Pbf from "pbf";
+import geobuf from "geobuf";
 
 export default function useBiSegmentData(url, weights) {
   const [data, setData] = useState(null);
@@ -14,14 +16,17 @@ export default function useBiSegmentData(url, weights) {
         const response = await fetch(url, {
           method: "POST",
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/octet-stream",
           },
           body: JSON.stringify(weights),
         });
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-        const jsonData = await response.json();
+        const data = await response.arrayBuffer();
+        const jsonData = geobuf.decode(new Pbf(new Uint8Array(data)))
+        console.log(data)
+        console.log(jsonData)
         setData(jsonData);
         setMapLoading(false);
       } catch (error) {
