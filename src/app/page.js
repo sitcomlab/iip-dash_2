@@ -1,6 +1,5 @@
 import Image from "next/image";
 import BaseTile from "@components/BaseTile";
-import MapTile from "@components/mapTile/MapTile";
 
 export default function Home() {
   return (
@@ -13,9 +12,6 @@ export default function Home() {
         priority
       />
       <div className="flex flex-container flex-wrap flex-row-reverse w-5/6">
-      <MapTile height="h-[49rem]">
-
-      </MapTile>
         <div className="flex flex-container flex-wrap justify-end w-2/6">
           <BaseTile className="h-96">1</BaseTile>
           <BaseTile>2</BaseTile>
