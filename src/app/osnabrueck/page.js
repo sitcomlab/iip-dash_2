@@ -9,7 +9,11 @@ import { mapViewModeState } from "@components/RecoilContextProvider";
 import BikeabilityInfoTile from "@/components/BikeabilityInfoTile";
 import BIWeightsControlTile from "@/components/BIWeightsControlTile";
 import Navbar from "@/components/Elements/Navbar";
-import AdminAreaInfoTile from "@/components/AdminAreaInfoTile";
+//import AdminAreaInfoTile from "@/components/AdminAreaInfoTile";
+const AdminAreaInfoTile = dynamic(
+  () => import("@/components/AdminAreaInfoTile"),
+  { ssr: false },
+);
 const BikeInfrastructTile = dynamic(
   () => import("@/components/BikeInfrastructTile/BicycleInfrastructTile"),
   { ssr: false },
@@ -78,7 +82,7 @@ export default function Osnabrück() {
           </div>
 
           {/* Fixed sidebar */}
-          <div class="flex-1 md:flex-grow-1 min-h-[50vh] min-h-1/2 m-2">
+          <div className="flex-1 md:flex-grow-1 min-h-[50vh] min-h-1/2 m-2">
           <BikeInfrastructTile height="h-[49rem] h-full" width="w-auto"></BikeInfrastructTile>
           </div>
 
