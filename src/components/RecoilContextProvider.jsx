@@ -54,6 +54,12 @@ export const displayedPointDataState = atom({
   default: false,
 });
 
+/*
+possible settings
+BicycleNetwork
+Bikeability
+Administrative Areas
+*/
 export const mapViewModeState = atom({
   key: "mapViewMode",
   //default: "BicycleNetwork",

@@ -2,7 +2,7 @@ import { Tooltip } from "@mui/material";
 
 export default function PlusTile({
   height = "h-96",
-  width = "w-96",
+  width = "col-span-1",
   children,
 }) {
   return (

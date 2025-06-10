@@ -112,7 +112,7 @@ function BikeabilityInfoTile() {
   const trajectoryAmount = inputFeatures.features.length;
 
   return (
-    <BaseTile height="h-[49rem]" width="col-span-1">
+    <BaseTile height="row-span-2" width="col-span-1">
       <div className="text-md font-semibold w-full mb-4">
         Bikeability-Statistik <br />
         { anonymizedFeatures != null ? //this is a remainder from when anonymized data was displayed. remove once there is no need for it anymore

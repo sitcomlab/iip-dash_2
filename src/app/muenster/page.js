@@ -80,7 +80,7 @@ export default function Münster() {
                 <PlusTile></PlusTile>
                 </>
               )}
-              {mapViewState === "AdministrativeAreas" && <PlusTile></PlusTile>}
+              {mapViewState === "BicycleNetwork" && <PlusTile></PlusTile>}
               </div>
           </div>
 
