@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start",
     "prep_deploy": "docker build -t ip-dash-2 . && docker compose down && docker build -t bikeinfra ./OSMBicycleInfrastructure && docker build -t osem_data_fetcher ./IP-OSeM-Backend",
-    "deploy": "docker compose -f docker-compose.prod.yml down && docker-compose down && docker compose -f docker-compose.prod.yml up",
+    "deploy": "docker compose -f docker-compose.prod.yml down && docker compose down && docker compose -f docker-compose.prod.yml up",
     "lint": "next lint"
   },
   "dependencies": {
