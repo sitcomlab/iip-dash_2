@@ -6,7 +6,7 @@ services:
     image: bikeinfra:latest
   osem-data-fetcher:
     image: osem-data-fetcher
-    command:  bash -c "service cron start && python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000 && python manage.py createsuperuser --noinput"
+    command: bash -c "service cron start && python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000 && python manage.py createsuperuser --noinput"
     ports:
       - 127.0.0.1:3332:8000
     volumes:
@@ -22,7 +22,7 @@ services:
   nginx_prod:
     image: nginx
     ports:
-      - 127.0.0.1:3333:3000
+      - 3333:3000
     volumes:
       - ./nginx/prod.conf:/etc/nginx/conf.d/default.conf
     depends_on:

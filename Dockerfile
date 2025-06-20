@@ -13,6 +13,7 @@ RUN npm install
 
 # Bundle app source
 COPY . .
+RUN mv .env.prod .env.local
 
 # Build your Next.js app for production
 RUN npm run build
