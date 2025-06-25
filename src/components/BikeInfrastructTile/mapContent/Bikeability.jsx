@@ -37,20 +37,20 @@ const BISEGMENT_DARKER_COLORS = [
 
 
 const Bikeability = (props) => {
-  const { bikeabilityFeatures, biSegmentFeatures, anonymizedFeatures } = useContext(MapFeatureContext);
-  const [mapLoading, setMapLoading] = useRecoilState(mapLoadingState)
+    const { bikeabilityFeatures, biSegmentFeatures, anonymizedFeatures } = useContext(MapFeatureContext);
+    const [mapLoading, setMapLoading] = useRecoilState(mapLoadingState)
 
-  const segmentBikeabilityRef = useRef(null)
+    const segmentBikeabilityRef = useRef(null)
 
-  /*
-  useEffect(() => {
-    if (segmentBikeabilityRef.current) {
-      // geoJsonRef.current is the Leaflet GeoJSON layer
-      console.log(segmentBikeabilityRef)
-      setMapLoading(false);
-    }
-  }, [segmentBikeabilityRef.current])
-  */
+    
+    useEffect(() => {
+        if (segmentBikeabilityRef.current) {
+        // geoJsonRef.current is the Leaflet GeoJSON layer
+        console.log(segmentBikeabilityRef)
+        setMapLoading(false);
+        }
+    }, [segmentBikeabilityRef.current])
+  
     // Check if features are defined
     // TODO: this guard clause was previously broken because of using AND instead of OR
     if ((bikeabilityFeatures == undefined || bikeabilityFeatures.features == undefined) &&
@@ -130,6 +130,7 @@ const Bikeability = (props) => {
                                 style={(feature) => styleLines(feature, false)}
                                 onEachFeature={addInfo}
                                 key={"BISegments_" + md5(JSON.stringify(biSegmentFeatures))}
+                                ref={segmentBikeabilityRef}
                             />
                         )
                         }

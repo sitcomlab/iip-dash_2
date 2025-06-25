@@ -1,9 +1,11 @@
 services:
   bikeinfra:
     image: bikeinfra:latest
+    ports: 
+      - 127.0.0.1:3001:8000
   osem-data-fetcher:
-    image: osem-data-fetcher
-    command:  bash -c "service cron start && python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000 && python manage.py createsuperuser --noinput"
+    image:  osem-data-fetcher:latest
+    # command:  bash -c "service cron start && python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000 && python manage.py createsuperuser --noinput"
     ports:
       - 127.0.0.1:3332:8000
     volumes:
