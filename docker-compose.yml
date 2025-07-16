@@ -10,6 +10,7 @@ services:
       - 127.0.0.1:3332:8000
     volumes:
       - ./IP-OSeM-Backend/:/app
+      - ./IP-OSeM-Backend/tracks:/app/tracks
     environment:
       - DJANGO_SETTINGS_MODULE=opensensemap_backend.settings
       - DJANGO_SUPERUSER_PASSWORD=admin
