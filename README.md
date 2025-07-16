@@ -4,7 +4,7 @@ This Project is a dashboard meant for the visualization of bicycle-based commuti
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Dependencies
-(As of October 2024) this project depends on a backend system to fetch, process, and deliver the bicycle-infrastructure data from OpenStreetMap: (OSMBicycleInfrastructure)[https://github.com/niebl/OSMBicycleInfrastructure]
+(As of October 2024) this project depends on a backend system to fetch, process, and deliver the bicycle-infrastructure data from OpenStreetMap: (OSMBicycleInfrastructure)[https://github.com/niebl/OSMBicycleInfrastructure] and another backend system for processing bike routes and sensor data from the OpenSenseMap: (IP-OSeM-Backend)[https://github.com/Rajasirpi/IP-OSeM-Backend]
 
 ## Getting Started
 
