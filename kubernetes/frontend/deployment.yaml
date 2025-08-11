@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ip-dashboard
+  labels:
+    app: nextjs
+    component: frontend
+    release: stable
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nextjs
+      component: frontend
+      release: stable
+  strategy:
+      rollingUpdate:
+        maxUnavailable: 0
+        maxSurge: 2
+  template:
+    metadata:
+      labels:
+        app: nextjs
+        component: frontend
+        release: stable
+    spec:
+      #anti-affinity is basically to keep pods on different nodes from another.
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - topologyKey: kubernetes.io/hostname
+              labelSelector:
+                matchLabels:
+                  app: nextjs
+                  component: frontend
+                  release: stable
+      securityContext:
+        runAsNonRoot: true
+      imagePullSecrets:
+        - name: regcred
+
+      containers:
+        - name: frontend
+          image: zivgitlab.wwu.io/rsubrama/ip-deployment/ip-dash-2:latest
+          #command: [ "/usr/sbin/nginx" ]
+          #args: [ "-c", "/etc/nginx/nginx.conf" ]
+          resources:
+            requests:
+              cpu: 10m
+              memory: 128Mi
+              ephemeral-storage: 1Gi
+            # Limits for cpu, memory and ephemeral-storage are mandatory.
+            limits:
+              cpu: 200m
+              memory: 128Mi
+              ephemeral-storage: 1Gi
+          # Security best practices to not run as root user
+          securityContext:
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+            runAsUser: 1000
+            runAsGroup: 1000
+          ports:
+            - name: http
+              containerPort: 3000
+          #readinessProbe:
+          #  httpGet:
+          #    port: http
+          #livenessProbe:
+          #  httpGet:
+          #    port: http
+          #volumeMounts:
+          #  - name: cache
+          #    mountPath: /var/cache/nginx
+          #  - name: run
+          #    mountPath: /var/run
+      #volumes:
+      #  - name: cache
+      #    emptyDir:
+      #      medium: Memory
+      #  - name: run
+      #    emptyDir:
+      #      medium: Memory
