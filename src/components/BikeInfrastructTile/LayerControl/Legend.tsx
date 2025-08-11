@@ -295,11 +295,11 @@ function Symbology(layer, text){
             icon = (
                 <div>
                     <span className='text-center'> OSM Bikeability Index </span>
-                    <LegendRow icon={<LineIcon stroke="rgb(200, 200, 200)" />} text="0 to 0.2 (very low)" />
-                    <LegendRow icon={<LineIcon stroke="rgb(255, 100, 100)" />} text=">0.2 to 0.4 (low)" />
-                    <LegendRow icon={<LineIcon stroke="rgb(255, 0, 0)" />} text=">0.4 to 0.6 (medium)" />
-                    <LegendRow icon={<LineIcon stroke="rgb(120, 0, 0)" />} text=">0.6 to 0.8 (high)" />
-                    <LegendRow icon={<LineIcon stroke="rgb(90, 0, 0)" />} text=">0.8 to 1 (very high)" />
+                    <LegendRow icon={<LineIcon stroke="rgb(255, 0, 0)" />} text="0 to 0.2 (very low)" />
+                    <LegendRow icon={<LineIcon stroke="rgb(255, 102, 0)" />} text=">0.2 to 0.4 (low)" />
+                    <LegendRow icon={<LineIcon stroke="rgb(255, 255, 0)" />} text=">0.4 to 0.6 (medium)" />
+                    <LegendRow icon={<LineIcon stroke="rgb(0, 204, 0)" />} text=">0.6 to 0.8 (high)" />
+                    <LegendRow icon={<LineIcon stroke="rgb(0, 102, 255)" />} text=">0.8 to 1 (very high)" />
                 </div>
             );
             break;

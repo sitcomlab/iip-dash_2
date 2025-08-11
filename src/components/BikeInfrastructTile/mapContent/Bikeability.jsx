@@ -27,13 +27,23 @@ const ANONYMIZED_COLORS = [
     { range: [0.81, 1], color: 'rgb(0, 0, 255)' } // Full blue
 ];
 
+// const BISEGMENT_DARKER_COLORS = [
+//     { range: [0, 0.20], color: 'rgb(200, 200, 200)' }, // Light gray
+//     { range: [0.21, 0.40], color: 'rgb(255, 100, 100)' }, // Darker light red
+//     { range: [0.41, 60], color: 'rgb(255, 0, 0)' }, // Darker medium red
+//     { range: [0.61, 0.80], color: 'rgb(120, 0, 0)' }, // Darker dark red
+//     { range: [0.81, 1], color: 'rgb(90, 0, 0)' } // Darkest red
+// ];
+
 const BISEGMENT_DARKER_COLORS = [
-    { range: [0, 0.20], color: 'rgb(200, 200, 200)' }, // Light gray
-    { range: [0.21, 0.40], color: 'rgb(255, 100, 100)' }, // Darker light red
-    { range: [0.41, 60], color: 'rgb(255, 0, 0)' }, // Darker medium red
-    { range: [0.61, 0.80], color: 'rgb(120, 0, 0)' }, // Darker dark red
-    { range: [0.81, 1], color: 'rgb(90, 0, 0)' } // Darkest red
+    { range: [0, 0.20], color: 'rgb(255, 0, 0)' },      // Bright red
+    { range: [0.21, 0.40], color: 'rgb(255, 102, 0)' }, // Bright orange
+    { range: [0.41, 0.60], color: 'rgb(255, 255, 0)' }, // Bright yellow
+    { range: [0.61, 0.80], color: 'rgb(0, 204, 0)' },   // Bright green
+    { range: [0.81, 1], color: 'rgb(0, 102, 255)' }     // Bright blue
 ];
+
+
 
 
 const Bikeability = (props) => {
