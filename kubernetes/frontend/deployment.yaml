@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ip-dashboard
+  name: frontend
   labels:
     app: nextjs
     component: frontend
