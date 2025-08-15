@@ -11,12 +11,6 @@ spec:
   ingress:
     - fromEndpoints:
       - matchLabels:
-          k8s:app: istio-ingressgateway
-          k8s:istio: ingressgateway
-          k8s:name: istio-ingressgateway
-          io.cilium.k8s.policy.cluster: ms1
-          k8s:io.kubernetes.pod.namespace: istio-ingressgateway
-      - matchLabels:
           app: nginx
           component: frontend
           release: stable
