@@ -7,9 +7,9 @@ data:
     server {
         listen       80;
 
-        #location /bicycle_infra/ {
-        #    proxy_pass   http://bikeinfra:8000/;
-        #}
+        location /bicycle_infra/ {
+            proxy_pass   http://bikeinfra.ip-dashboard.svc.cluster.local:80/;
+        }
 
         #location /bike_data/ {
         #    proxy_pass   http://osem-data-fetcher:8000/;
