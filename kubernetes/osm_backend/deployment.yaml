@@ -51,7 +51,7 @@ spec:
               ephemeral-storage: 1Gi
             # Limits for cpu, memory and ephemeral-storage are mandatory.
             limits:
-              cpu: 800m
+              cpu: 600m
               memory: 1024Mi
               ephemeral-storage: 1Gi
           # Security best practices to not run as root user
@@ -78,5 +78,5 @@ spec:
           #    mountPath: /var/run
       volumes:
         - name: out
-          emptyDir:
-            medium: Memory
+          persistentVolumeClaim:
+            claimName: bikeinfra-storage
