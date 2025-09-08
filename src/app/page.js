@@ -1,23 +1,13 @@
-import Image from "next/image";
-import BaseTile from "@components/BaseTile";
+"use client"
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
+
+  router.push('./muenster')
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-start gap-10 pt-24">
-      <Image
-        src="/icons/BicycleIconGreen.svg"
-        alt="Vercel Logo"
-        width={100}
-        height={24}
-        priority
-      />
-      <div className="flex flex-container flex-wrap flex-row-reverse w-5/6">
-        <div className="flex flex-container flex-wrap justify-end w-2/6">
-          <BaseTile className="h-96">1</BaseTile>
-          <BaseTile>2</BaseTile>
-          <BaseTile>3</BaseTile>
-        </div>
-      </div>
     </main>
   );
 }
