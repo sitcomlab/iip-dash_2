@@ -74,10 +74,14 @@ export default function Osnabrück() {
                 <>
                 <BIWeightsControlTile></BIWeightsControlTile>
                 <BikeabilityInfoTile></BikeabilityInfoTile>
-                <PlusTile></PlusTile>
                 </>
               )}
-              {mapViewState === "AdministrativeAreas" && <PlusTile></PlusTile>}
+              {mapViewState === "AdministrativeAreas" && (
+                <>
+                <BIWeightsControlTile></BIWeightsControlTile>
+                <BikeabilityInfoTile></BikeabilityInfoTile>
+                </>
+              )}
               </div>
           </div>
 

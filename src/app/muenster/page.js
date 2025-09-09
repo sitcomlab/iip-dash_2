@@ -77,10 +77,14 @@ export default function Münster() {
                 <>
                 <BIWeightsControlTile></BIWeightsControlTile>
                 <BikeabilityInfoTile></BikeabilityInfoTile>
-                <PlusTile></PlusTile>
                 </>
               )}
-              {mapViewState === "BicycleNetwork" && <PlusTile></PlusTile>}
+              {mapViewState === "BicycleNetwork" && (
+                <>
+                <BIWeightsControlTile></BIWeightsControlTile>
+                <BikeabilityInfoTile></BikeabilityInfoTile>
+                </>
+              )}
               </div>
           </div>
 
