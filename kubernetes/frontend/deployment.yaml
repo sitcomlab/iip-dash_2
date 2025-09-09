@@ -42,6 +42,7 @@ spec:
       containers:
         - name: frontend
           image: zivgitlab.wwu.io/rsubrama/ip-deployment/ip-dash-2:latest
+          imagePullPolicy: Always
           #command: [ "/usr/sbin/nginx" ]
           #args: [ "-c", "/etc/nginx/nginx.conf" ]
           resources:
@@ -63,6 +64,7 @@ spec:
           ports:
             - name: http
               containerPort: 3000
+
           #readinessProbe:
           #  httpGet:
           #    port: http
