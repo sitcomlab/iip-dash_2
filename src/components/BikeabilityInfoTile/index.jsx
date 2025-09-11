@@ -113,8 +113,8 @@ function BikeabilityInfoTile() {
 
   return (
     <BaseTile height="row-span-2" width="col-span-1">
-      <div className="text-md font-semibold w-full mb-4">
-        Bikeability-Statistik <br />
+      <div className="text-lg font-semibold mt-2 mb-4">
+        Bikeability Statistiken <br />
         { anonymizedFeatures != null ? //this is a remainder from when anonymized data was displayed. remove once there is no need for it anymore
           <label class="inline-flex items-center mb-2 mt-2 cursor-pointer">
             <input

@@ -1,14 +1,12 @@
 "use client";
-import React, { useContext } from 'react';
-import { GeoJSON, FeatureGroup, Pane } from 'react-leaflet';
+import React, { useContext, useRef, useCallback, useEffect } from 'react';
+import { GeoJSON, FeatureGroup, Pane} from 'react-leaflet';
 import { GroupedLayer } from "../LayerControl/LayerControl";
 import { addInfo } from "../popupInfos/PopupAddInfo";
 import { MapFeatureContext } from "../../MapFeatureProvider";
 import { mapLoadingState } from '@/components/RecoilContextProvider';
-
-import md5 from "md5";
-import { useEffect, useRef } from 'react';
 import { useRecoilState } from 'recoil';
+import md5 from "md5";
 
 // Color scales for bikeability classes
 const BIKEABILITY_COLORS = [
@@ -27,14 +25,6 @@ const ANONYMIZED_COLORS = [
     { range: [0.81, 1], color: 'rgb(0, 0, 255)' } // Full blue
 ];
 
-// const BISEGMENT_DARKER_COLORS = [
-//     { range: [0, 0.20], color: 'rgb(200, 200, 200)' }, // Light gray
-//     { range: [0.21, 0.40], color: 'rgb(255, 100, 100)' }, // Darker light red
-//     { range: [0.41, 60], color: 'rgb(255, 0, 0)' }, // Darker medium red
-//     { range: [0.61, 0.80], color: 'rgb(120, 0, 0)' }, // Darker dark red
-//     { range: [0.81, 1], color: 'rgb(90, 0, 0)' } // Darkest red
-// ];
-
 const BISEGMENT_DARKER_COLORS = [
     { range: [0, 0.20], color: 'rgb(255, 0, 0)' },      // Bright red
     { range: [0.21, 0.40], color: 'rgb(255, 102, 0)' }, // Bright orange
@@ -44,47 +34,45 @@ const BISEGMENT_DARKER_COLORS = [
 ];
 
 
-
-
 const Bikeability = (props) => {
     const { bikeabilityFeatures, biSegmentFeatures, anonymizedFeatures } = useContext(MapFeatureContext);
     const [mapLoading, setMapLoading] = useRecoilState(mapLoadingState)
 
-    const segmentBikeabilityRef = useRef(null)
+    // const segmentBikeabilityRef = useRef(null)
+    const segmentRef = useRef(null);
 
-    
-    useEffect(() => {
-        if (segmentBikeabilityRef.current) {
-        // geoJsonRef.current is the Leaflet GeoJSON layer
-        console.log(segmentBikeabilityRef)
-        setMapLoading(false);
-        }
-    }, [segmentBikeabilityRef.current])
+    // useEffect(() => {
+    //     if (segmentBikeabilityRef.current) {
+    //     // geoJsonRef.current is the Leaflet GeoJSON layer
+    //     console.log(segmentBikeabilityRef)
+    //     setMapLoading(false);
+    //     }
+    // }, [segmentBikeabilityRef.current])
   
-    // Check if features are defined
-    // TODO: this guard clause was previously broken because of using AND instead of OR
-    if ((bikeabilityFeatures == undefined || bikeabilityFeatures.features == undefined) &&
-        (biSegmentFeatures == undefined || biSegmentFeatures.features == undefined) &&
-        (anonymizedFeatures == undefined || anonymizedFeatures.features == undefined)
-        ){
-        setMapLoading(true);
-        return <></>;
-    }
+    // // Check if features are defined
+    // // TODO: this guard clause was previously broken because of using AND instead of OR
+    // if ((bikeabilityFeatures == undefined || bikeabilityFeatures.features == undefined) &&
+    //     (biSegmentFeatures == undefined || biSegmentFeatures.features == undefined) &&
+    //     (anonymizedFeatures == undefined || anonymizedFeatures.features == undefined)
+    //     ){
+    //     setMapLoading(true);
+    //     return <></>;
+    // }
 
     // console.log('biSegmentFeatures:', bikeabilityFeatures);
     // console.log('biSegmentFeatures:', biSegmentFeatures);
 
     // Function to determine color based on factor score
-    const getColor = (factorScore, isAnonymized = false) => {
-        const colorScale = isAnonymized ? ANONYMIZED_COLORS : BIKEABILITY_COLORS;
-        const classInfo = colorScale.find(cls =>
-            factorScore >= cls.range[0] && factorScore <= cls.range[1]
-        );
-        return classInfo ? classInfo.color : 'rgb(255, 255, 255)'; // Default to white
-    };
+    // const getColor = (factorScore, isAnonymized = false) => {
+    //     const colorScale = isAnonymized ? ANONYMIZED_COLORS : BIKEABILITY_COLORS;
+    //     const classInfo = colorScale.find(cls =>
+    //         factorScore >= cls.range[0] && factorScore <= cls.range[1]
+    //     );
+    //     return classInfo ? classInfo.color : 'rgb(255, 255, 255)'; // Default to white
+    // };
 
     // Style function for GeoJSON lines, handling all three feature types
-    const styleLines = (feature, isAnonymized = false) => {
+    const styleLines = useCallback((feature, isAnonymized = false) => {
         let score;
         let colorScale = BIKEABILITY_COLORS;
         if (isAnonymized) {
@@ -109,9 +97,47 @@ const Bikeability = (props) => {
             weight: 5,
             opacity: 0.7
         };
-    };
+    }, []);
 
-    setMapLoading(false);
+    // const chunkedSegments = useMemo(() => {
+    //   if (!biSegmentFeatures?.features) return [];
+    //   const size = 500;
+    //   const chunks = [];
+    //   for (let i = 0; i < biSegmentFeatures.features.length; i += size) {
+    //     chunks.push({
+    //       type: "FeatureCollection",
+    //       features: biSegmentFeatures.features.slice(i, i + size),
+    //     });
+    //   }
+    //   return chunks;
+    // }, [biSegmentFeatures]);
+
+    // Only set loading when GeoJSON layer is added
+    useEffect(() => {
+        if (!biSegmentFeatures?.features) {
+        setMapLoading(true);
+        return;
+        }
+        console.time("Leaflet-add-layer");
+        const layer = segmentRef.current;
+        if (layer?._layers) {
+        // wait until Leaflet actually adds features
+        const checkLoaded = setInterval(() => {
+            const keys = Object.keys(layer._layers || {});
+            if (keys.length > 0) {
+                console.timeEnd("Leaflet-add-layer");
+                setMapLoading(false);
+                clearInterval(checkLoaded);
+                }
+            }, 50);
+            return () => clearInterval(checkLoaded);
+        }
+    }, [biSegmentFeatures]);
+
+    if (!bikeabilityFeatures?.features && !biSegmentFeatures?.features && !anonymizedFeatures?.features) {
+        setMapLoading(true);
+        return null;
+    }
 
     return (
         <>
@@ -140,7 +166,10 @@ const Bikeability = (props) => {
                                 style={(feature) => styleLines(feature, false)}
                                 onEachFeature={addInfo}
                                 key={"BISegments_" + md5(JSON.stringify(biSegmentFeatures))}
-                                ref={segmentBikeabilityRef}
+                                // ref={segmentBikeabilityRef}
+                                ref={segmentRef}
+                                renderer={L.canvas()} 
+                                // key="BISegments_static"
                             />
                         )
                         }
@@ -168,3 +197,5 @@ const Bikeability = (props) => {
 };
 
 export default Bikeability;
+
+
