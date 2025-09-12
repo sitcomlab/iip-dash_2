@@ -164,32 +164,24 @@ export default function BIWeightsControlTile() {
     };
 
     setWeightsGlobal(newWeights);
-    // setMapLoading(true);
     console.log("Applied weights:", newWeights);
   };
 
   // slider positions (two handles)
   const [value, setValue] = useState([0.4, 0.9]);
+  const [lastApplied, setLastApplied] = useState([0.4, 0.9]); 
   // const debounceRef = useRef(null);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
-    // setMapLoading(true);
   };
-
-  // Debounce effect for value
-  // useEffect(() => {
-  //   const handler = setTimeout(() => {
-  //     pushWeights(value);
-  //     console.log("Pushed weights:", value);
-  //   }, 1500); // wait 500ms after last change
-
-  //   return () => clearTimeout(handler); // cancel previous timer if still active
-  // }, [value]);
 
   const safety = Math.round(value[0] * 100);
   const infra = Math.round((value[1] - value[0]) * 100);
   const env = Math.round((1 - value[1]) * 100);
+
+    // --- check if slider changed compared to last applied ---
+  const dirty = value[0] !== lastApplied[0] || value[1] !== lastApplied[1];
 
   const marks = [
     // { value: 0, label: "0%" },
@@ -277,38 +269,39 @@ export default function BIWeightsControlTile() {
       </Box>
 
       {/* Show weights live */}
-      {/* <div className="mt-4 space-y-1 text-lg">
-        <p style={{ color: "#3b82f6" }}>Verkehrssicherheit : {safety}%</p>
-        <p style={{ color: "#22c55e" }}>Infastruktur-Qualität : {infra}%</p>
-        <p style={{ color: "#f59e0b" }}>Umwelt-Qualität : {env}%</p>
-      </div> */}
       <div className="space-y-2 text-lg">
         <LabelWithColor color="#3b82f6" text={`Verkehrssicherheit : ${safety}%`} />
         <LabelWithColor color="#22c55e" text={`Infrastrukturqualität : ${infra}%`} />
         <LabelWithColor color="#f59e0b" text={`Umweltqualität : ${env}%`} />
       </div>
 
-      {/* <div className="mt-3 relative">
-        <button
-          className="bg-blue-500 absolute right-0 hover:bg-blue-700 text-white font-normal py-2 px-4 rounded-full"
-          onClick={pushWeights}
+      {/* Apply section: only visible/enabled when slider changed */}
+      <div className="mt-3 flex items-center justify-between py-2">
+        <p
+          className={`text-sm text-gray-600 transition-opacity duration-200 ${
+            dirty ? "opacity-100" : "opacity-0"
+          }`}
         >
-          Anwenden
-        </button>
-      </div> */}
-
-      <div className="mt-3 flex justify-between items-center py-2">
-        <p className="text-sm text-gray-600">
-          {/* Die Schieberegler einstellen und klicken <span className="font-medium">Anwenden</span> Gewichte neu berechnen. */}
-          Werte ändern & klicken <span className="font-medium">Anwenden</span>
+          Gewichtungen wurden geändert – <span className="font-medium">Anwenden</span> klicken.
         </p>
+
         <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-normal py-2 px-4 rounded-full"
-          onClick={pushWeights}
+          onClick={() => {
+            pushWeights();
+            setLastApplied([Number(value[0].toFixed(3)), Number(value[1].toFixed(3))]);
+          }}
+          disabled={!dirty}
+          className={`py-2 px-4 rounded-full transition-colors duration-200 ${
+            dirty
+              ? "bg-blue-500 hover:bg-blue-700 text-white"
+              : "bg-gray-300 text-gray-500 cursor-not-allowed"
+          }`}
         >
           Anwenden
         </button>
       </div>
+
+
     </BaseTile>
   );
 }
