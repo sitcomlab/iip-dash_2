@@ -51,6 +51,7 @@ export default function BikeInfrastructTile({
           zIndex: 1000,
         }}
       >
+        {/*
         <ViewButton
           //mapViewContext={ViewMode.AdministrativeAreas}
           onClick={function () {
@@ -58,6 +59,7 @@ export default function BikeInfrastructTile({
           }}
           type={"AdministrativeAreas"}
         />
+         */}
         <ViewButton
           //mapViewContext={ViewMode.AdministrativeAreas}
           onClick={function () {
