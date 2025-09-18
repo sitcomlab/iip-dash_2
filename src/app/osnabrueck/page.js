@@ -76,7 +76,7 @@ export default function Osnabrück() {
                 <BikeabilityInfoTile></BikeabilityInfoTile>
                 </>
               )}
-              {mapViewState === "AdministrativeAreas" && (
+              {mapViewState === "BicycleNetwork" && (
                 <>
                 <BIWeightsControlTile></BIWeightsControlTile>
                 <BikeabilityInfoTile></BikeabilityInfoTile>
