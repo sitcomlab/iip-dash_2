@@ -70,7 +70,7 @@ export default function Osnabrück() {
               {mapViewState === "AdministrativeAreas" && (
                 <AdminAreaInfoTile></AdminAreaInfoTile>
               )}
-              {mapViewState === "Bikeability" && (
+              {/*mapViewState === "Bikeability" && (
                 <>
                 <BIWeightsControlTile></BIWeightsControlTile>
                 <BikeabilityInfoTile></BikeabilityInfoTile>
@@ -81,7 +81,14 @@ export default function Osnabrück() {
                 <BIWeightsControlTile></BIWeightsControlTile>
                 <BikeabilityInfoTile></BikeabilityInfoTile>
                 </>
-              )}
+              )
+
+              While there is no difference between the views, conditional rendering is not necessary*/}
+
+              <>
+              <BIWeightsControlTile></BIWeightsControlTile>
+              <BikeabilityInfoTile></BikeabilityInfoTile>
+              </>
               </div>
           </div>
 
