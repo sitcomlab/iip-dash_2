@@ -5,16 +5,16 @@ import { useState } from "react";
 import BaseTile from "@components/BaseTile";
 import { DynamicDataBox } from "./DynamicDataBox";
 import { MapFeatureContext } from "@components/MapFeatureProvider";
-import { ReactECharts } from "../AdminAreaInfoTile/ReactECharts";
+import { BarChart, Bar, ResponsiveContainer, YAxis, XAxis, Label, Cell } from 'recharts';
 import LoadingSpinner from "@/components/Elements/LoadingSpinner";
 
 function Histogram({ data, chartColor }) {
   let buckets = [
-    ">0 - 0.2",
-    ">0.2 - 0.4",
-    ">0.4 - 0.6",
-    ">0.6 - 0.8",
-    ">0.8 - 1"
+    ">0 to 0.2",
+    ">0.2 to 0.4",
+    ">0.4 to 0.6",
+    ">0.6 to 0.8",
+    ">0.8 to 1"
   ];
   let segmentBikeability = data.map((currentFeature) => {
     return currentFeature.properties.bikeability_index;
@@ -47,27 +47,72 @@ function Histogram({ data, chartColor }) {
     }
   }
 
+  // prepare dataset for Recharts
+  const bars = [
+    {
+      name: buckets[0],
+      bikeability: bucketDistribution[0]
+    },
+    {
+      name: buckets[1],
+      bikeability: bucketDistribution[1]
+    },
+    {
+      name: buckets[2],
+      bikeability: bucketDistribution[2]
+    },
+    {
+      name: buckets[3],
+      bikeability: bucketDistribution[3]
+    },
+    {
+      name: buckets[4],
+      bikeability: bucketDistribution[4]
+    },
+  ]
+
+  const XAxisTick = ({ x, y, stroke, payload }) => {
+    return (
+        <g transform={`translate(${x},${y})`}>
+          <text x={-10} y={5} dy={20} textAnchor="start" fill="#666" transform="rotate(60)">
+            {payload.value}
+          </text>
+        </g>
+      );
+  };
+
+  const colors = ["rgb(255, 0, 0)","rgb(255, 102, 0)","rgb(255, 255, 0)","rgb(0, 204, 0)","rgb(0, 102, 255)"]
+
   return (
-    <div className="h-80 mt-10 w-full">
+    <div className="h-80 mt-5 w-full">
       <p className="text-md font-normal w-full">Verteilung der Bikeability (pro Kilometer)</p>
-      <ReactECharts
-        option={{
-          xAxis: {
-            data: buckets,
-          },
-          yAxis: {
-          },
-          series: [
-            {
-              type: "bar",
-              data: bucketDistribution,
-              itemStyle: {
-                color: chartColor,
-              },
-            },
-          ],
-        }}
-      />
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart
+          width={150}
+          height={40}
+          margin={{
+            top: 5,
+            right: -10,
+            left: 0,
+            bottom: 60,
+            }}
+          data={bars}>
+          <XAxis dataKey="name" angle={90} tick={XAxisTick}/>
+            <YAxis>
+              <Label
+              value="Kilometer"
+              position="insideLeft"
+              angle={90}
+              offset={15}
+              />
+            </YAxis>
+          <Bar dataKey="bikeability" fill="#8884d8">
+            {data.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={colors[index % 20]} />
+            ))}
+          </Bar>
+        </BarChart>
+      </ResponsiveContainer>
     </div>
   );
 }
