@@ -8,52 +8,59 @@ import { MapFeatureContext } from "@components/MapFeatureProvider";
 import { ReactECharts } from "../AdminAreaInfoTile/ReactECharts";
 import LoadingSpinner from "@/components/Elements/LoadingSpinner";
 
-function BarChartMonths({ data, chartColor }) {
-  let months = [
-    "Januar",
-    "Februar",
-    "März",
-    "April",
-    "Mai",
-    "Juni",
-    "Juli",
-    "August",
-    "September",
-    "Oktober",
-    "November",
-    "Dezember",
+function Histogram({ data, chartColor }) {
+  let buckets = [
+    ">0 - 0.2",
+    ">0.2 - 0.4",
+    ">0.4 - 0.6",
+    ">0.6 - 0.8",
+    ">0.8 - 1"
   ];
-  let trajectoryMonths = data.features.map((currentFeature) => {
-    return currentFeature.properties.month;
+  let segmentBikeability = data.map((currentFeature) => {
+    return currentFeature.properties.bikeability_index;
   });
-  let monthDistribution = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-  for (const month of trajectoryMonths) {
-    let i = month - 1;
-    monthDistribution[i] += 1;
-  }
+  let bucketDistribution = [0, 0, 0, 0, 0];
 
-  let shortMonthDistr = [];
-  let shortMonths = [];
-  for (const i in monthDistribution) {
-    if (monthDistribution[i] != 0) {
-      shortMonthDistr.push(monthDistribution[i]);
-      shortMonths.push(months[i]);
+  //todo: account for segment length
+  for (const segment of data) {
+    const bikeability = segment.properties.bikeability_index
+    switch(true){
+      // greater than 0, because currently no-data segments seem to appear as 0
+      // TODO: once backend fix for issue #27 available, consider 0 again
+      case bikeability <= 0.2 && bikeability > 0.0:
+        bucketDistribution[0] += length(segment, {unit: "kilometers"});
+        break;
+      case bikeability <= 0.4 && bikeability > 0.2:
+        bucketDistribution[1] += length(segment, {unit: "kilometers"});
+        break;
+      case bikeability <= 0.6 && bikeability > 0.4:
+        bucketDistribution[2] += length(segment, {unit: "kilometers"});
+        break;
+      case bikeability <= 0.8 && bikeability > 0.6:
+        bucketDistribution[3] += length(segment, {unit: "kilometers"});
+        break
+      case bikeability <= 1 && bikeability > 0.8:
+        bucketDistribution [4] += length(segment, {unit: "kilometers"});
+        break;
+      default:
+        break;
     }
   }
 
   return (
     <div className="h-80 mt-10 w-full">
-      <p className="text-sm font-normal w-full">Verteilung der Messungen</p>
+      <p className="text-md font-normal w-full">Verteilung der Bikeability (pro Kilometer)</p>
       <ReactECharts
         option={{
           xAxis: {
-            data: shortMonths,
+            data: buckets,
           },
-          yAxis: {},
+          yAxis: {
+          },
           series: [
             {
               type: "bar",
-              data: shortMonthDistr,
+              data: bucketDistribution,
               itemStyle: {
                 color: chartColor,
               },
@@ -66,16 +73,11 @@ function BarChartMonths({ data, chartColor }) {
 }
 
 function BikeabilityInfoTile() {
-  const { bikeabilityFeatures, anonymizedFeatures } =
+  const { biSegmentFeatures } =
     useContext(MapFeatureContext);
-  const [isAnon, setIsAnon] = useState(false);
-  const anonSwitchHandler = () => {
-    setIsAnon(!isAnon);
-  };
 
   if (
-    bikeabilityFeatures == null ||
-    bikeabilityFeatures.features == null //||
+    biSegmentFeatures?.features == null //||
     //anonymizedFeatures == null ||
     //anonymizedFeatures.features == null
   ) {
@@ -86,10 +88,11 @@ function BikeabilityInfoTile() {
     </BaseTile>;
   }
 
-  const inputFeatures = isAnon ? anonymizedFeatures : bikeabilityFeatures;
+  // TODO: consider 0 again once backend fix for issue #27 is available
+  const inputFeatures = biSegmentFeatures.features.filter((feature) => feature.properties.bikeability_index > 0)
 
   //calculate total distance cycled
-  const totalLength = inputFeatures.features.reduce(
+  const totalLength = inputFeatures.reduce(
     (accumulator, currentFeature) => {
       return accumulator + length(currentFeature, { units: "kilometers" });
     },
@@ -97,78 +100,44 @@ function BikeabilityInfoTile() {
   );
 
   //calculate mean bikeability
-  // TODO: adjust based on how bikeability for each route is calculated
-  // if trajectory length is not considered in the bikeability of one, lose the distance factor
   const meanBikeability =
-    inputFeatures.features.reduce((accumulator, currentFeature) => {
+    inputFeatures.reduce((accumulator, currentFeature) => {
       return (
         accumulator +
-        currentFeature.properties.factor_score *
+        currentFeature.properties.bikeability_index *
           length(currentFeature, { units: "kilometers" })
       );
     }, 0) / totalLength;
 
-  //count amount of trajectories
-  const trajectoryAmount = inputFeatures.features.length;
-
   return (
     <BaseTile height="row-span-2" width="col-span-1">
+
       <div className="text-lg font-semibold mt-2 mb-4">
         Bikeability Statistiken <br />
-        { anonymizedFeatures != null ? //this is a remainder from when anonymized data was displayed. remove once there is no need for it anymore
-          <label class="inline-flex items-center mb-2 mt-2 cursor-pointer">
-            <input
-              type="checkbox"
-              value=""
-              class="sr-only peer"
-              checked={isAnon}
-              onChange={anonSwitchHandler}
-            />
-            <div class="relative w-9 h-5 mr-2 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600 dark:peer-checked:bg-sky-500"></div>
-            <span className="font-normal">
-              {isAnon ? "" : "nicht-"}anonymisierte Sensordaten
-            </span>
-          </label>
-          :
-          <div className="h-5"/>
-        }
       </div>
       <div className="flex flex-wrap flex-row justify-center w-full gap-2">
-        <DynamicDataBox
-          value={trajectoryAmount}
-          decimals={0}
-          unit=""
-          header="Strecken im Datensatz"
-          size="big"
-          color={isAnon ? "bg-sky-500" : "bg-rose-500"}
-        ></DynamicDataBox>
+
         <DynamicDataBox
           value={totalLength}
           decimals={2}
           unit="km"
-          header="Distanz aller Strecken"
+          header="Abgedecktes Netzwerk"
           size="big"
-          color={isAnon ? "bg-sky-500" : "bg-rose-500"}
+          color="bg-sky-500"
         ></DynamicDataBox>
+
         <DynamicDataBox
           value={meanBikeability}
           decimals={2}
           unit=""
-          header="Bikeability Durchschnitt"
+          header="Durchschnittliche Bikeability"
           size="big"
-          color={isAnon ? "bg-sky-500" : "bg-rose-500"}
+          color="bg-sky-500"
         ></DynamicDataBox>
-        <DynamicDataBox
-          value={isAnon ? 7 : "keine"}
-          decimals={0}
-          unit=""
-          header="k-Anonymität"
-          size="big"
-          color={isAnon ? "bg-sky-500" : "bg-rose-500"}
-        ></DynamicDataBox>
-        <BarChartMonths
+
+        <Histogram
           data={inputFeatures}
-          chartColor={isAnon ? "blue" : "red"}
+          chartColor="blue"
         />
       </div>
     </BaseTile>
