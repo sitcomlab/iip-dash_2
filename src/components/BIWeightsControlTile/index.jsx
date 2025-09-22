@@ -3,6 +3,7 @@ import { length } from "@turf/length";
 import { useState, useRef, useEffect  } from "react";
 import { Slider } from "@mui/material";
 import { atom, useRecoilState } from 'recoil';
+import InfoElement from "../Elements/InfoElement";
 
 import { mapLoadingState } from '@/components/RecoilContextProvider';
 import BaseTile from "@components/BaseTile";
@@ -169,7 +170,7 @@ export default function BIWeightsControlTile() {
 
   // slider positions (two handles)
   const [value, setValue] = useState([0.4, 0.9]);
-  const [lastApplied, setLastApplied] = useState([0.4, 0.9]); 
+  const [lastApplied, setLastApplied] = useState([0.4, 0.9]);
   // const debounceRef = useRef(null);
 
   const handleChange = (event, newValue) => {
@@ -206,13 +207,13 @@ export default function BIWeightsControlTile() {
       <span>{text}</span>
     </div>
   );
-  
+
 
   return (
     <BaseTile height="h-96" width="col-span-1">
-      <p className="text-lg font-semibold mt-2 mb-4">
-        Bikeability-Gewichtungen <br />
-      </p>
+      <div className="text-lg font-semibold mt-2 mb-4">
+        Bikeability-Gewichtungen <InfoElement content='Hier können Ihre Prioritäten gesetzt werden. Klicken Sie "Anwenden" um die veränderungen auf der Karte zu sehen'/><br />
+      </div>
 
       <Box sx={{ width: "100%", px: 2, py: 4 }}>
         <Slider
@@ -251,8 +252,8 @@ export default function BIWeightsControlTile() {
               background: "transparent"
             },
             "& .MuiSlider-mark": {
-              backgroundColor: "#ffffffff", 
-              opacity: 1,              
+              backgroundColor: "#ffffffff",
+              opacity: 1,
               height: 5,
               width: 5,
               borderRadius: "50%",
