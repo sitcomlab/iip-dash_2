@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { length } from "@turf/length";
 import { useState } from "react";
 
+import InfoElement from "@components/Elements/InfoElement";
 import BaseTile from "@components/BaseTile";
 import { DynamicDataBox } from "./DynamicDataBox";
 import { MapFeatureContext } from "@components/MapFeatureProvider";
@@ -85,7 +86,7 @@ function Histogram({ data, chartColor }) {
 
   return (
     <div className="h-80 mt-5 w-full">
-      <p className="text-md font-normal w-full">Verteilung der Bikeability (pro Kilometer)</p>
+      <p className="text-md font-normal w-full">Bikeability Histogramm <InfoElement content="Verteilung der einzelnen Bikeability-klassen pro Kilometer im abgedeckten Streckennetz."/></p>
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
           width={150}
@@ -100,10 +101,10 @@ function Histogram({ data, chartColor }) {
           <XAxis dataKey="name" angle={90} tick={XAxisTick}/>
             <YAxis>
               <Label
-              value="Kilometer"
+              value="km"
               position="insideLeft"
-              angle={90}
-              offset={15}
+              angle={-90}
+              offset={10}
               />
             </YAxis>
           <Bar dataKey="bikeability" fill="#8884d8">
@@ -169,6 +170,7 @@ function BikeabilityInfoTile() {
           header="Abgedecktes Netzwerk"
           size="big"
           color="bg-sky-500"
+          info=<InfoElement content="Anteil des Fahrradnetzes in Kilometer, der von unserer Bikeability-Berechnung abgedeckt werden kann"/>
         ></DynamicDataBox>
 
         <DynamicDataBox
@@ -178,6 +180,7 @@ function BikeabilityInfoTile() {
           header="Durchschnittliche Bikeability"
           size="big"
           color="bg-sky-500"
+          info=<InfoElement content="Die durchschnittliche ermittelte Bikeability von allen abgedeckten Streckenabschnitten"/>
         ></DynamicDataBox>
 
         <Histogram

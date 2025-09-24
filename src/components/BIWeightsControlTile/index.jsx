@@ -212,7 +212,9 @@ export default function BIWeightsControlTile() {
   return (
     <BaseTile height="h-96" width="col-span-1">
       <div className="text-lg font-semibold mt-2 mb-4">
-        Bikeability-Gewichtungen <InfoElement content='Hier können Ihre Prioritäten gesetzt werden. Klicken Sie "Anwenden" um die veränderungen auf der Karte zu sehen'/><br />
+        Bikeability-Gewichtungen <InfoElement
+          content='Hier können Ihre Prioritäten gesetzt werden. Klicken Sie auf "Anwenden" um die veränderungen auf der Karte zu sehen'
+        /><br />
       </div>
 
       <Box sx={{ width: "100%", px: 2, py: 4 }}>

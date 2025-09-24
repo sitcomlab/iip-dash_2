@@ -8,6 +8,7 @@ function DynamicDataBox({
   size = "normal",
   range = null,
   color = "bg-sky-500",
+  info = null,
 }) {
   let valueRound = value;
   if (typeof value == "number") {
@@ -38,7 +39,7 @@ function DynamicDataBox({
     `;
   return (
     <div className={classes}>
-      <div className="text-base font-semibold">{header}</div>
+      <div className="text-base font-semibold">{header} &nbsp;{info}</div>
       <div className="text-lg font-semibold">{valueRound}</div>
       <div className="text-sm font-semibold">{unit}</div>
     </div>
