@@ -2,9 +2,6 @@
 OSMBicycleInfrastructure
 IP-OSeM-Backend
 
-#Deployment configs
-kubernetes
-
 node_modules
 logs
 *.log
