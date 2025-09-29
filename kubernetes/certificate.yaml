@@ -1,0 +1,31 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: ip-dashboard
+  annotations:
+    cert-manager.io/issue-temporary-certificate: "true"
+spec:
+  # commonName and dnsNames are restricted and need to be apply for in the
+  # project application, if the wwuit-acme cluster issuer is used.
+  commonName: "ipdashboard.uni-muenster.de"
+  dnsNames:
+    - "ipdashboard.uni-muenster.de"
+  # Cluster Issuer with which certificates from the DFN can be requested.
+  issuerRef:
+    group: cert-manager.io
+    kind: ClusterIssuer
+    name: wwuit-acme
+  privateKey:
+    rotationPolicy: Always
+    algorithm: ECDSA
+    size: 256
+  secretName: ipdash-certificate
+  subject:
+    countries:
+      - DE
+    provinces:
+      - Nordrhein-Westfalen
+    localities:
+      - Muenster
+    organizations:
+      - Westfaelische Wilhelms-Universitaet Muenster

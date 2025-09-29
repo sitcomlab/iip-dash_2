@@ -1,0 +1,26 @@
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: nginx
+spec:
+  endpointSelector:
+    matchLabels:
+      k8s:app: nginx
+      k8s:component: frontend
+      k8s:release: stable
+  ingress:
+    - fromEndpoints:
+      - matchLabels:
+          k8s:app: istio-ingressgateway
+          k8s:istio: ingressgateway
+          k8s:name: istio-ingressgateway
+          io.cilium.k8s.policy.cluster: ms1
+          k8s:io.kubernetes.pod.namespace: istio-ingressgateway
+      toPorts:
+        - ports:
+            - port: "80"
+              protocol: TCP
+  # empty list disallows all egress traffic. for the backends we need to allow traffic to OSM and OSeM
+  egress:
+      - toEndpoints:
+          - {}
