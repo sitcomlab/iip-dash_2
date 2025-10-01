@@ -8,7 +8,7 @@
     "next_dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "prep_deploy": "docker compose down && docker build -t zivgitlab.wwu.io/rsubrama/ip-deployment/ip-dash-2 . && docker build -t zivgitlab.wwu.io/rsubrama/ip-deployment/bikeinfra ./OSMBicycleInfrastructure && docker build -t zivgitlab.wwu.io/rsubrama/ip-deployment/osem-data-fetcher ./IP-OSeM-Backend",
+    "prep_deploy": "docker compose down && docker build -t zivgitlab.wwu.io/rsubrama/ip-deployment/ip-dash-2 --provenance false . && docker build -t zivgitlab.wwu.io/rsubrama/ip-deployment/bikeinfra --provenance false ./OSMBicycleInfrastructure && docker build -t zivgitlab.wwu.io/rsubrama/ip-deployment/osem-data-fetcher --provenance false ./IP-OSeM-Backend",
     "push_containers": "docker login zivgitlab.wwu.io && docker push zivgitlab.wwu.io/rsubrama/ip-deployment/ip-dash-2 && docker push zivgitlab.wwu.io/rsubrama/ip-deployment/bikeinfra && docker push zivgitlab.wwu.io/rsubrama/ip-deployment/osem-data-fetcher",
     "deploy": "docker compose -f docker-compose.prod.yml down && docker compose down && docker compose -f docker-compose.prod.yml up",
     "undeploy": "docker compose -f docker-compose.prod.yml down && docker compose down",
