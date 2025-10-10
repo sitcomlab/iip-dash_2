@@ -38,7 +38,6 @@ const Bikeability = (props) => {
     const { bikeabilityFeatures, biSegmentFeatures, anonymizedFeatures } = useContext(MapFeatureContext);
     const [mapLoading, setMapLoading] = useRecoilState(mapLoadingState)
 
-    // const segmentBikeabilityRef = useRef(null)
     const segmentRef = useRef(null);
 
     // useEffect(() => {
@@ -99,40 +98,28 @@ const Bikeability = (props) => {
         };
     }, []);
 
-    // const chunkedSegments = useMemo(() => {
-    //   if (!biSegmentFeatures?.features) return [];
-    //   const size = 500;
-    //   const chunks = [];
-    //   for (let i = 0; i < biSegmentFeatures.features.length; i += size) {
-    //     chunks.push({
-    //       type: "FeatureCollection",
-    //       features: biSegmentFeatures.features.slice(i, i + size),
-    //     });
-    //   }
-    //   return chunks;
-    // }, [biSegmentFeatures]);
-
     // Only set loading when GeoJSON layer is added
     useEffect(() => {
         if (!biSegmentFeatures?.features) {
-        setMapLoading(true);
-        return;
-        }
-        console.time("Leaflet-add-layer");
-        const layer = segmentRef.current;
-        if (layer?._layers) {
-        // wait until Leaflet actually adds features
-        const checkLoaded = setInterval(() => {
-            const keys = Object.keys(layer._layers || {});
-            if (keys.length > 0) {
-                console.timeEnd("Leaflet-add-layer");
-                setMapLoading(false);
-                clearInterval(checkLoaded);
-                }
-            }, 50);
-            return () => clearInterval(checkLoaded);
-        }
-    }, [biSegmentFeatures]);
+            setMapLoading(true);
+            return;
+            }
+            // console.time("Leaflet-add-layer");
+            
+            const layer = segmentRef.current;
+            if (layer?._layers) {
+            // wait until Leaflet actually adds features
+            const checkLoaded = setInterval(() => {
+                const keys = Object.keys(layer._layers || {});
+                if (keys.length > 0) {
+                    // console.timeEnd("Leaflet-add-layer");
+                    setMapLoading(false);
+                    clearInterval(checkLoaded);
+                    }
+                }, 50);
+                return () => clearInterval(checkLoaded);
+            }
+        }, [biSegmentFeatures]);
 
     if (!bikeabilityFeatures?.features && !biSegmentFeatures?.features && !anonymizedFeatures?.features) {
         setMapLoading(true);
@@ -166,7 +153,6 @@ const Bikeability = (props) => {
                                 style={(feature) => styleLines(feature, false)}
                                 onEachFeature={addInfo}
                                 key={"BISegments_" + md5(JSON.stringify(biSegmentFeatures))}
-                                // ref={segmentBikeabilityRef}
                                 ref={segmentRef}
                                 renderer={L.canvas()} 
                                 // key="BISegments_static"

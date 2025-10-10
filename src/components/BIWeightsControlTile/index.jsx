@@ -213,7 +213,7 @@ export default function BIWeightsControlTile() {
     <BaseTile height="h-96" width="col-span-1">
       <div className="text-lg font-semibold mt-2 mb-4">
         Bikeability-Gewichtungen <InfoElement
-          content='Hier können Ihre Prioritäten gesetzt werden. Klicken Sie auf "Anwenden" um die veränderungen auf der Karte zu sehen'
+          content='Hier können Ihre Prioritäten gesetzt werden. Klicken Sie auf "Anwenden" um die Veränderungen auf der Karte zu sehen'
         /><br />
       </div>
 
@@ -281,7 +281,7 @@ export default function BIWeightsControlTile() {
       {/* Apply section: only visible/enabled when slider changed */}
       <div className="mt-3 flex items-center justify-between py-2">
         <p
-          className={`text-sm text-gray-600 transition-opacity duration-200 ${
+          className={`text-sm text-red-600 font-semibold transition-opacity duration-200 ${
             dirty ? "opacity-100" : "opacity-0"
           }`}
         >

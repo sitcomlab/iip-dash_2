@@ -86,7 +86,7 @@ function Histogram({ data, chartColor }) {
 
   return (
     <div className="h-80 mt-5 w-full">
-      <p className="text-md font-normal w-full">Bikeability Histogramm <InfoElement content="Verteilung der einzelnen Bikeability-klassen pro Kilometer im abgedeckten Streckennetz."/></p>
+      <p className="text-md font-normal w-full">Bikeability Histogramm <InfoElement content="Verteilung der einzelnen Bikeability-Klassen pro Kilometer im abgedeckten Streckennetz."/></p>
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
           width={150}
