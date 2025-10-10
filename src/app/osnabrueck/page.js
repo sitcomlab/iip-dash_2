@@ -61,10 +61,8 @@ export default function Osnabrück() {
               <div
               className="
               grid
-              2xl:grid-cols-[min-content,min-content]
-              xl:grid-cols-[min-content]
-              lg:grid-cols-[min-content]
-              md:grid-cols-[min-content]
+              grid-cols-1 lg:grid-cols-1 gap-4 auto-rows-min
+
 
               ">
               {mapViewState === "AdministrativeAreas" && (
@@ -103,3 +101,13 @@ export default function Osnabrück() {
     </main>
   );
 }
+
+
+// className="
+// grid
+// 2xl:grid-cols-[min-content,min-content]
+// xl:grid-cols-[min-content]
+// lg:grid-cols-[min-content]
+// md:grid-cols-[min-content]
+
+// ">
