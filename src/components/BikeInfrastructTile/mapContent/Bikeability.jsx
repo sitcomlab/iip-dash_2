@@ -1,12 +1,20 @@
 "use client";
 import React, { useContext, useRef, useCallback, useEffect } from 'react';
-import { GeoJSON, FeatureGroup, Pane} from 'react-leaflet';
+import { GeoJSON, FeatureGroup, Pane, useMap} from 'react-leaflet';
 import { GroupedLayer } from "../LayerControl/LayerControl";
 import { addInfo } from "../popupInfos/PopupAddInfo";
 import { MapFeatureContext } from "../../MapFeatureProvider";
 import { mapLoadingState } from '@/components/RecoilContextProvider';
 import { useRecoilState } from 'recoil';
 import md5 from "md5";
+import L from "leaflet";
+import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
+import "leaflet-routing-machine";
+import "leaflet-control-geocoder";
+import "leaflet-control-geocoder/dist/Control.Geocoder.css";
+import dynamic from "next/dynamic";
+
+const RoutingMachine = dynamic(() => import("./RoutingMachine"), { ssr: false });
 
 // Color scales for bikeability classes
 const BIKEABILITY_COLORS = [
@@ -33,42 +41,53 @@ const BISEGMENT_DARKER_COLORS = [
     { range: [0.81, 1], color: 'rgb(0, 102, 255)' }     // Bright blue
 ];
 
+// // Test
+// const RoutingMachine = () => {
+//   const map = useMap();
+//   const routingRef = useRef(null);
+
+//   useEffect(() => {
+//     if (!map) return;
+
+//     const myIcon = L.icon({
+//       iconUrl: '/icons/marker-icon.png', 
+//       iconSize: [25, 41], 
+//       iconAnchor: [12, 41], 
+//       popupAnchor: [1, -34], 
+//     });
+
+//     const routingControl = L.Routing.control({
+//       waypoints: [
+//         L.latLng(51.9625, 7.6256), // Münster center
+//         L.latLng(51.9554, 7.6528), // Münster Zoo area
+//       ],
+//       routeWhileDragging: true,
+//       showAlternatives: true,
+//       addWaypoints: true,
+//       geocoder: L.Control.Geocoder.nominatim(),
+//       position:"topleft",
+//       createMarker: (i, waypoint, n) => {
+//         return L.marker(waypoint.latLng, { icon: myIcon, draggable: true });
+//       }
+//     }).addTo(map);
+//     routingRef.current = routingControl;
+
+//     return () => {
+//       if (routingRef.current) {
+//         map.removeControl(routingRef.current);
+//         routingRef.current = null;
+//       }
+//     };
+//   }, [map]);
+
+//   return null;
+// };
 
 const Bikeability = (props) => {
     const { bikeabilityFeatures, biSegmentFeatures, anonymizedFeatures } = useContext(MapFeatureContext);
     const [mapLoading, setMapLoading] = useRecoilState(mapLoadingState)
 
     const segmentRef = useRef(null);
-
-    // useEffect(() => {
-    //     if (segmentBikeabilityRef.current) {
-    //     // geoJsonRef.current is the Leaflet GeoJSON layer
-    //     console.log(segmentBikeabilityRef)
-    //     setMapLoading(false);
-    //     }
-    // }, [segmentBikeabilityRef.current])
-  
-    // // Check if features are defined
-    // // TODO: this guard clause was previously broken because of using AND instead of OR
-    // if ((bikeabilityFeatures == undefined || bikeabilityFeatures.features == undefined) &&
-    //     (biSegmentFeatures == undefined || biSegmentFeatures.features == undefined) &&
-    //     (anonymizedFeatures == undefined || anonymizedFeatures.features == undefined)
-    //     ){
-    //     setMapLoading(true);
-    //     return <></>;
-    // }
-
-    // console.log('biSegmentFeatures:', bikeabilityFeatures);
-    // console.log('biSegmentFeatures:', biSegmentFeatures);
-
-    // Function to determine color based on factor score
-    // const getColor = (factorScore, isAnonymized = false) => {
-    //     const colorScale = isAnonymized ? ANONYMIZED_COLORS : BIKEABILITY_COLORS;
-    //     const classInfo = colorScale.find(cls =>
-    //         factorScore >= cls.range[0] && factorScore <= cls.range[1]
-    //     );
-    //     return classInfo ? classInfo.color : 'rgb(255, 255, 255)'; // Default to white
-    // };
 
     // Style function for GeoJSON lines, handling all three feature types
     const styleLines = useCallback((feature, isAnonymized = false) => {
@@ -119,7 +138,7 @@ const Bikeability = (props) => {
                 }, 50);
                 return () => clearInterval(checkLoaded);
             }
-        }, [biSegmentFeatures]);
+        }, [biSegmentFeatures,setMapLoading]);
 
     if (!bikeabilityFeatures?.features && !biSegmentFeatures?.features && !anonymizedFeatures?.features) {
         setMapLoading(true);
@@ -162,6 +181,7 @@ const Bikeability = (props) => {
                     </FeatureGroup>
                 </Pane>
             </GroupedLayer>
+            <RoutingMachine />
         {false &&
           <GroupedLayer checked={false} group="Anonymisierte Bikeability" name="Anonymized-Bikeability">
             <Pane name="anonymizedBikeability" style={{ zIndex: 502 }}>

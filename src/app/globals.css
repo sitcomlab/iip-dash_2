@@ -34,6 +34,8 @@ body {
 }
 
 @import "leaflet/dist/leaflet.css";
+@import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
+@import "leaflet-control-geocoder/dist/Control.Geocoder.css";
 
 .leaflet-popup-content {
     width: 350px !important; /* Set width to auto */
@@ -47,3 +49,170 @@ body {
 .leaflet-control-attribution {
     filter: brightness(95%) contrast(120%) saturate(20%);
 }
+
+/* Default styles for the route instructions container */
+.leaflet-routing-container {
+  font-size: 16px;
+  width: 400px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  overflow-y: auto;
+  max-height: 60vh; 
+}
+
+/* Smaller screens (mobile) */
+@media (max-width: 768px) {
+  .leaflet-routing-container {
+    width: 90%;
+    font-size: 13px;
+    padding: 8px;
+    max-height: 16vh;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 480px) {
+  .leaflet-routing-container {
+    width: 95%;
+    font-size: 12px;
+    padding: 6px;
+  }
+}
+
+/* Styling for route instructions (optional, improves readability) */
+.leaflet-routing-container .leaflet-routing-alt {
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+
+
+@media (max-width: 768px) {
+  .leaflet-routing-container {
+    left: 2px !important;
+    right: 10px !important;
+    bottom: 5px !important;
+    top: auto !important;
+  }
+}
+
+
+/* ====== Base styling ====== */
+ /* .custom-routing-control {
+  background: white;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4);
+  font-size: 16px;
+  margin-top: 20px;
+  width: 320px;
+  max-width: 90vw; 
+  box-sizing: border-box;
+} */
+
+/* Input groups */
+/* .routing-input-group {
+  margin-bottom: 12px;
+} */
+
+/* Labels */
+/* .routing-label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 4px;
+} */
+
+/* Text inputs */
+/* .routing-input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 15px;
+  box-sizing: border-box;
+} */
+
+/* Dropdown styling */
+/* .routing-dropdown {
+  list-style: none;
+  margin-top: 4px;
+  padding: 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  max-height: 150px;
+  overflow-y: auto;
+  background: white;
+  display: none;
+} */
+
+/* Dropdown items */
+/* .routing-dropdown li {
+  padding: 6px 8px;
+  cursor: pointer;
+}
+.routing-dropdown li:hover {
+  background: #f0f0f0;
+} */
+
+/* ====== Responsive layout fixes ====== */
+
+/* Make Leaflet control container flexible */
+/* .leaflet-top.leaflet-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+} */
+
+/* Tablet screens */
+/* @media (max-width: 768px) {
+  .leaflet-top.leaflet-left {
+    align-items: center;
+  } */
+
+  /* .custom-routing-control {
+    width: 90vw;
+    font-size: 14px;
+    padding: 8px;
+    border-radius: 6px;
+  } */
+
+  /* .routing-input {
+    font-size: 14px;
+    padding: 6px;
+  }
+} */
+
+/* Mobile screens (move to bottom center like a floating card) */
+/* @media (max-width: 480px) {
+  .leaflet-top.leaflet-left {
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .custom-routing-control {
+    position: absolute !important;
+    top: auto !important;
+    bottom: 10px;
+    left: 50% !important;
+    transform: translateX(-50%);
+    width: 95vw;
+    font-size: 13px;
+    padding: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    z-index: 9999;
+  }
+
+  .routing-input {
+    font-size: 13px;
+    padding: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .custom-routing-control {
+    border-radius: 12px;
+    backdrop-filter: blur(5px);
+    background: rgba(255, 255, 255, 0.9);
+  }
+}  */

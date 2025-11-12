@@ -10,6 +10,8 @@ import { BikeabilityInfoTileSmall } from "@/components/BikeabilityInfoTile";
 import BikeabilityInfoTile from "@/components/BikeabilityInfoTile";
 import BIWeightsControlTile from "@/components/BIWeightsControlTile";
 //import AdminAreaInfoTile from "@/components/AdminAreaInfoTile";
+
+
 const AdminAreaInfoTile = dynamic(
   () => import("@/components/AdminAreaInfoTile"),
   { ssr: false },
@@ -87,7 +89,7 @@ export default function Münster() {
 
               <>
               <BIWeightsControlTile></BIWeightsControlTile>
-              <BikeabilityInfoTile></BikeabilityInfoTile>
+              <BikeabilityInfoTile></BikeabilityInfoTile> 
               </>
               </div>
           </div>
