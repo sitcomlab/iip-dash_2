@@ -38,8 +38,8 @@ body {
 @import "leaflet-control-geocoder/dist/Control.Geocoder.css";
 
 .leaflet-popup-content {
-    width: 350px !important; /* Set width to auto */
-    max-width: 100%; /* Ensure the content does not exceed the available width */
+    width: 350px !important; 
+    max-width: 100%; 
 }
 
 /* Add theme to map */
@@ -96,123 +96,31 @@ body {
   }
 }
 
-
-/* ====== Base styling ====== */
- /* .custom-routing-control {
-  background: white;
+/* Allow custom controls to resize fluidly */
+.custom-routing-control {
+  max-width: 90vw !important;   
+  width: auto !important;
+  box-sizing: border-box !important;
+  /* background: white;
   padding: 10px;
   border-radius: 8px;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4);
-  font-size: 16px;
+  font-size: 18px;
   margin-top: 20px;
   width: 320px;
-  max-width: 90vw; 
-  box-sizing: border-box;
-} */
-
-/* Input groups */
-/* .routing-input-group {
-  margin-bottom: 12px;
-} */
-
-/* Labels */
-/* .routing-label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 4px;
-} */
-
-/* Text inputs */
-/* .routing-input {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 15px;
-  box-sizing: border-box;
-} */
-
-/* Dropdown styling */
-/* .routing-dropdown {
-  list-style: none;
-  margin-top: 4px;
-  padding: 0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  max-height: 150px;
-  overflow-y: auto;
-  background: white;
-  display: none;
-} */
-
-/* Dropdown items */
-/* .routing-dropdown li {
-  padding: 6px 8px;
-  cursor: pointer;
+  max-width: 95vw; 
+  box-sizing: border-box; */
 }
-.routing-dropdown li:hover {
-  background: #f0f0f0;
-} */
 
-/* ====== Responsive layout fixes ====== */
-
-/* Make Leaflet control container flexible */
-/* .leaflet-top.leaflet-left {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 10px;
-} */
-
-/* Tablet screens */
-/* @media (max-width: 768px) {
-  .leaflet-top.leaflet-left {
-    align-items: center;
-  } */
-
-  /* .custom-routing-control {
-    width: 90vw;
-    font-size: 14px;
-    padding: 8px;
-    border-radius: 6px;
-  } */
-
-  /* .routing-input {
-    font-size: 14px;
-    padding: 6px;
-  }
-} */
-
-/* Mobile screens (move to bottom center like a floating card) */
-/* @media (max-width: 480px) {
-  .leaflet-top.leaflet-left {
-    justify-content: flex-end;
-    align-items: center;
-  }
-
+/* Mobile responsiveness */
+@media (max-width: 768px) {
   .custom-routing-control {
-    position: absolute !important;
-    top: auto !important;
-    bottom: 10px;
-    left: 50% !important;
-    transform: translateX(-50%);
-    width: 95vw;
-    font-size: 13px;
-    padding: 10px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-    z-index: 9999;
-  }
-
-  .routing-input {
-    font-size: 13px;
-    padding: 6px;
+    max-width: 95vw !important;
   }
 }
 
 @media (max-width: 480px) {
   .custom-routing-control {
-    border-radius: 12px;
-    backdrop-filter: blur(5px);
-    background: rgba(255, 255, 255, 0.9);
+    max-width: 98vw !important;
   }
-}  */
+}

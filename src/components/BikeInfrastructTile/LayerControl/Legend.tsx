@@ -75,6 +75,30 @@ const BaseMapMarker = styled.span`
         width: 1rem;
         pointer-events: none;
     }
+
+    /* ----- Tablet screens (≤ 768px) ----- */
+    @media (max-width: 768px) {
+        width: 1.1rem;
+        height: 1.1rem;
+        font-size: 0.65rem;
+
+        > svg {
+            width: 0.7rem;
+            height: 0.7rem;
+        }
+    }
+
+    /* ----- Small mobile screens (≤ 480px) ----- */
+    @media (max-width: 480px) {
+        width: 1rem;
+        height: 1rem;
+        margin-right: 0.3rem;
+        font-size: 0.6rem;
+
+        > svg {
+            width: 0.5rem;
+            height: 0.5rem;
+        }
 `;
 
 function LegendRow(props: LegendRowProps) {

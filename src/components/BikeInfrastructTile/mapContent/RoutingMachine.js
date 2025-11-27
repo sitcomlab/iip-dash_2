@@ -244,17 +244,35 @@ export default function RoutingMachine() {
     const customControl = L.control({ position: 'topleft' });
     customControl.onAdd = function(map) {
       const container = L.DomUtil.create('div', 'custom-routing-control leaflet-control');
+
+      const W = window.innerWidth;
+
+      // Responsive dynamic width
+      if (W < 480) {
+        container.style.width = '90vw';       // very small screens
+      } else if (W < 768) {
+        container.style.width = '70vw';       // mobile
+      } else {
+        container.style.width = '320px';      // desktop
+      }
+
+      // Responsive padding & font
+      container.style.padding = W < 480 ? '6px' : W < 768 ? '10px' : '14px';
+      container.style.fontSize = W < 480 ? '12px' : W < 768 ? '14px' : '16px';
+
       container.style.background = 'white';
-      container.style.padding = '10px';
+      // container.style.padding = '10px';
       container.style.borderRadius = '5px';
       container.style.boxShadow = '0 1px 5px rgba(0,0,0,0.4)';
-      container.style.fontSize = '18px';
+      container.style.fontSize = '20px';
       container.style.marginTop = '20px'; // Position below zoom buttons
       container.style.boxSizing = 'border-box';
+      container.style.zIndex = '9999';
+
 
       // Prevent map interactions when interacting with inputs
       L.DomEvent.disableClickPropagation(container);
-      L.DomEvent.disableScrollPropagation(container);
+      // L.DomEvent.disableScrollPropagation(container);
 
       const startDiv = L.DomUtil.create('div', '', container);
       startDiv.style.marginBottom = '10px';
