@@ -159,6 +159,11 @@ export default function RoutingMachine() {
   const handleStartInputChange = useCallback(async (e) => {
     const value = e.target.value;
     setStartQuery(value);
+    // if (!value.trim()) {
+    //   setStartSuggestions([]);
+    //   setShowStartDropdown(false);
+    //   return;
+    // }
     const suggestions = await fetchSuggestions(value);
     setStartSuggestions(suggestions);
     setShowStartDropdown(suggestions.length > 0);
@@ -167,6 +172,11 @@ export default function RoutingMachine() {
   const handleEndInputChange = useCallback(async (e) => {
     const value = e.target.value;
     setEndQuery(value);
+    // if (!value.trim()) {
+    //   setEndSuggestions([]);
+    //   setShowEndDropdown(false);
+    //   return;
+    // }
     const suggestions = await fetchSuggestions(value);
     setEndSuggestions(suggestions);
     setShowEndDropdown(suggestions.length > 0);
@@ -175,6 +185,16 @@ export default function RoutingMachine() {
   const selectStartSuggestion = useCallback((suggestion) => {
     setStartQuery(suggestion.name);
     setShowStartDropdown(false);
+    // setStartSuggestions([]);
+
+    // if (startInputRef.current) {
+    //   startInputRef.current.oninput = null;
+    //   startInputRef.current.value = suggestion.name;
+
+    //   setTimeout(() => {
+    //     startInputRef.current.oninput = handleStartInputChange;
+    //   }, 50);
+    // }
     if (controlRef.current) {
       const currentWaypoints = controlRef.current.getWaypoints();
       currentWaypoints[0] = L.Routing.waypoint(suggestion.latlng);
@@ -185,6 +205,16 @@ export default function RoutingMachine() {
   const selectEndSuggestion = useCallback((suggestion) => {
     setEndQuery(suggestion.name);
     setShowEndDropdown(false);
+    // setEndSuggestions([]);
+
+    // if (endInputRef.current) {
+    //   endInputRef.current.oninput = null;
+    //   endInputRef.current.value = suggestion.name;
+
+    //   setTimeout(() => {
+    //     endInputRef.current.oninput = handleEndInputChange;
+    //   }, 50);
+    // }
     if (controlRef.current) {
       const currentWaypoints = controlRef.current.getWaypoints();
       currentWaypoints[1] = L.Routing.waypoint(suggestion.latlng);
@@ -244,27 +274,32 @@ export default function RoutingMachine() {
     const customControl = L.control({ position: 'topleft' });
     customControl.onAdd = function(map) {
       const container = L.DomUtil.create('div', 'custom-routing-control leaflet-control');
+      // const container = L.DomUtil.create(
+      //                     'div',
+      //                     'custom-routing-control leaflet-control p-2 sm:p-4 md:p-6 text-xs sm:text-sm md:text-base lg:text-lg bg-white rounded shadow-lg'
+      //                   );
 
-      const W = window.innerWidth;
 
-      // Responsive dynamic width
-      if (W < 480) {
-        container.style.width = '90vw';       // very small screens
-      } else if (W < 768) {
-        container.style.width = '70vw';       // mobile
-      } else {
-        container.style.width = '320px';      // desktop
-      }
+      // const W = window.innerWidth;
+
+      // // Responsive dynamic width
+      // if (W < 480) {
+      //   container.style.width = '90vw';       // very small screens
+      // } else if (W < 768) {
+      //   container.style.width = '70vw';       // mobile
+      // } else {
+      //   container.style.width = '320px';      // desktop
+      // }
 
       // Responsive padding & font
-      container.style.padding = W < 480 ? '6px' : W < 768 ? '10px' : '14px';
-      container.style.fontSize = W < 480 ? '12px' : W < 768 ? '14px' : '16px';
+      // container.style.padding = W < 768 ? '4px' : W < 1100? '8px' : W > 1100 ? '10px' : '12px' ;
+      // container.style.fontSize = W < 768 ? '10px' : W < 1100 ? '10px' : W > 1100 ? '16px' : '18px';
 
       container.style.background = 'white';
-      // container.style.padding = '10px';
+      container.style.padding = '10px';
       container.style.borderRadius = '5px';
       container.style.boxShadow = '0 1px 5px rgba(0,0,0,0.4)';
-      container.style.fontSize = '20px';
+      // container.style.fontSize = '18px';
       container.style.marginTop = '20px'; // Position below zoom buttons
       container.style.boxSizing = 'border-box';
       container.style.zIndex = '9999';
@@ -286,7 +321,7 @@ export default function RoutingMachine() {
       const startInput = L.DomUtil.create('input', '', startDiv);
       startInput.type = 'text';
       startInput.placeholder = 'Enter start location';
-      startInput.style.width = '250px';
+      startInput.style.width = '200px';
       startInput.style.boxSizing = 'border-box';
       startInputRef.current = startInput;
       startInput.oninput = handleStartInputChange;
@@ -311,7 +346,7 @@ export default function RoutingMachine() {
       const endInput = L.DomUtil.create('input', '', endDiv);
       endInput.type = 'text';
       endInput.placeholder = 'Enter end location';
-      endInput.style.width = '250px';
+      endInput.style.width = '200px';
       endInput.style.boxSizing = 'border-box';
       endInputRef.current = endInput;
       endInput.oninput = handleEndInputChange;

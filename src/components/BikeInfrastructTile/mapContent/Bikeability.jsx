@@ -94,17 +94,17 @@ const Bikeability = (props) => {
         let score;
         let colorScale = BIKEABILITY_COLORS;
         if (isAnonymized) {
-            score = feature.properties.factor_score;
+            score = Number(feature.properties.factor_score);
             colorScale = ANONYMIZED_COLORS;
         } else if (feature.properties.bikeability_index !== undefined) {
-            score = feature.properties.bikeability_index;
+            score = Number(feature.properties.bikeability_index);
             colorScale = BISEGMENT_DARKER_COLORS;
         } else {
-            score = feature.properties.factor_score;
+            score = Number(feature.properties.factor_score);
             colorScale = BIKEABILITY_COLORS;
         }
         // Assign distinct color for null or undefined scores
-        if (score === null || score === undefined) {
+        if (score === null || score === undefined || isNaN(score)) {
             score = -1; // Will not match any range, so default color white will be used
         }
         const classInfo = colorScale.find(cls =>
@@ -113,7 +113,7 @@ const Bikeability = (props) => {
         return {
             color: classInfo ? classInfo.color : 'rgb(255, 255, 255)',
             weight: 5,
-            opacity: 0.7
+            opacity: 1
         };
     }, []);
 
