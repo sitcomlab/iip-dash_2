@@ -8,7 +8,7 @@
 
 import { createContext, useState, useEffect } from "react";
 import useBikeInfrastructData from '@/hooks/useBikeInfrastructure'; // Correct import path
-import useBikeabilityData from '@/hooks/useBikeabilityData'; // Import the bikeability data hook
+// import useBikeabilityData from '@/hooks/useBikeabilityData'; // Import the bikeability data hook
 import useBiSegmentData from "@/hooks/useBiSegmentData";
 import { biWeightsState } from "@/components/RecoilContextProvider";
 import { useRecoilValue } from 'recoil';
@@ -16,12 +16,12 @@ import { useRecoilValue } from 'recoil';
 export const MapFeatureContext = createContext({
   bikeInfrastructFeatures: null,
   setBikeInfrastructFeatures: () => {},
-  bikeabilityFeatures: null,
-  setBikeabilityFeatures: () => {},
+  // bikeabilityFeatures: null,
+  // setBikeabilityFeatures: () => {},
   biSegmentFeatures: null,
   setBISegmentFeatures: () => {},
-  anonymizedFeatures: null,
-  setAnonymizedFeatures: () => {},
+  // anonymizedFeatures: null,
+  // setAnonymizedFeatures: () => {},
 });
 
 export const MapContentContext = createContext({
@@ -34,32 +34,33 @@ export default function MapFeatureProvider(props) {
   const weights = useRecoilValue(biWeightsState);
 
   const bicycleInfrastructureData = useBikeInfrastructData(props.city.infrastructureSource);
-  const bikeabilityData = useBikeabilityData(props.city.bikeabilitySource);
+  // const bikeabilityData = useBikeabilityData(props.city.bikeabilitySource);
   const biSegmentData = useBiSegmentData(props.city.biSegmentSource, weights);
-  const anonymizedData = useBikeabilityData(props.city.anonymizationSource);
+  // const anonymizedData = useBikeabilityData(props.city.anonymizationSource);
 
   const [bikeInfrastructFeatures, setBikeInfrastructFeatures] = useState(null);
-  const [bikeabilityFeatures, setBikeabilityFeatures] = useState(null);
+  // const [bikeabilityFeatures, setBikeabilityFeatures] = useState(null);
   const [biSegmentFeatures, setBISegmentFeatures] = useState(null);
-  const [anonymizedFeatures, setAnonymizedFeatures] = useState(null);
+  // const [anonymizedFeatures, setAnonymizedFeatures] = useState(null);
 
   const bikeInfrastructFeaturesValue = {
     bikeInfrastructFeatures,
     setBikeInfrastructFeatures,
-    bikeabilityFeatures,
-    setBikeabilityFeatures,
+    // bikeabilityFeatures,
+    // setBikeabilityFeatures,
     biSegmentFeatures,
     setBISegmentFeatures,
-    anonymizedFeatures,
-    setAnonymizedFeatures,
+    // anonymizedFeatures,
+    // setAnonymizedFeatures,
   };
 
   useEffect(() => {
     setBikeInfrastructFeatures(bicycleInfrastructureData);
-    setBikeabilityFeatures(bikeabilityData);
+    // setBikeabilityFeatures(bikeabilityData);
     setBISegmentFeatures(biSegmentData);
-    setAnonymizedFeatures(anonymizedData);
-  }, [bicycleInfrastructureData, bikeabilityData, biSegmentData, anonymizedData]);
+    // setAnonymizedFeatures(anonymizedData);
+  }, [bicycleInfrastructureData, biSegmentData]);
+  // }, [bicycleInfrastructureData, bikeabilityData, biSegmentData, anonymizedData]);
 
   return (
     <>

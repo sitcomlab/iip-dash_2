@@ -78,26 +78,27 @@ const BaseMapMarker = styled.span`
 
     /* ----- Tablet screens (≤ 768px) ----- */
     @media (max-width: 768px) {
-        width: 1.1rem;
-        height: 1.1rem;
-        font-size: 0.65rem;
+        width: 0.5rem;
+        height: 0.3rem;
+        margin-right: 0.3rem;
+        font-size: 0.3rem;
 
         > svg {
-            width: 0.7rem;
-            height: 0.7rem;
+            width: 0.5rem;
+            height: 0.3rem;
         }
     }
 
     /* ----- Small mobile screens (≤ 480px) ----- */
     @media (max-width: 480px) {
-        width: 1rem;
-        height: 1rem;
+        width: 0.3rem;
+        height: 0.3rem;
         margin-right: 0.3rem;
-        font-size: 0.6rem;
+        font-size: 0.3rem;
 
         > svg {
             width: 0.5rem;
-            height: 0.5rem;
+            height: 0.3rem;
         }
 `;
 
