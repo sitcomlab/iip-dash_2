@@ -91,7 +91,7 @@ export default function Osnabrück() {
           </div>
 
           {/* Fixed sidebar */}
-          <div className="flex-1 md:flex-grow-1 min-h-[50vh] min-h-1/2 m-2">
+          <div className="flex-1 md:flex-grow-1 min-h-[60vh] min-h-1/2 m-2">
           <BikeInfrastructTile height="h-[49rem] h-full" width="w-auto"></BikeInfrastructTile>
           </div>
 

@@ -80,6 +80,8 @@ const BaseMapMarker = styled.span`
     @media (max-width: 768px) {
         width: 0.5rem;
         height: 0.3rem;
+        margin-top:0.1rem;
+        margin-bottom:0.1rem;
         margin-right: 0.3rem;
         font-size: 0.3rem;
 

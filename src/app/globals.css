@@ -114,7 +114,7 @@ body {
 /* Tablet portrait */
 @media (max-width: 768px) {
   .custom-routing-control {
-    width: 160px !important;
+    width: 180px !important;
     /* max-height: 100px !important; */
     padding: 8px !important;
     font-size: 12px !important;
