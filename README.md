@@ -45,4 +45,62 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 pages are defined under `/src/app/{pagename}/page.js`. there, for instance the pages for münster and osnabrück can be found respectively.
 
 ## Deployment
-TO DO
+This project is deployed using Docker containers managed by a Kubernetes cluster. The following section documents the required tools, the deployment workflow, and recommended monitoring commands.
+
+### Prerequisites
+
+Before deploying, ensure the following tools are installed locally:
+
+- kubectl (command-line tool for communicating with the Kubernetes cluster)
+
+- Docker (for building locally before pushing)
+
+- Node.js (to run build scripts)
+
+- Access credentials for the target Kubernetes environment
+
+Once your access credentials are configured, you must authenticate/log in before using kubectl. This login process is required regularly depending on the cluster's authentication policy.
+
+### Deployment Workflow
+
+#### Build & publish images: 
+
+The project includes automated scripts that build and publish Docker images to the container registry used by the Kubernetes cluster.
+
+```bash
+npm run prep_deploy
+npm run push_containers
+```
+
+These commands:
+
+- Build the Docker images from the current project source code.
+
+- Push the images to the configured container registry (e.g., GitLab Container Registry).
+
+After the registry is updated, Kubernetes will automatically pull these new images during pod restarts or redeployments.
+
+#### Monitor deployment and Debug if needed:
+
+Once deployed, you can monitor your Kubernetes pods and services using the following commands.
+
+```bash
+kubectl get pods
+watch kubectl get pods
+kubectl describe pod <podname>
+kubectl logs -f <podname>
+kubectl exec -it <podname> -- bash
+kubectl get events
+```
+These commands can be used to list pods, inspect pods, view logs, view cluster events.
+
+#### Updating a Deployed Container Image
+
+If you push a new version of a container image without modifying Kubernetes config files, the cluster may continue running the older image until the affected pods are restarted.
+
+To force Kubernetes to pull and run the new image, delete the existing pod:
+
+```bash
+kubectl delete pod <podname>
+```
+Kubernetes will automatically recreate the pod using the latest image from the container registry.

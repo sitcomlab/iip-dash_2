@@ -89,9 +89,9 @@ body {
 @media (max-width: 768px) {
   .leaflet-routing-container {
     left: 2px !important;
-    right: 10px !important;
+    right: 10px !important; 
     bottom: 5px !important;
-    top: auto !important;
+    top: 2px !important;
   }
 }
 
