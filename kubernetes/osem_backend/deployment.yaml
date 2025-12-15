@@ -37,11 +37,11 @@ spec:
       #securityContext:
       #  runAsNonRoot: true
       imagePullSecrets:
-        - name: regcred
+        - name: gitlab-regcred
 
       containers:
         - name: bi-backend
-          image: zivgitlab.wwu.io/rsubrama/ip-deployment/osem-data-fetcher:latest
+          image: registry.git.nrw/uni-ms/sitcom/intelligent-pendeln/ip-deployment/osem-data-fetcher:latest
           #command: [ "/usr/sbin/nginx" ]
           #args: [ "-c", "/etc/nginx/nginx.conf" ]
           resources:
