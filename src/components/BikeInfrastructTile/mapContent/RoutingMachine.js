@@ -7,9 +7,7 @@ import "leaflet-control-geocoder/dist/Control.Geocoder.css";
 import * as Geocoder from "leaflet-control-geocoder";
 import { useRecoilValue } from 'recoil'; // NEW: For accessing weights
 import { biWeightsState } from '@/components/RecoilContextProvider'; // NEW: Import weights state
-import LoadingSpinner from '@/components/Elements/LoadingSpinner'; // NEW: For loading indicator
-import { mapLoadingState } from '@/components/RecoilContextProvider';
-import { useRecoilState } from 'recoil';
+// import LoadingSpinner from '@/components/Elements/LoadingSpinner'; // NEW: For loading indicator
 
 
 if (typeof window !== "undefined" && L.Control && !L.Control.Geocoder) {
@@ -41,7 +39,6 @@ const CustomOSRMv1 = L.Routing.OSRMv1.extend({
 });
 
 
-
 export default function RoutingMachine() {
   const map = useMap();
   const controlRef = useRef(null);
@@ -58,23 +55,7 @@ export default function RoutingMachine() {
   const [showEndDropdown, setShowEndDropdown] = useState(false);
   const [isRouting, setIsRouting] = useState(false); // NEW: Loading state for routing
   const weights = useRecoilValue(biWeightsState);
-  const [mapLoading, setMapLoading] = useRecoilState(mapLoadingState)
-  const [currentWaypoints, setCurrentWaypoints] = useState([]); // Store current waypoints
 
-  // const fetchSuggestions = useCallback(async (query) => {
-  //   if (!query) return [];
-  //   try {
-  //     const res = await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(query)}&limit=5`);
-  //     const data = await res.json();
-  //     return data.features.map(f => ({
-  //       name: f.properties.name || f.properties.city || f.properties.street,
-  //       latlng: L.latLng(f.geometry.coordinates[1], f.geometry.coordinates[0])
-  //     }));
-  //   } catch (error) {
-  //     console.error("Error fetching suggestions:", error);
-  //     return [];
-  //   }
-  // }, []);
 
   const getCityFromMapCenter = useCallback(() => {
     const center = map.getCenter();
@@ -279,8 +260,6 @@ export default function RoutingMachine() {
       popupAnchor: [1, -34], 
     });
 
-
-
     const router = new CustomOSRMv1({
       serviceUrl: "http://127.0.0.1:3332/sensebox/route/v1",
       profile: "driving",
@@ -331,7 +310,6 @@ export default function RoutingMachine() {
     return () => {
       map.removeControl(customControl);
       map.removeControl(control);
-      setMapLoading(true);
     };
   }, [map, handleStartInputChange, handleEndInputChange, weights]);
 
