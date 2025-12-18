@@ -1,13 +1,12 @@
-import { useCallback, useEffect, useRef, useState,useMemo } from "react";
+import { useCallback, useEffect, useRef, useState} from "react";
 import { useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet-routing-machine";
 import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
 import "leaflet-control-geocoder/dist/Control.Geocoder.css";
 import * as Geocoder from "leaflet-control-geocoder";
-import { useRecoilValue } from 'recoil'; // NEW: For accessing weights
-import { biWeightsState } from '@/components/RecoilContextProvider'; // NEW: Import weights state
-// import LoadingSpinner from '@/components/Elements/LoadingSpinner'; // NEW: For loading indicator
+import { useRecoilValue } from 'recoil'; 
+import { biWeightsState } from '@/components/RecoilContextProvider'; 
 
 
 if (typeof window !== "undefined" && L.Control && !L.Control.Geocoder) {
@@ -46,14 +45,16 @@ export default function RoutingMachine() {
   const endInputRef = useRef(null);
   const startDropdownRef = useRef(null);
   const endDropdownRef = useRef(null);
-  const loadingOverlayRef = useRef(null); // NEW: Ref for loading overlay
+  const loadingOverlayRef = useRef(null); // Ref for loading overlay
   const [startQuery, setStartQuery] = useState("");
   const [endQuery, setEndQuery] = useState("");
   const [startSuggestions, setStartSuggestions] = useState([]);
   const [endSuggestions, setEndSuggestions] = useState([]);
   const [showStartDropdown, setShowStartDropdown] = useState(false);
   const [showEndDropdown, setShowEndDropdown] = useState(false);
-  const [isRouting, setIsRouting] = useState(false); // NEW: Loading state for routing
+  const [isRouting, setIsRouting] = useState(false); // Loading state for routing
+  const [waypoints, setWaypoints] = useState([]); // Persist waypoints across weight changes
+  const [persistedQueries, setPersistedQueries] = useState({ start: "", end: "" }); // Persist query strings
   const weights = useRecoilValue(biWeightsState);
 
 
@@ -118,6 +119,7 @@ export default function RoutingMachine() {
 
   const selectStartSuggestion = useCallback((suggestion) => {
     setStartQuery(suggestion.name);
+    setPersistedQueries(prev => ({ ...prev, start: suggestion.name }));
     setShowStartDropdown(false);
     setStartSuggestions([]);
 
@@ -138,6 +140,7 @@ export default function RoutingMachine() {
 
   const selectEndSuggestion = useCallback((suggestion) => {
     setEndQuery(suggestion.name);
+    setPersistedQueries(prev => ({ ...prev, end: suggestion.name }));
     setShowEndDropdown(false);
     setEndSuggestions([]);
 
@@ -211,6 +214,7 @@ export default function RoutingMachine() {
       startInput.placeholder = 'Enter start location';
       // startInput.style.width = '200px';
       startInput.style.boxSizing = 'border-box';
+      startInput.value = startQuery; // Initialize with current state value
       startInputRef.current = startInput;
       startInput.oninput = handleStartInputChange;
 
@@ -236,6 +240,7 @@ export default function RoutingMachine() {
       endInput.placeholder = 'Enter end location';
       // endInput.style.width = '200px';
       endInput.style.boxSizing = 'border-box';
+      endInput.value = endQuery; // Initialize with current state value
       endInputRef.current = endInput;
       endInput.oninput = handleEndInputChange;
 
@@ -287,6 +292,17 @@ export default function RoutingMachine() {
 
     controlRef.current = control;
 
+    // Restore persisted waypoints if available
+    if (waypoints.length >= 2) {
+      control.setWaypoints(waypoints.map(latLng => L.Routing.waypoint(latLng)));
+    }
+
+    // Listen for waypoint changes to persist them
+    control.on('waypointschanged', () => {
+      const currentWaypoints = control.getWaypoints().map(wp => wp.latLng);
+      setWaypoints(currentWaypoints);
+    });
+
     // Hide the routing container initially (itinerary and alternatives)
     const routingContainer = control.getContainer();
     routingContainer.style.display = 'none';
@@ -297,12 +313,12 @@ export default function RoutingMachine() {
       setIsRouting(false); // NEW: Stop loading
     });
 
-    // NEW: Handle routing start
+    // Handle routing start
     control.on('routingstart', () => {
       setIsRouting(true); // NEW: Start loading
     });
 
-    // NEW: Handle routing error
+    // Handle routing error
     control.on('routingerror', () => {
       setIsRouting(false); // NEW: Stop loading on error
     });
@@ -355,12 +371,18 @@ export default function RoutingMachine() {
     }
   }, [startQuery, endQuery, startSuggestions, endSuggestions, showStartDropdown, showEndDropdown, selectStartSuggestion, selectEndSuggestion]);
 
-  // NEW: Update loading overlay visibility
+  // Update loading overlay visibility
   useEffect(() => {
     if (loadingOverlayRef.current) {
       loadingOverlayRef.current.style.display = isRouting ? 'flex' : 'none';
     }
   }, [isRouting]);
+
+  //Restore persisted queries when component mounts or weights change
+  useEffect(() => {
+    setStartQuery(persistedQueries.start);
+    setEndQuery(persistedQueries.end);
+  }, [persistedQueries, weights]);
 
   return null;
 }

@@ -55,7 +55,7 @@ function ViewButton({ type }) {
           }}
           type={type}
         >
-          Radnetz
+          Radinfrastruktur
         </button>
       );
     } else {
@@ -72,7 +72,7 @@ function ViewButton({ type }) {
           }}
           type={type}
         >
-          Radnetz
+          Radinfrastruktur
         </button>
       );
     }

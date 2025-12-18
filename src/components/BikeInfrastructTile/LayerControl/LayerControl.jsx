@@ -74,7 +74,7 @@ const POSITION_CLASSES = {
 };
 
 function LayerControl({ position, children }) {
-    const [collapsed, setCollapsed] = useState(true);
+    const [collapsed, setCollapsed] = useState(false);
     const [layers, setLayers] = useState([]);
     const positionClass =
       (position && POSITION_CLASSES[position]) || 'leaflet-top leaflet-right';
@@ -194,7 +194,7 @@ const groupedLayers = lodashGroupBy(layers, 'group');
                     {
                       hovering = false;
                       setTimeout(()=> {
-                        if (!hovering){setCollapsed(true)}
+                        if (!hovering){setCollapsed(false)}
                       }, 500)}
                   }
                   onMouseOver={() => hovering = true}
