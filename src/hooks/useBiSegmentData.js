@@ -31,7 +31,7 @@ export default function useBiSegmentData(url, weights) {
     }
 
     fetchData();
-  }, [url, weights]);
+  }, [url, weights, setMapLoading]);
 
   return data;
 }

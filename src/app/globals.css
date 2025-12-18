@@ -34,10 +34,12 @@ body {
 }
 
 @import "leaflet/dist/leaflet.css";
+@import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
+@import "leaflet-control-geocoder/dist/Control.Geocoder.css";
 
 .leaflet-popup-content {
-    width: 350px !important; /* Set width to auto */
-    max-width: 100%; /* Ensure the content does not exceed the available width */
+    width: 350px !important; 
+    max-width: 100%; 
 }
 
 /* Add theme to map */
@@ -46,4 +48,86 @@ body {
 .leaflet-control-zoom-out,
 .leaflet-control-attribution {
     filter: brightness(95%) contrast(120%) saturate(20%);
+}
+
+/* Default styles for the route instructions container */
+.leaflet-routing-container {
+  font-size: 14px;
+  width: 300px !important;
+  padding: 1px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  overflow-y: auto;
+  max-height: 50vh; 
+}
+
+/* Smaller screens (mobile) */
+@media (max-width: 768px) {
+  .leaflet-routing-container {
+    width: 200px !important;
+    font-size: 10px;
+    padding: 1px;
+    max-height: 10vh !important;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 480px) {
+  .leaflet-routing-container {
+    width: 150px;
+    font-size: 12px;
+    padding: 1px;
+  }
+}
+
+/* Styling for route instructions (optional, improves readability) */
+.leaflet-routing-container .leaflet-routing-alt {
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+
+@media (max-width: 768px) {
+  .leaflet-routing-container {
+    left: 2px !important;
+    right: 10px !important; 
+    bottom: 5px !important;
+    top: 2px !important;
+  }
+}
+
+/* Allow custom controls to resize fluidly */
+.custom-routing-control {
+  /* max-width: 90vw !important;    */
+  width: auto !important;
+  box-sizing: border-box !important;
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .custom-routing-control {
+    width: 90vw;
+    padding: 4px;
+    font-size: 10px;
+  }
+}
+
+/* Tablet portrait */
+@media (max-width: 768px) {
+  .custom-routing-control {
+    width: 180px !important;
+    /* max-height: 100px !important; */
+    padding: 8px !important;
+    font-size: 12px !important;
+    margin-bottom: 1px !important;
+    margin-top: 1px !important;
+  }
+}
+
+/* Desktop */
+@media (min-width: 769px) {
+  .custom-routing-control {
+    width: auto !important;
+    padding: 12px;
+    font-size: 16px;
+  }
 }

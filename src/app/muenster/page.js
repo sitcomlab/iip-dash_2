@@ -10,6 +10,8 @@ import { BikeabilityInfoTileSmall } from "@/components/BikeabilityInfoTile";
 import BikeabilityInfoTile from "@/components/BikeabilityInfoTile";
 import BIWeightsControlTile from "@/components/BIWeightsControlTile";
 //import AdminAreaInfoTile from "@/components/AdminAreaInfoTile";
+
+
 const AdminAreaInfoTile = dynamic(
   () => import("@/components/AdminAreaInfoTile"),
   { ssr: false },
@@ -56,7 +58,7 @@ export default function Münster() {
       <MapContext.Provider value={mapValue}>
         <MapFeatureProvider city={cityViewConfig}>
           <div
-            className="w-screen flex grow min-h-0 md:flex-row flex-col-reverse"
+            className="w-screen flex grow min-h-0 flex-col-reverse md:flex-row"
           >
             {/* scroll wrapper */}
             <div className="overflow-y-scroll min-w-0">
@@ -87,13 +89,13 @@ export default function Münster() {
 
               <>
               <BIWeightsControlTile></BIWeightsControlTile>
-              <BikeabilityInfoTile></BikeabilityInfoTile>
+              <BikeabilityInfoTile></BikeabilityInfoTile> 
               </>
               </div>
           </div>
 
           {/* Fixed sidebar */}
-          <div className="flex-1 md:flex-grow-1 min-h-[50vh] min-h-1/2 m-2">
+          <div className="flex-1 md:flex-grow-1 min-h-[60vh] m-2">
           <BikeInfrastructTile height="h-[49rem] h-full" width="w-auto"></BikeInfrastructTile>
           </div>
 
