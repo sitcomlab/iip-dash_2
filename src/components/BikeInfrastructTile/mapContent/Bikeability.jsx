@@ -205,6 +205,127 @@ const BISEGMENT_DARKER_COLORS = [
 // export default Bikeability;
 
 
+// const Bikeability = (props) => {
+//     const { bikeabilityFeatures, biSegmentFeatures, anonymizedFeatures } = useContext(MapFeatureContext);
+//     const [mapLoading, setMapLoading] = useRecoilState(mapLoadingState)
+
+//     const segmentRef = useRef(null);
+
+//     // Style function for GeoJSON lines, handling all three feature types
+//     const styleLines = useCallback((feature, isAnonymized = false) => {
+//         let score;
+//         let colorScale = BIKEABILITY_COLORS;
+//         if (isAnonymized) {
+//             score = feature.properties.factor_score;
+//             colorScale = ANONYMIZED_COLORS;
+//         } else if (feature.properties.bikeability_index !== undefined) {
+//             score = feature.properties.bikeability_index;
+//             colorScale = BISEGMENT_DARKER_COLORS;
+//         } else {
+//             score = feature.properties.factor_score;
+//             colorScale = BIKEABILITY_COLORS;
+//         }
+//         // Assign distinct color for null or undefined scores
+//         if (score === null || score === undefined) {
+//             score = -1; // Will not match any range, so default color white will be used
+//         }
+//         const classInfo = colorScale.find(cls =>
+//             score >= cls.range[0] && score <= cls.range[1]
+//         );
+//         return {
+//             color: classInfo ? classInfo.color : 'rgb(255, 255, 255)',
+//             weight: 5,
+//             opacity: 0.7
+//         };
+//     }, []);
+
+//     // Only set loading when GeoJSON layer is added
+//     useEffect(() => {
+//         if (!biSegmentFeatures?.features) {
+//             setMapLoading(true);
+//             return;
+//             }
+//             // console.time("Leaflet-add-layer");
+            
+//             const layer = segmentRef.current;
+//             if (layer?._layers) {
+//             // wait until Leaflet actually adds features
+//             const checkLoaded = setInterval(() => {
+//                 const keys = Object.keys(layer._layers || {});
+//                 if (keys.length > 0) {
+//                     // console.timeEnd("Leaflet-add-layer");
+//                     setMapLoading(false);
+//                     clearInterval(checkLoaded);
+//                     }
+//                 }, 50);
+//                 return () => clearInterval(checkLoaded);
+//             }
+//         }, [biSegmentFeatures]);
+
+//     if (!bikeabilityFeatures?.features && !biSegmentFeatures?.features && !anonymizedFeatures?.features) {
+//         setMapLoading(true);
+//         return null;
+//     }
+
+//     return (
+//         <>
+//             { false &&
+//             <GroupedLayer checked group="Bikeability" name="Strecken-Bikeability">
+//                 <Pane name="trackwiseBikeability" style={{ zIndex: 500 }}>
+//                     <FeatureGroup>
+//                         {bikeabilityFeatures && (
+//                             <GeoJSON
+//                                 data={bikeabilityFeatures}
+//                                 style={(feature) => styleLines(feature, false)}
+//                                 onEachFeature={addInfo}
+//                                 key={"BITracks_" + md5(JSON.stringify(bikeabilityFeatures))}
+//                             />
+//                         )}
+//                     </FeatureGroup>
+//                 </Pane>
+//             </GroupedLayer>
+//             }
+//             <GroupedLayer checked={true} group="OSM Bikeability" name="OSM-Bikeability">
+//                 <Pane name="segementwisebikeability" style={{ zIndex: 501 }}>
+//                     <FeatureGroup>
+//                         {biSegmentFeatures && (
+//                             <GeoJSON
+//                                 data={biSegmentFeatures}
+//                                 style={(feature) => styleLines(feature, false)}
+//                                 onEachFeature={addInfo}
+//                                 key={"BISegments_" + md5(JSON.stringify(biSegmentFeatures))}
+//                                 ref={segmentRef}
+//                                 renderer={L.canvas()} 
+//                                 // key="BISegments_static"
+//                             />
+//                         )
+//                         }
+//                     </FeatureGroup>
+//                 </Pane>
+//             </GroupedLayer>
+//         {false &&
+//           <GroupedLayer checked={false} group="Anonymisierte Bikeability" name="Anonymized-Bikeability">
+//             <Pane name="anonymizedBikeability" style={{ zIndex: 502 }}>
+//               <FeatureGroup>
+//                 {anonymizedFeatures && (
+//                   <GeoJSON
+//                     data={anonymizedFeatures}
+//                     style={(feature) => styleLines(feature, true)}
+//                     onEachFeature={addInfo}
+//                     key={"BIAnon_" + md5(JSON.stringify(anonymizedFeatures))}
+//                   />
+//                 )}
+//               </FeatureGroup>
+//             </Pane>
+//           </GroupedLayer>
+//         }
+//         </>
+//     );
+// };
+
+// export default Bikeability;
+
+
 const Bikeability = (props) => {
     const { biSegmentFeatures } = useContext(MapFeatureContext);
     const [mapLoading, setMapLoading] = useRecoilState(mapLoadingState)
