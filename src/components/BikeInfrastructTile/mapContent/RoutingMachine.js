@@ -266,7 +266,8 @@ export default function RoutingMachine() {
     });
 
     const router = new CustomOSRMv1({
-      serviceUrl: "http://127.0.0.1:3332/sensebox/route/v1",
+      // serviceUrl: "http://127.0.0.1:3332/sensebox/route/v1",
+      serviceUrl: "https://ipdashboard.uni-muenster.de/bike_data/sensebox/route/v1", // only for the server 
       profile: "driving",
       weights: weights,
     });
