@@ -40,8 +40,8 @@ export default function Navbar(props){
     return(
       <>
         <div className={classes}>
-            <div className='flex justify-between items-center w-full'>
-              {/* Left side: Bicycle icon + city buttons */}
+            {/* Desktop layout (lg and up): horizontal row */}
+            <div className='hidden lg:flex justify-between items-center w-full'>
               <div className='flex gap-5 items-center'>
                 <Image
                   src="/icons/BicycleIconGreen.svg"
@@ -53,8 +53,7 @@ export default function Navbar(props){
                 <NavButton href="/muenster">Münster</NavButton>
                 <NavButton href="/osnabrueck">Osnabrück</NavButton>
               </div>
-              {/* Right side: Funding info + logos (hidden on mobile) */}
-              <div className='hidden lg:flex gap-4 items-center'>
+              <div className='flex gap-4 items-center'>
                 <div className='flex flex-col items-end'>
                   <span className='text-xs text-gray-500'>
                     Gefördert durch:
@@ -73,6 +72,37 @@ export default function Navbar(props){
                   alt="EU Funding Logo"
                   className='h-10 w-auto object-contain'
                 />
+              </div>
+            </div>
+
+            {/* Mobile layout (below lg): vertical centered stack */}
+            <div className='flex lg:hidden flex-col items-center gap-3'>
+              <Image
+                src="/icons/BicycleIconGreen.svg"
+                alt="Bicycle Icon"
+                width={50}
+                height={15}
+                priority
+              />
+              <div className='flex gap-5 items-center'>
+                <NavButton href="/muenster">Münster</NavButton>
+                <NavButton href="/osnabrueck">Osnabrück</NavButton>
+              </div>
+              <div className='flex flex-col items-center gap-1'>
+                <span className='text-xs text-gray-500'>Gefördert durch:</span>
+                <span className='text-xs text-gray-500'>(Förderkennzeichen: 16KISA121)</span>
+                <div className='flex gap-3 items-center mt-1'>
+                  <img
+                    src="/BFTRlogo.svg"
+                    alt="BFTR Logo"
+                    className='h-8 w-auto object-contain'
+                  />
+                  <img
+                    src="/DE_Finanziert_von_der_EU_RG_POS.png"
+                    alt="EU Funding Logo"
+                    className='h-8 w-auto object-contain'
+                  />
+                </div>
               </div>
             </div>
         </div>
