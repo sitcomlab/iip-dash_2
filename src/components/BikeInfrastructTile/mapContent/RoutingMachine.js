@@ -309,19 +309,23 @@ export default function RoutingMachine() {
 
     // Show itinerary below custom inputs when routes are found
     control.on('routesfound', () => {
+      console.log('EVENT: routesfound');
       routingContainer.style.display = 'block';
       setIsRouting(false); // NEW: Stop loading
     });
 
     // Handle routing start
     control.on('routingstart', () => {
+      console.log('EVENT: routingstart');
       setIsRouting(true); // NEW: Start loading
     });
 
     // Handle routing error
-    control.on('routingerror', () => {
+    control.on('routingerror', (e) => {
+      console.log('EVENT: routingerror', e);
       setIsRouting(false); // NEW: Stop loading on error
     });
+
 
     return () => {
       map.removeControl(customControl);

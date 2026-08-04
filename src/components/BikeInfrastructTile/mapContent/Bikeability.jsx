@@ -261,8 +261,9 @@ const Bikeability = (props) => {
 
     if (!biSegmentFeatures?.features) {
         // setMapLoading(true);
-        return null;
+        return <RoutingMachine />;   // TEMP LOCAL TEST ONLY – revert before deploy
     }
+
 
     return (
         <>

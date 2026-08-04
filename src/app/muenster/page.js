@@ -3,12 +3,13 @@ import { cityViewConfigState } from "@/components/RecoilContextProvider";
 import { useRecoilState } from "recoil";
 import Image from "next/image";
 import dynamic from "next/dynamic";
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 
 import { mapViewModeState } from "@components/RecoilContextProvider";
 import { BikeabilityInfoTileSmall } from "@/components/BikeabilityInfoTile";
 import BikeabilityInfoTile from "@/components/BikeabilityInfoTile";
 import BIWeightsControlTile from "@/components/BIWeightsControlTile";
+import MenuIcon from "@mui/icons-material/Menu";
 //import AdminAreaInfoTile from "@/components/AdminAreaInfoTile";
 
 
@@ -52,6 +53,28 @@ export default function Münster() {
   const [mapViewState] = useRecoilState(mapViewModeState); // Get the current map view state
   setCityViewConfig(cityConfig);
 
+  // --- NEW: foldable side panel state ---
+  // panelCollapsed = true  -> panel hidden, map full width
+  // panelCollapsed = false -> panel visible (normal desktop view)
+  const [panelCollapsed, setPanelCollapsed] = useState(false);
+
+  // On first load, auto-collapse on iPad-ish / smaller screens (< 1280px),
+  // but leave it open on wide desktop screens. Runs once after mount.
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.innerWidth < 1280) {
+      setPanelCollapsed(true);
+    }
+  }, []);
+
+  // Toggle handler. After the layout changes, we "nudge" the map so Leaflet
+  // notices the new width and redraws its tiles (prevents gray-tile gaps).
+  const togglePanel = () => {
+    setPanelCollapsed((prev) => !prev);
+    setTimeout(() => {
+      window.dispatchEvent(new Event("resize"));
+    }, 250);
+  };
+
   return (
     <main className="flex min-h-dvh w-dvw flex-col items-center justify-start gap-2 sm:gap-4 pt-4 h-screen">
       <Navbar className="w-full flex justify-left pl-10" />
@@ -60,8 +83,8 @@ export default function Münster() {
           <div
             className="w-screen flex grow min-h-0 flex-col-reverse md:flex-row"
           >
-            {/* scroll wrapper */}
-            <div className="overflow-y-scroll min-w-0">
+            {/* scroll wrapper — hidden when panel is collapsed */}
+            <div className={`overflow-y-scroll min-w-0 ${panelCollapsed ? "hidden" : ""}`}>
               {/* scrollable container */}
               <div
               className="
@@ -94,7 +117,19 @@ export default function Münster() {
               </div>
           </div>
 
-          {/* Fixed sidebar */}
+            {/* --- fold/unfold toggle button (compact burger) --- */}
+            <div className="flex items-start justify-center">
+              <button
+                onClick={togglePanel}
+                aria-label={panelCollapsed ? "Statistiken einblenden" : "Statistiken ausblenden"}
+                title={panelCollapsed ? "Statistiken einblenden" : "Statistiken ausblenden"}
+                className="bg-white shadow-md rounded-full p-2 m-1 text-gray-700 hover:bg-gray-100"
+              >
+                <MenuIcon fontSize="small" />
+              </button>
+            </div>
+
+          {/* Fixed sidebar (the map) */}
           <div className="flex-1 md:flex-grow-1 min-h-[60vh] m-2">
           <BikeInfrastructTile height="h-[49rem] h-full" width="w-auto"></BikeInfrastructTile>
           </div>
