@@ -73,7 +73,7 @@ const POSITION_CLASSES = {
     topright: 'leaflet-top leaflet-right',
 };
 
-function LayerControl({ position, children }) {
+function LayerControl({ position, children, hideUI = false }) {
     const [collapsed, setCollapsed] = useState(false);
     const [layers, setLayers] = useState([]);
     const positionClass =
@@ -184,6 +184,7 @@ const groupedLayers = lodashGroupBy(layers, 'group');
             addGroup: onGroupAdd,
           }}
         >
+          {!hideUI && (
           <div className={positionClass}>
             <div className="leaflet-control leaflet-bar">
               {
@@ -249,6 +250,7 @@ const groupedLayers = lodashGroupBy(layers, 'group');
             </div>
             
           </div>
+          )}
           {children}
         </LayersControlProvider>
     );

@@ -11,6 +11,7 @@ import Legend from "./LayerControl/Legend";
 import AdministrativeAreas from "./mapContent/AdministrativeAreas";
 import BicycleInfrastructureFeatures from "./mapContent/BicycleInfrastructureFeatures";
 import { MapFeatureContext, LayersControlContext } from "../MapFeatureProvider";
+import BikeabilityWeightsControl from "./mapContent/BikeabilityWeightsControl";
 
 import Bikeability from './mapContent/Bikeability';
 
@@ -38,15 +39,18 @@ const BicycleinfrastructureData = () => {
       )}
 
       {mapViewState === "Bikeability" && (
-        <LayerControl position="bottomright">
-          <Legend position="bottomleft">
-            <Bikeability 
-              bikeabilityFeatures={bikeabilityFeatures}
-              anonymizedFeatures={anonymizedFeatures}
-              biSegmentFeatures={biSegmentFeatures}
-            />
-          </Legend>
-        </LayerControl>
+        <>
+          <LayerControl position="bottomright" hideUI>
+            <Legend position="bottomleft">
+              <Bikeability 
+                bikeabilityFeatures={bikeabilityFeatures}
+                anonymizedFeatures={anonymizedFeatures}
+                biSegmentFeatures={biSegmentFeatures}
+              />
+            </Legend>
+          </LayerControl>
+          <BikeabilityWeightsControl position="bottomright" />
+        </>
       )}
 
 
