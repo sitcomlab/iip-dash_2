@@ -33,7 +33,7 @@ export default function BikeabilityWeightsControl({ position = "bottomright" }) 
   const [, setMapLoading] = useRecoilState(mapLoadingState);
   const [, setWeightsGlobal] = useRecoilState(biWeightsState);
 
-  const [collapsed, setCollapsed] = useState(true); // start collapsed → toggle to open
+  const [collapsed, setCollapsed] = useState(false); // start OPEN (presenter preference)
   const [value, setValue] = useState([0.4, 0.9]);
   const [lastApplied, setLastApplied] = useState([0.4, 0.9]);
 
@@ -60,6 +60,12 @@ export default function BikeabilityWeightsControl({ position = "bottomright" }) 
     map.doubleClickZoom.enable();
     map.boxZoom.enable();
   };
+
+  useEffect(() => {
+    if (collapsed) unfreezeMap();
+    return () => unfreezeMap();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [collapsed]);
 
   const safety = Math.round(value[0] * 100);
   const infra = Math.round((value[1] - value[0]) * 100);
@@ -98,14 +104,14 @@ export default function BikeabilityWeightsControl({ position = "bottomright" }) 
               <TuneIcon />
             </IconButton>
           ) : (
-            <div style={{ width: 320, padding: "12px 16px" }}>
+            <div style={{ width: 320, padding: "12px 16px", touchAction: "none" }}>
               <div style={{ display: "flex", alignItems: "center",
                             justifyContent: "space-between" }}>
                 <span className="text-lg font-semibold">
                   Bikeability-Gewichtungen{" "}
                   <InfoElement content='Hier können Ihre Prioritäten gesetzt werden. Klicken Sie auf "Anwenden" um die Veränderungen auf der Karte zu sehen' />
                 </span>
-                <IconButton size="small" onClick={() => setCollapsed(true)}
+                <IconButton size="small" onClick={() => { unfreezeMap(); setCollapsed(true); }}
                             title="Schließen">
                   <CloseIcon fontSize="small" />
                 </IconButton>
