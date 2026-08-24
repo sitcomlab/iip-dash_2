@@ -37,9 +37,19 @@ body {
 @import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
 @import "leaflet-control-geocoder/dist/Control.Geocoder.css";
 
+/* Map owns its own touch gestures (pan/pinch) so they act on the map,
+   not the page. Scoped so the scrollable routing panel still finger-scrolls. */
+.leaflet-container {
+  touch-action: none;
+}
+.leaflet-routing-container,
+.custom-routing-control {
+  touch-action: auto;
+}
+
 .leaflet-popup-content {
-    width: 350px !important; 
-    max-width: 100%; 
+    width: 350px !important;
+    max-width: 100%;
 }
 
 /* Add theme to map */
@@ -94,6 +104,8 @@ body {
     top: 2px !important;
   }
 }
+
+
 
 /* Allow custom controls to resize fluidly */
 .custom-routing-control {
