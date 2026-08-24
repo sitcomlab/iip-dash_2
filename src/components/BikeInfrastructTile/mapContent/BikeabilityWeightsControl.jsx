@@ -8,7 +8,6 @@ import TuneIcon from "@mui/icons-material/Tune";
 import CloseIcon from "@mui/icons-material/Close";
 
 import { mapLoadingState, biWeightsState } from "@/components/RecoilContextProvider";
-import InfoElement from "@components/Elements/InfoElement";
 
 const POSITION_CLASSES = {
   bottomleft: "leaflet-bottom leaflet-left",
@@ -108,8 +107,7 @@ export default function BikeabilityWeightsControl({ position = "bottomright" }) 
               <div style={{ display: "flex", alignItems: "center",
                             justifyContent: "space-between" }}>
                 <span className="text-lg font-semibold">
-                  Bikeability-Gewichtungen{" "}
-                  <InfoElement content='Hier können Ihre Prioritäten gesetzt werden. Klicken Sie auf "Anwenden" um die Veränderungen auf der Karte zu sehen' />
+                  Bikeability-Gewichtungen
                 </span>
                 <IconButton size="small" onClick={() => { unfreezeMap(); setCollapsed(true); }}
                             title="Schließen">
