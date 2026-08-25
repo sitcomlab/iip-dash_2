@@ -60,11 +60,27 @@ export default function BikeabilityWeightsControl({ position = "bottomright" }) 
     map.boxZoom.enable();
   };
 
+// Guarantee the map is ALWAYS released when any interaction ends — no matter
+  // where it ends or whether the element that started it got disabled/re-rendered
+  // (e.g. the "Anwenden" button disabling itself on tap). Freeze happens on
+  // down (handlers below); this is the reliable release. Replaces the old
+  // onTouchEnd/onMouseLeave, which could miss and leave the map frozen.
   useEffect(() => {
-    if (collapsed) unfreezeMap();
-    return () => unfreezeMap();
+    const release = () => unfreezeMap();
+    document.addEventListener("mouseup", release);
+    document.addEventListener("touchend", release);
+    document.addEventListener("touchcancel", release);
+    document.addEventListener("pointerup", release);
+    document.addEventListener("pointercancel", release);
+    return () => {
+      document.removeEventListener("mouseup", release);
+      document.removeEventListener("touchend", release);
+      document.removeEventListener("touchcancel", release);
+      document.removeEventListener("pointerup", release);
+      document.removeEventListener("pointercancel", release);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [collapsed]);
+  }, []);
 
   const safety = Math.round(value[0] * 100);
   const infra = Math.round((value[1] - value[0]) * 100);
@@ -86,14 +102,11 @@ export default function BikeabilityWeightsControl({ position = "bottomright" }) 
 
   return (
     <div className={positionClass}>
-      <div
+       <div
         className="leaflet-control leaflet-bar"
         ref={containerRef}
-        onMouseEnter={freezeMap}
-        onMouseLeave={unfreezeMap}
         onMouseDown={freezeMap}
         onTouchStart={freezeMap}
-        onTouchEnd={unfreezeMap}
         style={{ border: "none", background: "transparent" }}
       >
         <Paper elevation={3} style={{ borderRadius: 12, overflow: "hidden" }}>
