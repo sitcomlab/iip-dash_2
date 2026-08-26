@@ -46,6 +46,7 @@ export default function RoutingMachine() {
   const startDropdownRef = useRef(null);
   const endDropdownRef = useRef(null);
   const loadingOverlayRef = useRef(null); // Ref for loading overlay
+  const routingTimeoutRef = useRef(null); // ⭐ CHANGED: watchdog so overlay can never stick
   const [startQuery, setStartQuery] = useState("");
   const [endQuery, setEndQuery] = useState("");
   const [startSuggestions, setStartSuggestions] = useState([]);
@@ -307,27 +308,46 @@ export default function RoutingMachine() {
     const routingContainer = control.getContainer();
     routingContainer.style.display = 'none';
 
-    // Show itinerary below custom inputs when routes are found
-    control.on('routesfound', () => {
-      console.log('EVENT: routesfound');
-      routingContainer.style.display = 'block';
-      setIsRouting(false); // NEW: Stop loading
-    });
-
     // Handle routing start
     control.on('routingstart', () => {
       console.log('EVENT: routingstart');
-      setIsRouting(true); // NEW: Start loading
+      setIsRouting(true); // Start loading
+      // ⭐ CHANGED: watchdog. If a route calc never finishes/errors (e.g. the
+      // control gets rebuilt mid-calc on a weight change), the routesfound/
+      // routingerror handler that resets isRouting can be lost -> grey overlay
+      // sticks forever. This guarantees the overlay ALWAYS clears within 15s.
+      clearTimeout(routingTimeoutRef.current);
+      routingTimeoutRef.current = setTimeout(() => {
+        console.warn('routing watchdog fired: forcing isRouting=false');
+        setIsRouting(false);
+      }, 15000);
+    });
+
+    // Show itinerary below custom inputs when routes are found
+    control.on('routesfound', () => {
+      console.log('EVENT: routesfound');
+      clearTimeout(routingTimeoutRef.current); // ⭐ CHANGED: cancel watchdog
+      routingContainer.style.display = 'block';
+      setIsRouting(false); // Stop loading
     });
 
     // Handle routing error
     control.on('routingerror', (e) => {
       console.log('EVENT: routingerror', e);
-      setIsRouting(false); // NEW: Stop loading on error
+      clearTimeout(routingTimeoutRef.current); // ⭐ CHANGED: cancel watchdog
+      setIsRouting(false); // Stop loading on error
     });
 
 
     return () => {
+      // ⭐ CHANGED: robust cleanup so a torn-down control can't leave the grey
+      // overlay stuck (isRouting) or leak orphaned overlay <div>s into the map.
+      clearTimeout(routingTimeoutRef.current);
+      setIsRouting(false);
+      if (loadingOverlayRef.current) {
+        loadingOverlayRef.current.remove();
+        loadingOverlayRef.current = null;
+      }
       map.removeControl(customControl);
       map.removeControl(control);
     };
